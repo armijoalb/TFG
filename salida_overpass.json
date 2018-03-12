@@ -1,0 +1,943 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.54.13 ff15392f",
+  "osm3s": {
+    "timestamp_osm_base": "2018-02-27T10:23:02Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 533647928,
+  "lat": 37.1734517,
+  "lon": -3.5888790,
+  "tags": {
+    "name": "Museo Manuel de Falla",
+    "tourism": "museum"
+  }
+},
+{
+  "type": "node",
+  "id": 940435771,
+  "lat": 37.1770011,
+  "lon": -3.5900734,
+  "tags": {
+    "name": "Museo de la Alhambra",
+    "name:zh": "阿爾罕布拉博物館",
+    "tourism": "museum"
+  }
+},
+{
+  "type": "node",
+  "id": 1351200937,
+  "lat": 37.1750101,
+  "lon": -3.5926373,
+  "tags": {
+    "description": "José María Rodríguez-Acosta 1878 - 1941, Spanish painter.",
+    "name": "Fundación Rodríguez Acosta",
+    "operator": "Instituto Gómez-Moreno de la Fundación Rodríguez Acosta",
+    "tourism": "museum",
+    "website": "www.fundacionrodriguezacosta.com",
+    "wikidata": "Q5943450",
+    "wikipedia": "es:José María Rodríguez-Acosta"
+  }
+},
+{
+  "type": "node",
+  "id": 1351215450,
+  "lat": 37.1765624,
+  "lon": -3.5897641,
+  "tags": {
+    "designation": "Museo de Bellas Artes",
+    "email": "museobellasartesgranada.ccul@juntadeandalucia.es",
+    "name": "Museo de Bellas Artes",
+    "name:zh": "現代美術館",
+    "tourism": "museum"
+  }
+},
+{
+  "type": "node",
+  "id": 1667155336,
+  "lat": 37.1625928,
+  "lon": -3.6066354,
+  "tags": {
+    "name": "Parque de las Ciencias",
+    "tourism": "museum"
+  }
+},
+{
+  "type": "node",
+  "id": 2816220886,
+  "lat": 37.1831301,
+  "lon": -3.5843209,
+  "tags": {
+    "addr:city": "Granada",
+    "addr:street": "Barranco de los Negros",
+    "name": "Museo cuevas del Sacromonte",
+    "name:tr": "Sacromente",
+    "name:zh": "聖山洞穴博物館",
+    "tourism": "museum"
+  }
+},
+{
+  "type": "node",
+  "id": 4646694089,
+  "lat": 37.1748120,
+  "lon": -3.5955384,
+  "tags": {
+    "name": "Casa de los tiros",
+    "name:es": "Casa de los tiros",
+    "tourism": "museum"
+  }
+},
+{
+  "type": "node",
+  "id": 4755297122,
+  "lat": 37.1817642,
+  "lon": -3.5866977,
+  "tags": {
+    "name": "Private cave house",
+    "tourism": "museum"
+  }
+},
+{
+  "type": "node",
+  "id": 5236626821,
+  "lat": 37.1788216,
+  "lon": -3.5905527,
+  "tags": {
+    "name:en": "Galeria Alea",
+    "tourism": "museum"
+  }
+},
+{
+  "type": "node",
+  "id": 5438126820,
+  "lat": 37.1623299,
+  "lon": -3.6080016,
+  "tags": {
+    "name": "Museo de la Memoria de Andalucía",
+    "tourism": "museum"
+  }
+},
+{
+  "type": "node",
+  "id": 295148495,
+  "lat": 37.1770701,
+  "lon": -3.5923122,
+  "tags": {
+    "name": "Torre de la Vela",
+    "name:zh": "貝拉塔",
+    "tourism": "viewpoint"
+  }
+},
+{
+  "type": "node",
+  "id": 507114110,
+  "lat": 37.1831120,
+  "lon": -3.5959777,
+  "tags": {
+    "name": "Mirador de San Cristóbal",
+    "tourism": "viewpoint"
+  }
+},
+{
+  "type": "node",
+  "id": 1213321729,
+  "lat": 37.1810482,
+  "lon": -3.5926586,
+  "tags": {
+    "name": "Mirador de San Nicolás",
+    "name:ko": "산 니콜라스 전망대",
+    "name:zh": "聖尼可拉斯展望台",
+    "tourism": "viewpoint",
+    "wheelchair": "limited"
+  }
+},
+{
+  "type": "node",
+  "id": 1426439548,
+  "lat": 37.1699972,
+  "lon": -3.5848809,
+  "tags": {
+    "tourism": "viewpoint"
+  }
+},
+{
+  "type": "node",
+  "id": 2246108726,
+  "lat": 37.1847201,
+  "lon": -3.5878877,
+  "tags": {
+    "name": "Ermita de San Miguel Alto",
+    "tourism": "viewpoint"
+  }
+},
+{
+  "type": "node",
+  "id": 2320162769,
+  "lat": 37.1785605,
+  "lon": -3.5797764,
+  "tags": {
+    "name": "Silla del Moro",
+    "tourism": "viewpoint"
+  }
+},
+{
+  "type": "node",
+  "id": 2320164194,
+  "lat": 37.1754183,
+  "lon": -3.5801713,
+  "tags": {
+    "tourism": "viewpoint"
+  }
+},
+{
+  "type": "node",
+  "id": 3579594969,
+  "lat": 37.1809997,
+  "lon": -3.5916772,
+  "tags": {
+    "name": "Callejón de las Tomasas",
+    "tourism": "viewpoint"
+  }
+},
+{
+  "type": "node",
+  "id": 3579685222,
+  "lat": 37.1778959,
+  "lon": -3.5839283,
+  "tags": {
+    "tourism": "viewpoint"
+  }
+},
+{
+  "type": "node",
+  "id": 3693117265,
+  "lat": 37.1840886,
+  "lon": -3.6017256,
+  "tags": {
+    "name": "Virgen del Triunfo",
+    "tourism": "viewpoint"
+  }
+},
+{
+  "type": "node",
+  "id": 4234692262,
+  "lat": 37.1718586,
+  "lon": -3.5838477,
+  "tags": {
+    "tourism": "viewpoint"
+  }
+},
+{
+  "type": "node",
+  "id": 4617815990,
+  "lat": 37.2318746,
+  "lon": -3.5545377,
+  "tags": {
+    "tourism": "viewpoint"
+  }
+},
+{
+  "type": "node",
+  "id": 4672262689,
+  "lat": 37.1949245,
+  "lon": -3.5939359,
+  "tags": {
+    "name": "mirador",
+    "name:es": "mirador",
+    "tourism": "viewpoint"
+  }
+},
+{
+  "type": "node",
+  "id": 4755297421,
+  "lat": 37.1815133,
+  "lon": -3.5862967,
+  "tags": {
+    "tourism": "viewpoint"
+  }
+},
+{
+  "type": "node",
+  "id": 5124878924,
+  "lat": 37.1789652,
+  "lon": -3.5942672,
+  "tags": {
+    "tourism": "viewpoint"
+  }
+},
+{
+  "type": "node",
+  "id": 5439561800,
+  "lat": 37.1763924,
+  "lon": -3.5993192,
+  "tags": {
+    "amenity": "place_of_worship",
+    "building": "cathedral",
+    "name": "Catedral de Granada",
+    "religion": "christian"
+  }
+},
+{
+  "type": "node",
+  "id": 354662159,
+  "lat": 37.1713418,
+  "lon": -3.5988576,
+  "tags": {
+    "name": "Hotel Montecarlo",
+    "stars": "2",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 524072424,
+  "lat": 37.2275725,
+  "lon": -3.6291836,
+  "tags": {
+    "amenity": "bar",
+    "name": "El Nogal",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 538064607,
+  "lat": 37.1722174,
+  "lon": -3.5994793,
+  "tags": {
+    "name": "Hotel Juan Miguel",
+    "tourism": "hotel",
+    "wheelchair": "limited"
+  }
+},
+{
+  "type": "node",
+  "id": 559918865,
+  "lat": 37.1766615,
+  "lon": -3.6023336,
+  "tags": {
+    "name": "Rodri",
+    "stars": "2",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 937036809,
+  "lat": 37.1773695,
+  "lon": -3.6048436,
+  "tags": {
+    "name": "Almona",
+    "stars": "2",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 1005515260,
+  "lat": 37.1691387,
+  "lon": -3.5889764,
+  "tags": {
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 1140980698,
+  "lat": 37.2252400,
+  "lon": -3.6393095,
+  "tags": {
+    "name": "Philadelfia",
+    "stars": "2",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 1294754115,
+  "lat": 37.1765870,
+  "lon": -3.5958130,
+  "tags": {
+    "name": "Hostal Venecia",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 1386542017,
+  "lat": 37.1731294,
+  "lon": -3.5971747,
+  "tags": {
+    "name": "Best Western Hotel Dauro II",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 1410066866,
+  "lat": 37.1744043,
+  "lon": -3.5977084,
+  "tags": {
+    "designation": "4 stars Hotel",
+    "name": "HOTEL HESPERIA GRANADA",
+    "source": "www.hesperia-granada.com",
+    "stars": "4",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 1566643669,
+  "lat": 37.1761567,
+  "lon": -3.5957924,
+  "tags": {
+    "name": "Rafa Apartoment",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 1775166590,
+  "lat": 37.1680990,
+  "lon": -3.5951010,
+  "tags": {
+    "email": "basilios@maciahoteles.com",
+    "fax": "+34 958 817 492",
+    "name": "Hotel Monasterio de los Basilios",
+    "operator": "Hoteles Macià",
+    "phone": "+34 958 817 401",
+    "stars": "3",
+    "tourism": "hotel",
+    "website": "www.maciahoteles.com"
+  }
+},
+{
+  "type": "node",
+  "id": 1941566903,
+  "lat": 37.1696669,
+  "lon": -3.6036246,
+  "tags": {
+    "name": "Corona de Granada",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 1941566910,
+  "lat": 37.1724196,
+  "lon": -3.6014895,
+  "tags": {
+    "name": "Presidente",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 1944080338,
+  "lat": 37.1639434,
+  "lon": -3.5712953,
+  "tags": {
+    "internet_access": "wlan",
+    "internet_access:fee": "no",
+    "name": "Hotel Albero",
+    "tourism": "hotel",
+    "website": "http://www.hotelalbero.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 1945272462,
+  "lat": 37.1850524,
+  "lon": -3.6040892,
+  "tags": {
+    "designation": "3 stars",
+    "name": "Hotel Aben Humeya",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 2166733125,
+  "lat": 37.1762667,
+  "lon": -3.6025907,
+  "tags": {
+    "name": "Hotel Reina Cristina",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 2476976497,
+  "lat": 37.1811588,
+  "lon": -3.5878230,
+  "tags": {
+    "name": "Apartamentos Montesclaros",
+    "source": "local_knowledge",
+    "tourism": "hotel",
+    "wifi": "free"
+  }
+},
+{
+  "type": "node",
+  "id": 2610711009,
+  "lat": 37.1771970,
+  "lon": -3.5975772,
+  "tags": {
+    "name": "NH Inglaterra",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 2715424225,
+  "lat": 37.2007793,
+  "lon": -3.6146444,
+  "tags": {
+    "addr:housenumber": "35",
+    "addr:street": "Avda. Juan Pablo Ⅱ",
+    "name": "Hotel H2 Granada",
+    "phone": "958-163-500",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 2778332595,
+  "lat": 37.1840761,
+  "lon": -3.6037713,
+  "tags": {
+    "name": "Hotel Macia Condor",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 2888095278,
+  "lat": 37.1811333,
+  "lon": -3.6008763,
+  "tags": {
+    "addr:housenumber": "7",
+    "addr:street": "Navarrete",
+    "name": "Hotel Granada Centro Navarrete",
+    "phone": "(+34) 958 27 88 24",
+    "stars": "2",
+    "tourism": "hotel",
+    "website": "http://hotelgranadacentro.com"
+  }
+},
+{
+  "type": "node",
+  "id": 2888258545,
+  "lat": 37.1796062,
+  "lon": -3.5891738,
+  "tags": {
+    "name": "Hotel Casa Morisca",
+    "tourism": "hotel",
+    "website": "http://www.hotelcasamorisca.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 3245706805,
+  "lat": 37.1705298,
+  "lon": -3.5981725,
+  "tags": {
+    "name": "CARMEN",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 3452118793,
+  "lat": 37.1799670,
+  "lon": -3.5921574,
+  "tags": {
+    "name": "Apartmentos Turisticos Alhambra",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 3452123980,
+  "lat": 37.1770385,
+  "lon": -3.5960357,
+  "tags": {
+    "addr:housenumber": "4",
+    "addr:postcode": "18010",
+    "addr:street": "Plaza Nueva",
+    "name": "Hotel Macia Plaza",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 3475002576,
+  "lat": 37.1805269,
+  "lon": -3.5999929,
+  "tags": {
+    "name": "Suites Gran Vía 44",
+    "tourism": "hotel",
+    "website": "http://www.suitesgranviagranada.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 3551561447,
+  "lat": 37.1759903,
+  "lon": -3.5963897,
+  "tags": {
+    "name": "Monjas del Carmen",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 3816274258,
+  "lat": 37.1816907,
+  "lon": -3.6032487,
+  "tags": {
+    "name": "Abadía",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 3884433907,
+  "lat": 37.1770660,
+  "lon": -3.5962370,
+  "tags": {
+    "addr:city": "Granada",
+    "addr:country": "ES",
+    "addr:housenumber": "2",
+    "addr:postcode": "18010",
+    "addr:street": "Calle Imprenta",
+    "atm": "no",
+    "email": "info@hotel-plazanueva.com",
+    "internet_access": "wlan",
+    "name": "Hotel Plaza Nueva",
+    "phone": "+34 958 215 273",
+    "source": "Bing, local knowledge ",
+    "tourism": "hotel",
+    "wheelchair": "limited"
+  }
+},
+{
+  "type": "node",
+  "id": 3943732814,
+  "lat": 37.1733450,
+  "lon": -3.5840924,
+  "tags": {
+    "name": "Hotel Guadalupe",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 4075750389,
+  "lat": 37.1777419,
+  "lon": -3.5969098,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Hotel Posada del Toro;Samarkanda - Lebanese/Moroccan",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 4236813289,
+  "lat": 37.1787292,
+  "lon": -3.5991878,
+  "tags": {
+    "addr:housenumber": "25",
+    "addr:street": "Gran Vía de Colón",
+    "name": "Hotel Granada Five Senses Rooms & Suites",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 4251432992,
+  "lat": 37.1744746,
+  "lon": -3.5967428,
+  "tags": {
+    "name": "Boutique Hotel Garanat",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 4255253590,
+  "lat": 37.1773424,
+  "lon": -3.6079909,
+  "tags": {
+    "addr:housenumber": "9",
+    "addr:street": "Calle Martínez de la Rosa",
+    "name": "Hotel Don Juan",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 4357388747,
+  "lat": 37.1741141,
+  "lon": -3.5973643,
+  "tags": {
+    "name": "Arte Vida Suite",
+    "tourism": "hotel",
+    "website": "http://www.artevidasuites.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 4418847111,
+  "lat": 37.1742313,
+  "lon": -3.6002987,
+  "tags": {
+    "addr:city": "Granada",
+    "addr:housenumber": "15",
+    "addr:postcode": "18001",
+    "addr:street": "Calle Mesones",
+    "internet_access": "no",
+    "internet_access:fee": "no",
+    "name": "Room Mate Leo Hotel",
+    "operator": "Room Mate",
+    "smoking": "no",
+    "stars": "3",
+    "tourism": "hotel",
+    "website": "https://room-matehotels.com/en/leo/"
+  }
+},
+{
+  "type": "node",
+  "id": 4466262089,
+  "lat": 37.1813939,
+  "lon": -3.6027093,
+  "tags": {
+    "addr:housenumber": "31",
+    "addr:postcode": "18001",
+    "addr:street": "Calle San Juan de Dios",
+    "name": "Alquiler de Apartamentos",
+    "name:es": "Alquiler de Apartamentos",
+    "phone": "607959666",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 4471597317,
+  "lat": 37.1750166,
+  "lon": -3.5992890,
+  "tags": {
+    "name": "Shine",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 4471597330,
+  "lat": 37.1748232,
+  "lon": -3.5999382,
+  "tags": {
+    "name": "Los Tilos",
+    "tourism": "hotel",
+    "website": "www.hotellostilos.com"
+  }
+},
+{
+  "type": "node",
+  "id": 4548754323,
+  "lat": 37.1601214,
+  "lon": -3.5415266,
+  "tags": {
+    "addr:city": "Cenes de la Vega",
+    "addr:street": "Avenida de Sierra Nevada",
+    "name": "Hotel Calderón",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 4600438513,
+  "lat": 37.1521614,
+  "lon": -3.5920244,
+  "tags": {
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 4712013424,
+  "lat": 37.1817427,
+  "lon": -3.6017443,
+  "tags": {
+    "name": "El Zaguán",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 4810907123,
+  "lat": 37.2126428,
+  "lon": -3.6173910,
+  "tags": {
+    "addr:street": "Calle de Luis Buñuel",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 1154476071,
+  "lat": 37.1782017,
+  "lon": -3.6032796,
+  "tags": {
+    "name": "El Granado",
+    "operator": "none",
+    "tourism": "hostel"
+  }
+},
+{
+  "type": "node",
+  "id": 1280214337,
+  "lat": 37.1813910,
+  "lon": -3.5935974,
+  "tags": {
+    "name": "Flophouse",
+    "tourism": "hostel"
+  }
+},
+{
+  "type": "node",
+  "id": 1369781188,
+  "lat": 37.1781573,
+  "lon": -3.5970725,
+  "tags": {
+    "name": "Oasis Backpacker´s Hostel",
+    "tourism": "hostel"
+  }
+},
+{
+  "type": "node",
+  "id": 1704809614,
+  "lat": 37.1796611,
+  "lon": -3.5898566,
+  "tags": {
+    "addr:city": "Granada",
+    "addr:housenumber": "21",
+    "addr:postcode": "18010",
+    "addr:street": "Calle Horno del Oro",
+    "internet_access": "yes",
+    "internet_access:fee": "no",
+    "name": "Sweet Albayzine",
+    "smoking": "no",
+    "tourism": "hostel",
+    "wheelchair": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 1941566905,
+  "lat": 37.1725063,
+  "lon": -3.6013942,
+  "tags": {
+    "name": "Verona",
+    "tourism": "hostel"
+  }
+},
+{
+  "type": "node",
+  "id": 2141464307,
+  "lat": 37.1800541,
+  "lon": -3.5955818,
+  "tags": {
+    "tourism": "hostel"
+  }
+},
+{
+  "type": "node",
+  "id": 2141464313,
+  "lat": 37.1799344,
+  "lon": -3.5955388,
+  "tags": {
+    "tourism": "hostel"
+  }
+},
+{
+  "type": "node",
+  "id": 2315847143,
+  "lat": 37.1754121,
+  "lon": -3.5990455,
+  "tags": {
+    "email": "hostalzacatin@hotmail.com",
+    "internet_access": "wlan",
+    "internet_access:fee": "no",
+    "name": "Hostal Zacatín",
+    "phone": "958 22 11 55",
+    "tourism": "hostel",
+    "website": "http://www.hostalzacatin.es/"
+  }
+},
+{
+  "type": "node",
+  "id": 2411493156,
+  "lat": 37.2365060,
+  "lon": -3.5671957,
+  "tags": {
+    "designation": "Casa tipica Andaluza",
+    "name": "Casa Rural AlSilram",
+    "source": "37.236393000000000 / -3.567013000000000",
+    "tourism": "hostel"
+  }
+},
+{
+  "type": "node",
+  "id": 3822143757,
+  "lat": 37.1719499,
+  "lon": -3.6003375,
+  "tags": {
+    "name": "Granada Inn",
+    "tourism": "hostel",
+    "website": "http://granadabackpackers.es/"
+  }
+},
+{
+  "type": "node",
+  "id": 4029579625,
+  "lat": 37.1800207,
+  "lon": -3.5957336,
+  "tags": {
+    "addr:city": "Granada",
+    "addr:housenumber": "18",
+    "addr:postcode": "18010",
+    "addr:street": "Calle Tiña",
+    "name": "Makuto Guesthouse",
+    "tourism": "hostel",
+    "website": "http://makutohostel.com"
+  }
+},
+{
+  "type": "node",
+  "id": 4592754590,
+  "lat": 37.2014297,
+  "lon": -3.6160530,
+  "tags": {
+    "name": "Residencia de mayores ValleSol",
+    "name:es": "Residencia de mayores ValleSol",
+    "tourism": "hostel"
+  }
+},
+{
+  "type": "node",
+  "id": 5136661321,
+  "lat": 37.1669699,
+  "lon": -3.6079989,
+  "tags": {
+    "tourism": "hostel"
+  }
+}
+
+  ]
+}

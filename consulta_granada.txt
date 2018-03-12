@@ -1,0 +1,61 @@
+https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A100%5D%3B%28node%5B%22place%22%3D%22city%22%5D%5B%22name%22%3D%22Granada%22%5D%5B%22is%5Fin%3Aprovince%22%3D%22Granada%22%5D%5B%22is%5Fin%3Acountry%22%3D%22Spain%22%5D%3B%29%2D%3E%2Eciudad%3Bnode%5B%22tourism%22%3D%22museum%22%5D%28around%2Eciudad%3A7000%29%3Bway%5B%22tourism%22%3D%22museum%22%5D%28around%2Eciudad%3A7000%29%3Bout%3B%3E%3Bout%3Bnode%5B%22tourism%22%3D%22viewpoint%22%5D%28around%2Eciudad%3A7000%29%3Bout%3Bnode%5B%22tourism%22%3D%22hotel%22%5D%28around%2Eciudad%3A7000%29%3Bnode%5B%22tourism%22%3D%22hostel%22%5D%28around%2Eciudad%3A7000%29%3Bout%3Bnode%5B%22building%22%3D%22cathedral%22%5D%28around%2Eciudad%3A7000%29%3Bway%5B%22building%22%3D%22cathedral%22%5D%28around%2Eciudad%3A7000%29%3B%28%2E%5F%3B%3E%3B%29%3Bout%3B%0A
+
+[out:json][timeout:100]; // Tipo de salida y tiempo máximo.
+
+(node["place"="city"]["name"="Granada"]["is_in:province"="Granada"]["is_in:country"="Spain"];)->.ciudad; // Nodo de la ciudad en la que estamos búscando.
+
+// Museos de la ciudad, algunos están guardados como tipo way.
+node["tourism"="museum"](around.ciudad:7000);
+way["tourism"="museum"](around.ciudad:7000);
+out;>;out;
+
+// Miradores, ...
+node["tourism"="viewpoint"](around.ciudad:7000);
+out;
+
+// Hoteles y hostales.
+node["tourism"="hotel"](around.ciudad:7000);
+node["tourism"="hostel"](around.ciudad:7000);
+out;
+
+// Catedrales que pueda haber en la ciudad, también pueden ser de tipo way.
+node["building"="cathedral"](around.ciudad:7000);
+way["building"="cathedral"](around.ciudad:7000);
+(._;>;);
+out;
+
+https://overpass-api.de/api/interpreter?data=[out:json][timeout:100];(node["place"="city"]["name"="Granada"]["is_in:province"="Granada"]["is_in:country"="Spain"];)->.ciudad;node["tourism"="museum"](around.ciudad:7000);way["tourism"="museum"](around.ciudad:7000);out;>;out;node["tourism"="viewpoint"](around.ciudad:7000);out;node["tourism"="hotel"](around.ciudad:7000);node["tourism"="hostel"](around.ciudad:7000);out;node["building"="cathedral"](around.ciudad:7000);way["building"="cathedral"](around.ciudad:7000);(._;>;);out;
+
+
+// Nueva versión solo con nodos.
+https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A100%5D%3B%28node%5B%22place%22%3D%22city%22%5D%5B%22name%22%3D%22Granada%22%5D%5B%22is%5Fin%3Aprovince%22%3D%22Granada%22%5D%5B%22is%5Fin%3Acountry%22%3D%22Spain%22%5D%3B%29%2D%3E%2Eciudad%3Bnode%5B%22tourism%22%3D%22museum%22%5D%28around%2Eciudad%3A7000%29%3Bout%3B%3E%3Bout%3Bnode%5B%22tourism%22%3D%22viewpoint%22%5D%28around%2Eciudad%3A7000%29%3Bout%3Bnode%5B%22building%22%3D%22cathedral%22%5D%28around%2Eciudad%3A7000%29%3Bout%3Bnode%5B%22tourism%22%3D%22hotel%22%5D%28around%2Eciudad%3A7000%29%3Bout%3Bnode%5B%22tourism%22%3D%22hostel%22%5D%28around%2Eciudad%3A7000%29%3Bout%3B%0A
+
+[out:json][timeout:100]; // Tipo de salida y tiempo máximo.
+
+(node["place"="city"]["name"="Granada"]["is_in:province"="Granada"]["is_in:country"="Spain"];)->.ciudad; // Nodo de la ciudad en la que estamos búscando.
+
+// Museos de la ciudad, algunos están guardados como tipo way.
+node["tourism"="museum"](around.ciudad:7000);
+out;>;out;
+
+// Puntos de interés.
+node["tourism"="viewpoint"](around.ciudad:7000);
+out;
+
+// Catedrales.
+node["building"="cathedral"](around.ciudad:7000);
+out;
+
+// Hoteles.
+node["tourism"="hotel"](around.ciudad:7000);
+out;
+
+// Hotales.
+node["tourism"="hostel"](around.ciudad:7000);
+out;
+
+
+// Grahhopper API.
+https://graphhopper.com/api/1/matrix?key=797f607d-1d05-45b3-8262-bcb9c7dfd9e3" -d '{"elevation":false,"out_arrays":["weights"],"from_points":[[-0.087891,51.534377],[-0.090637,51.467697],[-0.171833,51.521241],[-0.211487,51.473685]],"to_points":[[-0.087891,51.534377],[-0.090637,51.467697],[-0.171833,51.521241],[-0.211487,51.473685]],"vehicle":"car"}'
+https://graphhopper.com/api/1/matrix?point=49.932707%2C11.588051&point=50.241935%2C10.747375&point=50.118817%2C11.983337&point=50.3404%2C11.64705&type=json&vehicle=car&debug=true&key=797f607d-1d05-45b3-8262-bcb9c7dfd9e3&out_array=weights
+https://graphhopper.com/api/1/matrix?point=49.932707%2C11.588051&point=50.241935%2C10.747375&point=50.118817%2C11.983337&point=50.3404%2C11.64705&type=json&vehicle=car&debug=true&key=797f607d-1d05-45b3-8262-bcb9c7dfd9e3&out_array=times
