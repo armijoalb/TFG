@@ -56,6 +56,14 @@ out;
 
 
 // Grahhopper API.
+
+Por cada uno de los puntos se pone:
+point=latitud,longitud.
+
+
 https://graphhopper.com/api/1/matrix?key=797f607d-1d05-45b3-8262-bcb9c7dfd9e3" -d '{"elevation":false,"out_arrays":["weights"],"from_points":[[-0.087891,51.534377],[-0.090637,51.467697],[-0.171833,51.521241],[-0.211487,51.473685]],"to_points":[[-0.087891,51.534377],[-0.090637,51.467697],[-0.171833,51.521241],[-0.211487,51.473685]],"vehicle":"car"}'
 https://graphhopper.com/api/1/matrix?point=49.932707%2C11.588051&point=50.241935%2C10.747375&point=50.118817%2C11.983337&point=50.3404%2C11.64705&type=json&vehicle=car&debug=true&key=797f607d-1d05-45b3-8262-bcb9c7dfd9e3&out_array=weights
 https://graphhopper.com/api/1/matrix?point=49.932707%2C11.588051&point=50.241935%2C10.747375&point=50.118817%2C11.983337&point=50.3404%2C11.64705&type=json&vehicle=car&debug=true&key=797f607d-1d05-45b3-8262-bcb9c7dfd9e3&out_array=times
+
+ejemplo para Granada:
+https://graphhopper.com/api/1/matrix?point=37.1713418%2C-3.5888790&point=37.1734517%2C-3.5888790&point=37.1625928%2C-3.6066354&point=37.1810482%2C-3.5926586&point=37.1847201%2C-3.5878877&point=37.1770011%2C-3.5878877&type=json&vehicle=car&debug=true&key=797f607d-1d05-45b3-8262-bcb9c7dfd9e3&out_array=times
