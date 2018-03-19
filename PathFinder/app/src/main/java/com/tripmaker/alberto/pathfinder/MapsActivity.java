@@ -71,7 +71,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SendNodes m = new SendNodes(mAdapter.getSelectedNodes(),this);
+
                     }
                 }
         );
@@ -101,7 +101,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         private ArrayList<String> selectedNodes = new ArrayList<>();
         private Context context;
-        public SendFiles(ArrayList<String> nodes,Context mContext){
+        public SendNodes(ArrayList<String> nodes,Context mContext){
             selectedNodes = nodes;
             context = mContext;
         }
