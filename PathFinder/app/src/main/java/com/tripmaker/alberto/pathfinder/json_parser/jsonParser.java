@@ -33,6 +33,10 @@ public class jsonParser {
 
     }
 
+    public HashMap<String, HashMap<String,String>> getAllInfo(){
+        return city_nodes;
+    }
+
     public void processJSON() throws JSONException {
         JSONArray elements = file_info.getJSONArray("elements");
         for(int i=0; i < elements.length(); i++){

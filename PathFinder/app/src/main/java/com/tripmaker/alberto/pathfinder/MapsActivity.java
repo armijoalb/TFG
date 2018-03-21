@@ -1,14 +1,12 @@
 package com.tripmaker.alberto.pathfinder;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +18,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.tripmaker.alberto.pathfinder.custom_adapter.MyAdapter;
 import com.tripmaker.alberto.pathfinder.json_parser.jsonParser;
 
@@ -33,6 +32,8 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -48,9 +49,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        cityNames.add("Parque de las ciencias");
-        cityNames.add("Mirador de San Nicolás");
-        cityNames.add("Alhambra");
+        openUrl();
+        processJSON();
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -59,7 +60,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Log.e("map: ", "mapa puesto");
 
-        // Creamos un recyclerView.
+        /*// Creamos un recyclerView.
         mRecycler = (RecyclerView) findViewById(R.id.recyclerView);
         mRecycler.setHasFixedSize(true);
 
@@ -78,10 +79,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Establecemos el FloatingActionButton y creamos onClickListener.
         mFloatingButton = (FloatingActionButton) findViewById(R.id.sendButton);
-        mFloatingButton.setOnClickListener(new sendButtonClick(this,mAdapter.getSelectedNodes()));
-
-        openUrl();
-        processJSON();
+        mFloatingButton.setOnClickListener(new sendButtonClick(this,mAdapter.getSelectedNodes()));*/
 
     }
 
@@ -115,6 +113,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         @Override
         protected Void doInBackground(Void... strings) {
+
             return null;
         }
     }
@@ -159,6 +158,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         protected String doInBackground(String... f_url) {
             int count;
+            // Output stream
+            String baseFolder = mContext.getFilesDir().getAbsolutePath();
+            File file = new File(baseFolder + File.separator + f_url[1]);
+            if(file.exists()){
+                Log.i("downloader:", "file exists, no need to download");
+                return null;
+            }
+
             try {
                 URL url = new URL(f_url[0]);
                 URLConnection conection = url.openConnection();
@@ -172,9 +179,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 InputStream input = new BufferedInputStream(url.openStream(),
                         8192);
 
-                // Output stream
-                String baseFolder = mContext.getFilesDir().getAbsolutePath();
-                File file = new File(baseFolder + File.separator + f_url[1]);
+
+
                 file.getParentFile().mkdirs();
                 OutputStream output = new FileOutputStream(file);
 
@@ -263,6 +269,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         protected void onPostExecute(Void result){
             Toast.makeText(mContext,"El número de nodos es: " + mParser.getSize(),Toast.LENGTH_SHORT ).show();
+            drawNodes();
+        }
+
+        private void drawNodes(){
+            Log.i("draw_nodes:", "drawing nodes");
+            HashMap<String,HashMap<String, String>> nodes = mParser.getAllInfo();
+
+            double lat,lon;
+            String node_name;
+            for(Map.Entry<String,HashMap<String,String>> it:nodes.entrySet()){
+                lat = Double.parseDouble( it.getValue().get("lat") );
+                lon = Double.parseDouble( it.getValue().get("lon") );
+                node_name = it.getValue().get("name");
+
+                addMarker(lat, lon,node_name);
+                cityNames.add(node_name);
+            }
+
+
         }
     }
 
@@ -294,9 +319,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
 
+
         // Add a marker in Sydney and move the camera
         LatLng granada = new LatLng(37.1886273, -3.5907775 );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(granada,13));
+
+
+    }
+
+    private void addMarker(double lat, double lon, String title){
+        Log.i("addMaker: ", "adding new node");
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(lat,lon))
+                .title(title));
     }
 
 

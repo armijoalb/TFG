@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.tripmaker.alberto.pathfinder.R;
@@ -27,12 +27,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView mName;
-        public ImageButton mAddButton;
+        public Button mAddButton;
 
         public ViewHolder(View v){
             super(v);
             mName = (TextView) v.findViewById(R.id.nodeName);
-            mAddButton = (ImageButton) v.findViewById(R.id.addButton);
+            mAddButton = (Button) v.findViewById(R.id.addButton);
         }
 
     }
