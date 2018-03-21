@@ -56,7 +56,8 @@ public class jsonParser {
             aux_hashMap.put("name", name);
 
             // Metemos un nuevo nodo.
-            city_nodes.put(id,aux_hashMap);
+            if(name != "desconocido")
+                city_nodes.put(id,aux_hashMap);
         }
 
     }

@@ -7,6 +7,8 @@ import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +22,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tripmaker.alberto.pathfinder.custom_adapter.MyAdapter;
+import com.tripmaker.alberto.pathfinder.fragments.RecyclerFragment;
 import com.tripmaker.alberto.pathfinder.json_parser.jsonParser;
 
 import org.json.JSONException;
@@ -52,7 +55,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         openUrl();
         processJSON();
 
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -60,28 +62,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Log.e("map: ", "mapa puesto");
 
-        /*// Creamos un recyclerView.
-        mRecycler = (RecyclerView) findViewById(R.id.recyclerView);
-        mRecycler.setHasFixedSize(true);
+        // Metemos el fragment con el recyclerView
+        Bundle fragmentBundle = new Bundle();
+        fragmentBundle.putStringArrayList("nodes", cityNames);
+        RecyclerFragment recyclerFragment = new RecyclerFragment();
+        recyclerFragment.setArguments(fragmentBundle);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.recyclerLayout,recyclerFragment);
+        transaction.commit();
 
-        Log.e("recycler: ", "recyclerView created");
-        // Establecemos un layout linear para el recyclerView.
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecycler.setLayoutManager(mLayoutManager);
+        Log.i("fragment", "fragment creado");
 
-        Log.e("recycler: ", "layoutManager set");
-
-        // Establecemos un adapter. (Hay que crear una clase)
-        mAdapter = new MyAdapter(cityNames);
-        mRecycler.setAdapter(mAdapter);
-
-        Log.e("recycler: ", "adapter set");
-
-        // Establecemos el FloatingActionButton y creamos onClickListener.
-        mFloatingButton = (FloatingActionButton) findViewById(R.id.sendButton);
-        mFloatingButton.setOnClickListener(new sendButtonClick(this,mAdapter.getSelectedNodes()));*/
-
-    }
+     }
 
     // OnClickListener para el  FAB
     class sendButtonClick implements View.OnClickListener{
@@ -132,10 +124,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 "node[\"tourism\"=\"hotel\"](around.ciudad:7000);out;node[\"tourism\"=\"hostel\"](around.ciudad:7000);out;" +
                 "node[\"building\"=\"cathedral\"](around.ciudad:7000);out;";
 
-        //Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url_enconded));
-        //startActivity(browserIntent);
 
-        Toast.makeText(this, "Iniciando la descarga", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Iniciando la descarga", Toast.LENGTH_SHORT).show();
         // Utilizamos la nueva clase para descargar el contenido del fichero.
         DownloadFileFromURL mDownloader = new DownloadFileFromURL(this);
         String[] s = {Uri.parse(url_enconded).toString(), "overpass_api.json"};
@@ -161,6 +151,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // Output stream
             String baseFolder = mContext.getFilesDir().getAbsolutePath();
             File file = new File(baseFolder + File.separator + f_url[1]);
+
             if(file.exists()){
                 Log.i("downloader:", "file exists, no need to download");
                 return null;
@@ -268,7 +259,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         @Override
         protected void onPostExecute(Void result){
-            Toast.makeText(mContext,"El número de nodos es: " + mParser.getSize(),Toast.LENGTH_SHORT ).show();
+            //Toast.makeText(mContext,"El número de nodos es: " + mParser.getSize(),Toast.LENGTH_SHORT ).show();
             drawNodes();
         }
 
