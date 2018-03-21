@@ -1,6 +1,9 @@
 package com.tripmaker.alberto.pathfinder;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
@@ -16,18 +19,26 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.MapStyleOptions;
+import com.tripmaker.alberto.pathfinder.custom_adapter.MyAdapter;
+import com.tripmaker.alberto.pathfinder.json_parser.jsonParser;
 
-import java.io.UnsupportedEncodingException;
-import java.net.ConnectException;
-import java.net.URLEncoder;
+import org.json.JSONException;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private RecyclerView mRecycler;
-    private RecyclerView.Adapter mAdapter;
+    private MyAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private FloatingActionButton mFloatingButton;
     private ArrayList<String> cityNames = new ArrayList<>();
@@ -67,15 +78,192 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Establecemos el FloatingActionButton y creamos onClickListener.
         mFloatingButton = (FloatingActionButton) findViewById(R.id.sendButton);
-        mFloatingButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+        mFloatingButton.setOnClickListener(new sendButtonClick(this,mAdapter.getSelectedNodes()));
 
-                    }
+        openUrl();
+        processJSON();
+
+    }
+
+    // OnClickListener para el  FAB
+    class sendButtonClick implements View.OnClickListener{
+        Context mContext;
+        ArrayList<String> selected = new ArrayList<>();
+
+        public sendButtonClick(Context context, ArrayList<String> s){
+            mContext = context;
+            selected = s;
+        }
+
+        @Override
+        public void onClick(View view) {
+            SendNodes mSender = new SendNodes(selected,mContext);
+            Log.i("size_selected: ", ""+selected.size());
+            mSender.execute();
+        }
+    }
+
+    // Clase asíncrona para obtener distancias entre los nodos.
+    private class SendNodes extends AsyncTask<Void,Void,Void>{
+
+        private ArrayList<String> selectedNodes = new ArrayList<>();
+        private Context context;
+        public SendNodes(ArrayList<String> nodes,Context mContext){
+            selectedNodes = nodes;
+            context = mContext;
+        }
+
+        @Override
+        protected Void doInBackground(Void... strings) {
+            return null;
+        }
+    }
+
+    /**
+     * Método que se utiliza para descargar el archivo de datos de overpass. Junto con el
+     * script.
+     */
+    public void openUrl() {
+
+        // Código de la url que "abrimos" para obtener el archivoq ue tiene los nodos.
+        String url_enconded = "https://overpass-api.de/api/interpreter?data=[out:json][timeout:100];" +
+                "(node[\"place\"=\"city\"][\"name\"=\"Granada\"][\"is_in:province\"=\"Granada\"][\"is_in:country\"=\"Spain\"];)->.ciudad;" +
+                "node[\"tourism\"=\"museum\"](around.ciudad:7000);out;>;out;" +
+                "node[\"tourism\"=\"viewpoint\"](around.ciudad:7000);out;" +
+                "node[\"tourism\"=\"hotel\"](around.ciudad:7000);out;node[\"tourism\"=\"hostel\"](around.ciudad:7000);out;" +
+                "node[\"building\"=\"cathedral\"](around.ciudad:7000);out;";
+
+        //Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url_enconded));
+        //startActivity(browserIntent);
+
+        Toast.makeText(this, "Iniciando la descarga", Toast.LENGTH_SHORT).show();
+        // Utilizamos la nueva clase para descargar el contenido del fichero.
+        DownloadFileFromURL mDownloader = new DownloadFileFromURL(this);
+        String[] s = {Uri.parse(url_enconded).toString(), "overpass_api.json"};
+        mDownloader.execute(s);
+
+
+    }
+
+    /**
+     * Clase para descargar un archivo especificando el nombre del archivo.
+     */
+    class DownloadFileFromURL extends AsyncTask<String, String, String> {
+
+        private Context mContext;
+
+        public DownloadFileFromURL(Context context) {
+            this.mContext = context;
+        }
+
+        @Override
+        protected String doInBackground(String... f_url) {
+            int count;
+            try {
+                URL url = new URL(f_url[0]);
+                URLConnection conection = url.openConnection();
+                conection.connect();
+
+                // this will be useful so that you can show a tipical 0-100%
+                // progress bar
+                int lenghtOfFile = conection.getContentLength();
+
+                // download the file
+                InputStream input = new BufferedInputStream(url.openStream(),
+                        8192);
+
+                // Output stream
+                String baseFolder = mContext.getFilesDir().getAbsolutePath();
+                File file = new File(baseFolder + File.separator + f_url[1]);
+                file.getParentFile().mkdirs();
+                OutputStream output = new FileOutputStream(file);
+
+                Log.e("file_out: ", "File opened");
+                Log.e("file_out:", "File saved in: " + mContext.getFilesDir().getAbsolutePath());
+
+                byte data[] = new byte[1024];
+
+                long total = 0;
+
+                while ((count = input.read(data)) != -1) {
+                    total += count;
+                    // publishing the progress....
+                    // After this onProgressUpdate will be called
+                    publishProgress("" + (int) ((total * 100) / lenghtOfFile));
+
+                    // writing data to file
+                    output.write(data, 0, count);
                 }
-        );
 
+                // flushing output
+                output.flush();
+
+                // closing streams
+                output.close();
+                input.close();
+
+                Log.e("file_out:", "Finished writting output");
+
+//                FileInputStream inputStream = openFileInput(f_url[1]);
+//                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+//                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+//                int num_lines = 0;
+//
+//                while(bufferedReader.readLine() != null){
+//                    num_lines ++;
+//                }
+//
+//                Log.e("file readed: ", "num_lines " + num_lines);
+
+
+            } catch (Exception e) {
+                Log.e("Error: ", e.getMessage());
+            }
+
+            return null;
+        }
+
+
+    }
+
+    /**
+     * Función para procesar el archivo json.
+     */
+    private void processJSON() {
+        String baseFolder = this.getFilesDir().getAbsolutePath();
+        String file = new String(baseFolder + File.separator + "overpass_api.json");
+        new jsonProcessor(this).execute(file);
+    }
+
+    /**
+     * Clase que procesa el archivo jSon.
+     */
+    class jsonProcessor extends AsyncTask<String,Void,Void>{
+
+        jsonParser mParser;
+        private Context mContext;
+
+        public jsonProcessor(Context theContext){
+            this.mContext = theContext;
+        }
+
+        @Override
+        protected Void doInBackground(String... file_path) {
+
+            mParser = new jsonParser(file_path[0]);
+            try {
+                mParser.processJSON();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result){
+            Toast.makeText(mContext,"El número de nodos es: " + mParser.getSize(),Toast.LENGTH_SHORT ).show();
+        }
     }
 
 
@@ -91,25 +279,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            boolean success = googleMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            this, R.raw.style_json));
+
+            if (!success) {
+                Log.e("map_style", "Style parsing failed.");
+            }
+        } catch (Resources.NotFoundException e) {
+            Log.e("map_style", "Can't find style. Error: ", e);
+        }
+
 
         // Add a marker in Sydney and move the camera
         LatLng granada = new LatLng(37.1886273, -3.5907775 );
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(granada));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(granada,13));
     }
 
-    private class SendNodes extends AsyncTask<Void,Void,Void>{
 
-        private ArrayList<String> selectedNodes = new ArrayList<>();
-        private Context context;
-        public SendNodes(ArrayList<String> nodes,Context mContext){
-            selectedNodes = nodes;
-            context = mContext;
-        }
-
-        @Override
-        protected Void doInBackground(Void... strings) {
-            Toast.makeText(context, selectedNodes.size(), Toast.LENGTH_LONG).show();
-            return null;
-        }
-    }
 }

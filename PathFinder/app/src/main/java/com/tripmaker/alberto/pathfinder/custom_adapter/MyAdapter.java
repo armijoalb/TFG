@@ -1,14 +1,14 @@
-package com.tripmaker.alberto.pathfinder;
+package com.tripmaker.alberto.pathfinder.custom_adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
+import com.tripmaker.alberto.pathfinder.R;
+
 import java.util.ArrayList;
 
 /**
@@ -55,15 +55,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.mName.setText(mCityNodes.get(position));
 
         holder.mAddButton.setOnClickListener(
-                new View.OnClickListener() {
+                new View.OnClickListener(){
                     @Override
-                    public void onClick(View view) {
+                    public void onClick(View view){
                         selectedNodes.add(mCityNodes.get(position));
                     }
                 }
         );
-
-
     }
 
     @Override
