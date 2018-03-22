@@ -62,6 +62,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Log.e("map: ", "mapa puesto");
 
+    }
+
+     // Función para inicializar el Fragment del RecyclerView.
+    private void initFragment(){
         // Metemos el fragment con el recyclerView
         Bundle fragmentBundle = new Bundle();
         fragmentBundle.putStringArrayList("nodes", cityNames);
@@ -72,8 +76,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         transaction.commit();
 
         Log.i("fragment", "fragment creado");
-
-     }
+    }
 
     // OnClickListener para el  FAB
     class sendButtonClick implements View.OnClickListener{
@@ -277,6 +280,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 addMarker(lat, lon,node_name);
                 cityNames.add(node_name);
             }
+
+            initFragment();
 
 
         }
