@@ -148,15 +148,16 @@ public class main {
 
 
 
-        jsonParser mParser = new jsonParser("C:\\Users\\Alberto\\Documents\\TFG\\salida_overpass.json");
+        jsonParser mParser = new jsonParser("/home/alberto/TFG/salida_overpass.json");
         mParser.processJSON();
         Vector<String> identificadores = mParser.getIds();
         System.out.println(identificadores.size());
-        System.out.println(mParser.getSize());
 
+        /*
         mParser = new jsonParser("C:\\Users\\Alberto\\Documents\\TFG\\matrix.json");
         mParser.processGrahhopperJSON();
         System.out.println(mParser.getSizeMatrix());
+        */
 
 
     }
