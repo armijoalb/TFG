@@ -1,16 +1,15 @@
 package com.tripmaker.alberto.pathfinder.json_parser;
 
 import org.json.*;
-
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.*;
 
 public class jsonParser {
-    private HashMap<String,HashMap<String,String>> city_nodes = new HashMap<>();
+    private HashMap<String,Vector<HashMap<String,String>>> city_nodes = new HashMap<>();
     private String json_path_file;
     private JSONObject file_info = new JSONObject();
-    private Vector<Vector<Integer>> segs;
+    private Vector<Vector<Long>> segs;
 
     public jsonParser(String file_path){
         this.json_path_file = file_path;
@@ -33,11 +32,7 @@ public class jsonParser {
 
     }
 
-    public HashMap<String, HashMap<String,String>> getAllInfo(){
-        return city_nodes;
-    }
-
-    public void processJSON() throws JSONException {
+    public void processJSON() throws JSONException{
         JSONArray elements = file_info.getJSONArray("elements");
         for(int i=0; i < elements.length(); i++){
             JSONObject node = elements.getJSONObject(i);
@@ -49,32 +44,51 @@ public class jsonParser {
             JSONObject tags = node.getJSONObject("tags");
             String name = tags.optString("name", "desconocido");
 
-            // Utilizamos un hashMap auxiliar.
-            HashMap<String, String> aux_hashMap = new HashMap<>();
-            aux_hashMap.put("lat", latitud);
-            aux_hashMap.put("lon", longitud);
-            aux_hashMap.put("name", name);
+            String tipo = tags.optString("tourism");
+            if( tipo.equals("") ){
+                tipo = tags.optString("amenity");
+            }
 
-            // Metemos un nuevo nodo.
-            if(name != "desconocido")
-                city_nodes.put(id,aux_hashMap);
+
+            HashMap<String, String> aux_hashMap = new HashMap<>();
+            // Utilizamos un hashMap auxiliar.
+            if( !name.equals("desconocido")) {
+                aux_hashMap.put("id", id);
+                aux_hashMap.put("lat", latitud);
+                aux_hashMap.put("lon", longitud);
+                aux_hashMap.put("name", name);
+
+                if(!city_nodes.containsKey(tipo)){
+                    // Metemos un nuevo nodo.
+                    System.out.println("nuevo tipo: " + tipo);
+                    Vector<HashMap<String,String>> v_aux = new Vector<>();
+                    v_aux.add(aux_hashMap);
+                    city_nodes.put(tipo, v_aux);
+
+                }else{
+                    System.out.println("adding new map to "+ tipo);
+                    city_nodes.get(tipo).add(aux_hashMap);
+                }
+            }
+
+
         }
 
     }
 
-    public void processGrahhopperJSON() throws JSONException {
+    public void processGrahhopperJSON() throws JSONException{
 
         JSONArray times = file_info.getJSONArray("times");
-        Vector<Integer> tim = new Vector<>();
+        Vector<Long> tim = new Vector<>();
         for(int i=0; i < times.length(); i++){
             JSONArray aux_t = times.getJSONArray(i);
             for(int j=0; j < aux_t.length(); j++){
-                int dist_time = aux_t.getInt(i);
+                Long dist_time = aux_t.getLong(i);
                 tim.add(dist_time);
             }
 
             segs.add(tim);
-            tim = new Vector<>();
+            tim = new Vector<Long>();
         }
 
     }
@@ -83,38 +97,92 @@ public class jsonParser {
         return segs.size();
     }
 
-    public Vector<Vector<Integer>> getSegs(){
+    public Vector<Vector<Long>> getSegs(){
         return segs;
     }
 
     public Vector<String> getIds(){
         Vector<String> ids = new Vector<>();
-        for(Map.Entry<String,HashMap<String,String>> it : city_nodes.entrySet() ){
-            ids.add(it.getKey());
+        for(Map.Entry<String,Vector<HashMap<String,String>>> it:city_nodes.entrySet()){
+            for(Iterator<HashMap<String,String>> it_v = it.getValue().iterator(); it_v.hasNext();){
+                HashMap<String,String> m_hashmap = it_v.next();
+                ids.add(m_hashmap.get("id"));
+            }
         }
 
         return ids;
     }
 
+    public Vector<String> getTipoIds(String tipo){
+        Vector<String> ids = new Vector<>();
+        for(Map.Entry<String,Vector<HashMap<String,String>>> it:city_nodes.entrySet()){
+            if(it.getKey().equals(tipo)) {
+                for (Iterator<HashMap<String, String>> it_v = it.getValue().iterator(); it_v.hasNext(); ) {
+                    HashMap<String, String> m_hashmap = it_v.next();
+                    ids.add(m_hashmap.get("id"));
+                }
+            }
+        }
+        return ids;
+    }
+
     public Vector<String> getNodeNames(){
         Vector<String> names = new Vector<>();
-        for(Map.Entry<String,HashMap<String,String>> it:city_nodes.entrySet()){
-            names.add(it.getValue().get("name"));
+        for(Map.Entry<String,Vector<HashMap<String,String>>> it:city_nodes.entrySet()){
+            for(Iterator<HashMap<String,String>> it_v = it.getValue().iterator(); it_v.hasNext();){
+                HashMap<String,String> m_hashmap = it_v.next();
+                names.add(m_hashmap.get("name"));
+            }
+        }
+        return names;
+    }
+
+    public Vector<String> getNodeNamesTipo(String tipo){
+        Vector<String> names = new Vector<>();
+        for(Map.Entry<String,Vector<HashMap<String,String>>> it:city_nodes.entrySet()){
+            if(it.getKey().equals(tipo)){
+                for(Iterator<HashMap<String,String>> it_v = it.getValue().iterator(); it_v.hasNext();){
+                    HashMap<String,String> m_hashmap = it_v.next();
+                    names.add(m_hashmap.get("name"));
+                }
+            }
+
         }
         return names;
     }
 
     public Vector<AbstractMap.SimpleEntry<String,String>> getLatLon(){
         Vector<AbstractMap.SimpleEntry<String, String>> lat_lon = new Vector<>();
-        for(Map.Entry<String,HashMap<String,String>> it:city_nodes.entrySet()){
-            AbstractMap.SimpleEntry<String,String> se = new AbstractMap.SimpleEntry<>(it.getValue().get("lat"),
-                    it.getValue().get("lon"));
-            lat_lon.add(se);
+        for(Map.Entry<String,Vector<HashMap<String,String>>> it:city_nodes.entrySet()){
+            for(Iterator<HashMap<String,String>> it_v = it.getValue().iterator(); it_v.hasNext();){
+                HashMap<String,String> m_hashmap = it_v.next();
+                AbstractMap.SimpleEntry<String,String> se = new AbstractMap.SimpleEntry<>(m_hashmap.get("lat"),
+                        m_hashmap.get("lon"));
+                lat_lon.add(se);
+
+            }
+
         }
         return lat_lon;
     }
 
-    public String getFilePath(){
+    public Vector<AbstractMap.SimpleEntry<String,String>> getLatLonTipo(String tipo){
+        Vector<AbstractMap.SimpleEntry<String, String>> lat_lon = new Vector<>();
+        for(Map.Entry<String,Vector<HashMap<String,String>>> it:city_nodes.entrySet()){
+            if(it.getKey().equals(tipo)) {
+                for (Iterator<HashMap<String, String>> it_v = it.getValue().iterator(); it_v.hasNext(); ) {
+                    HashMap<String, String> m_hashmap = it_v.next();
+                    AbstractMap.SimpleEntry<String, String> se = new AbstractMap.SimpleEntry<>(m_hashmap.get("lat"),
+                            m_hashmap.get("lon"));
+                    lat_lon.add(se);
+
+                }
+            }
+
+        }
+        return lat_lon;
+    }
+    String getFilePath(){
         return json_path_file;
     }
 
@@ -122,5 +190,7 @@ public class jsonParser {
         return city_nodes.size();
     }
 
-
+    public HashMap<String, Vector<HashMap<String, String>>> getAllInfo() {
+        return city_nodes;
+    }
 }

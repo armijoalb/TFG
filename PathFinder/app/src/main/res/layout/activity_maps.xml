@@ -14,9 +14,8 @@
         sothree:layout_constraintTop_toTopOf="parent"
         sothree:umanoDragView="@id/recyclerLayout"
         sothree:umanoOverlay="true"
-        sothree:umanoPanelHeight="68dp"
-        sothree:umanoParallaxOffset="100dp"
-        sothree:umanoShadowHeight="4dp">
+        sothree:umanoPanelHeight="?android:attr/actionBarSize"
+        sothree:umanoShadowHeight="6dp">
 
         <!-- MAIN CONTENT -->
         <fragment

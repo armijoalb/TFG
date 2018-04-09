@@ -67,3 +67,10 @@ https://graphhopper.com/api/1/matrix?point=49.932707%2C11.588051&point=50.241935
 
 ejemplo para Granada:
 https://graphhopper.com/api/1/matrix?point=37.1713418%2C-3.5888790&point=37.1734517%2C-3.5888790&point=37.1625928%2C-3.6066354&point=37.1810482%2C-3.5926586&point=37.1847201%2C-3.5878877&point=37.1770011%2C-3.5878877&type=json&vehicle=car&debug=true&key=797f607d-1d05-45b3-8262-bcb9c7dfd9e3&out_array=times
+
+
+// Otra API para gestionar distancias. (OSMR)
+// Es algo más lenta que Overpass API pero permite un número de nodos mayor.
+
+http://router.project-osrm.org/table/v1/driving/punto_lat,punto_lon;otro_punto_lat,otro_punto_lon
+http://router.project-osrm.org/table/v1/foot/punto_lat,punto_lon;otro_punto_lat,otro_punto_lon

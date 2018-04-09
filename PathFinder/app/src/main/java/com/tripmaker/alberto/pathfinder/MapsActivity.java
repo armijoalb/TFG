@@ -23,9 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.tripmaker.alberto.pathfinder.custom_adapter.MyAdapter;
 import com.tripmaker.alberto.pathfinder.fragments.RecyclerFragment;
 import com.tripmaker.alberto.pathfinder.json_parser.jsonParser;
-
 import org.json.JSONException;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,9 +31,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Vector;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -45,6 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private RecyclerView.LayoutManager mLayoutManager;
     private FloatingActionButton mFloatingButton;
     private ArrayList<String> cityNames = new ArrayList<>();
+    private ArrayList<HashMap<String,String>> realData = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,15 +101,54 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private class SendNodes extends AsyncTask<Void,Void,Void>{
 
         private ArrayList<String> selectedNodes = new ArrayList<>();
+        private String osmr_query;
         private Context context;
-        public SendNodes(ArrayList<String> nodes,Context mContext){
+
+        public SendNodes(ArrayList<String> nodes, Context mContext){
             selectedNodes = nodes;
             context = mContext;
         }
 
+        private ArrayList<String> getRealDataNames(){
+            ArrayList<String> names = new ArrayList<>();
+            for(Iterator<HashMap<String,String>> it = realData.iterator(); it.hasNext();){
+                names.add(it.next().get("name"));
+            }
+
+            return names;
+        }
+
+        private ArrayList<SimpleEntry<String,String>> getLatLongs(){
+            ArrayList<SimpleEntry<String,String>> lat_longs = new ArrayList<>();
+            SimpleEntry<String, String> aux;
+            ArrayList<String> names = getRealDataNames();
+            for (Iterator<String> it = selectedNodes.iterator(); it.hasNext();){
+                int index = names.indexOf(it.next());
+                aux = new SimpleEntry<>(realData.get(index).get("lat"),realData.get(index).get("lon"));
+                lat_longs.add(aux);
+            }
+
+            return lat_longs;
+        }
+
+        private String GenerateQueryString(){
+            ArrayList<SimpleEntry<String,String>> mLatLongs = getLatLongs();
+            StringBuilder stringBuilder = new StringBuilder("http://router.project-osrm.org/table/v1/foot/");
+            for(Iterator<SimpleEntry<String,String>> it=mLatLongs.iterator(); it.hasNext();){
+                SimpleEntry<String,String> aux = it.next();
+                stringBuilder.append(aux.getKey()+","+aux.getValue());
+                if(it.hasNext())
+                    stringBuilder.append(";");
+            }
+            return stringBuilder.toString();
+        }
+
         @Override
         protected Void doInBackground(Void... strings) {
-
+            osmr_query = GenerateQueryString();
+            String[] s = {osmr_query,"osmr_response.json"};
+            DownloadFileFromURL downloadFileFromURL = new DownloadFileFromURL(context);
+            downloadFileFromURL.execute(s);
             return null;
         }
     }
@@ -171,8 +212,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 // download the file
                 InputStream input = new BufferedInputStream(url.openStream(),
                         8192);
-
-
 
                 file.getParentFile().mkdirs();
                 OutputStream output = new FileOutputStream(file);
@@ -267,17 +306,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         private void drawNodes(){
             Log.i("draw_nodes:", "drawing nodes");
-            HashMap<String,HashMap<String, String>> nodes = mParser.getAllInfo();
+            HashMap<String,Vector<HashMap<String, String>>> nodes = mParser.getAllInfo();
 
             double lat,lon;
             String node_name;
-            for(Map.Entry<String,HashMap<String,String>> it:nodes.entrySet()){
-                lat = Double.parseDouble( it.getValue().get("lat") );
-                lon = Double.parseDouble( it.getValue().get("lon") );
-                node_name = it.getValue().get("name");
+            HashMap<String,String> necesary_data = new HashMap<>();
+            for(Map.Entry<String,Vector<HashMap<String,String>>> it:nodes.entrySet()){
+                for (Iterator<HashMap<String,String>> it_v = it.getValue().iterator(); it_v.hasNext();) {
+                    HashMap<String,String> m_hashmap = it_v.next();
+                    lat = Double.parseDouble(m_hashmap.get("lat"));
+                    lon = Double.parseDouble(m_hashmap.get("lon"));
+                    node_name = m_hashmap.get("name");
 
-                addMarker(lat, lon,node_name);
-                cityNames.add(node_name);
+                    addMarker(lat, lon, node_name);
+                    cityNames.add(node_name);
+                    necesary_data.put("name",node_name);
+                    necesary_data.put("lat",m_hashmap.get("lat"));
+                    necesary_data.put("lon",m_hashmap.get("lon"));
+                    realData.add(necesary_data);
+                    necesary_data = new HashMap<>();
+                }
             }
 
             initFragment();
