@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.util.*;
 
 public class jsonParser {
-    private HashMap<String,HashMap<String,String>> city_nodes = new HashMap<>();
+    private HashMap<String,Vector<HashMap<String,String>>> city_nodes = new HashMap<>();
     private String json_path_file;
     private JSONObject file_info = new JSONObject();
     private Vector<Vector<Long>> segs;
@@ -45,14 +45,32 @@ public class jsonParser {
             JSONObject tags = node.getJSONObject("tags");
             String name = tags.optString("name", "desconocido");
 
-            // Utilizamos un hashMap auxiliar.
-            HashMap<String, String> aux_hashMap = new HashMap<>();
-            aux_hashMap.put("lat", latitud);
-            aux_hashMap.put("lon", longitud);
-            aux_hashMap.put("name", name);
+            String tipo = tags.optString("tourism");
+            if( tipo.equals("") ){
+                tipo = tags.optString("amenity");
+            }
 
-            // Metemos un nuevo nodo.
-            city_nodes.put(id,aux_hashMap);
+
+            HashMap<String, String> aux_hashMap = new HashMap<>();
+            // Utilizamos un hashMap auxiliar.
+            if( !name.equals("desconocido")) {
+                aux_hashMap.put("id", id);
+                aux_hashMap.put("lat", latitud);
+                aux_hashMap.put("lon", longitud);
+                aux_hashMap.put("name", name);
+            }
+
+            if(!city_nodes.containsKey(tipo)){
+                // Metemos un nuevo nodo.
+                System.out.println("nuevo tipo: " + tipo);
+                Vector<HashMap<String,String>> v_aux = new Vector<>();
+                v_aux.add(aux_hashMap);
+                city_nodes.put(tipo, v_aux);
+
+            }else{
+                System.out.println("adding new map to "+ tipo);
+                city_nodes.get(tipo).add(aux_hashMap);
+            }
         }
 
     }
@@ -84,24 +102,39 @@ public class jsonParser {
 
     protected Vector<String> getIds(){
         Vector<String> ids = new Vector<>();
-
-        city_nodes.forEach((k,v)-> ids.add(k));
+        for(Map.Entry<String,Vector<HashMap<String,String>>> it:city_nodes.entrySet()){
+            System.out.println(it.getValue().size());
+            for(Iterator<HashMap<String,String>> it_v = it.getValue().iterator(); it_v.hasNext();){
+                HashMap<String,String> m_hashmap = it_v.next();
+                ids.add(m_hashmap.get("id"));
+            }
+        }
 
         return ids;
     }
 
     protected Vector<String> getNodeNames(){
         Vector<String> names = new Vector<>();
-        city_nodes.forEach((k,v) -> names.add(v.get("name")));
+        for(Map.Entry<String,Vector<HashMap<String,String>>> it:city_nodes.entrySet()){
+            for(Iterator<HashMap<String,String>> it_v = it.getValue().iterator(); it_v.hasNext();){
+                HashMap<String,String> m_hashmap = it_v.next();
+                names.add(m_hashmap.get("name"));
+            }
+        }
         return names;
     }
 
     protected Vector<AbstractMap.SimpleEntry<String,String>> getLatLon(){
         Vector<AbstractMap.SimpleEntry<String, String>> lat_lon = new Vector<>();
-        for(Map.Entry<String,HashMap<String,String>> it:city_nodes.entrySet()){
-            AbstractMap.SimpleEntry<String,String> se = new AbstractMap.SimpleEntry<>(it.getValue().get("lat"),
-                    it.getValue().get("lon"));
-            lat_lon.add(se);
+        for(Map.Entry<String,Vector<HashMap<String,String>>> it:city_nodes.entrySet()){
+            for(Iterator<HashMap<String,String>> it_v = it.getValue().iterator(); it_v.hasNext();){
+                HashMap<String,String> m_hashmap = it_v.next();
+                AbstractMap.SimpleEntry<String,String> se = new AbstractMap.SimpleEntry<>(m_hashmap.get("lat"),
+                                                                                        m_hashmap.get("lon"));
+                lat_lon.add(se);
+
+            }
+
         }
         return lat_lon;
     }

@@ -1,12 +1,37 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tripmaker.alberto.pathfinder.fragments.RecyclerFragment">
+    android:clickable="true"
+    android:focusable="false"
+    android:orientation="vertical"
+    tools:context="com.tripmaker.alberto.pathfinder.fragments.RecyclerFragment"
+    android:background="#FFFFFF">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/viewholder_recycler" />
-</android.support.constraint.ConstraintLayout>
+        android:layout_height="wrap_content"
+        android:text="@string/textViewSlideUpPanel"
+        android:textSize="38sp"
+        android:gravity="center"
+        />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/viewholder_recycler" />
+    </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>
