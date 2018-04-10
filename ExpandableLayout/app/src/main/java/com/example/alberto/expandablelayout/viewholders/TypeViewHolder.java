@@ -15,7 +15,7 @@ public class TypeViewHolder extends GroupViewHolder {
         mTypeText = (TextView) itemView.findViewById(R.id.type);
     }
 
-    public void setTypeText(String text){
-        mTypeText.setText(text);
-    }
+    public void setTypeText(String text){ mTypeText.setText(text); }
+
+
 }

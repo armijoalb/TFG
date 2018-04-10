@@ -21,6 +21,7 @@ public class TypesFragment extends Fragment {
     private RecyclerView mRecycler;
     private TypesRecyclerAdapter mAdapter;
     private List<TypeOfNode> mList = new ArrayList<>();
+    private String TAG = TypesFragment.class.getSimpleName();
 
     public TypesFragment() {
         // Required empty public constructor
@@ -36,7 +37,7 @@ public class TypesFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View recyclerView = inflater.inflate(R.layout.fragment_types, container, false);
-        mRecycler = recyclerView.findViewById(R.id.recycler);
+        mRecycler = (RecyclerView) recyclerView.findViewById(R.id.recycler);
         getNodes();
         mAdapter = new TypesRecyclerAdapter(mList);
         mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
