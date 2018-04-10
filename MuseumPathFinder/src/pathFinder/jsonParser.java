@@ -2,6 +2,7 @@ package pathFinder;
 
 import org.json.*;
 
+import javax.print.DocFlavor;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.*;
@@ -58,19 +59,21 @@ public class jsonParser {
                 aux_hashMap.put("lat", latitud);
                 aux_hashMap.put("lon", longitud);
                 aux_hashMap.put("name", name);
+
+                if(!city_nodes.containsKey(tipo)){
+                    // Metemos un nuevo nodo.
+                    System.out.println("nuevo tipo: " + tipo);
+                    Vector<HashMap<String,String>> v_aux = new Vector<>();
+                    v_aux.add(aux_hashMap);
+                    city_nodes.put(tipo, v_aux);
+
+                }else{
+                    System.out.println("adding new map to "+ tipo);
+                    city_nodes.get(tipo).add(aux_hashMap);
+                }
             }
 
-            if(!city_nodes.containsKey(tipo)){
-                // Metemos un nuevo nodo.
-                System.out.println("nuevo tipo: " + tipo);
-                Vector<HashMap<String,String>> v_aux = new Vector<>();
-                v_aux.add(aux_hashMap);
-                city_nodes.put(tipo, v_aux);
 
-            }else{
-                System.out.println("adding new map to "+ tipo);
-                city_nodes.get(tipo).add(aux_hashMap);
-            }
         }
 
     }
@@ -103,13 +106,25 @@ public class jsonParser {
     protected Vector<String> getIds(){
         Vector<String> ids = new Vector<>();
         for(Map.Entry<String,Vector<HashMap<String,String>>> it:city_nodes.entrySet()){
-            System.out.println(it.getValue().size());
             for(Iterator<HashMap<String,String>> it_v = it.getValue().iterator(); it_v.hasNext();){
                 HashMap<String,String> m_hashmap = it_v.next();
                 ids.add(m_hashmap.get("id"));
             }
         }
 
+        return ids;
+    }
+
+    protected Vector<String> getTipoIds(String tipo){
+        Vector<String> ids = new Vector<>();
+        for(Map.Entry<String,Vector<HashMap<String,String>>> it:city_nodes.entrySet()){
+            if(it.getKey().equals(tipo)) {
+                for (Iterator<HashMap<String, String>> it_v = it.getValue().iterator(); it_v.hasNext(); ) {
+                    HashMap<String, String> m_hashmap = it_v.next();
+                    ids.add(m_hashmap.get("id"));
+                }
+            }
+        }
         return ids;
     }
 
@@ -120,6 +135,20 @@ public class jsonParser {
                 HashMap<String,String> m_hashmap = it_v.next();
                 names.add(m_hashmap.get("name"));
             }
+        }
+        return names;
+    }
+
+    protected Vector<String> getNodeNamesTipo(String tipo){
+        Vector<String> names = new Vector<>();
+        for(Map.Entry<String,Vector<HashMap<String,String>>> it:city_nodes.entrySet()){
+            if(it.getKey().equals(tipo)){
+                for(Iterator<HashMap<String,String>> it_v = it.getValue().iterator(); it_v.hasNext();){
+                    HashMap<String,String> m_hashmap = it_v.next();
+                    names.add(m_hashmap.get("name"));
+                }
+            }
+
         }
         return names;
     }
@@ -139,6 +168,22 @@ public class jsonParser {
         return lat_lon;
     }
 
+    protected Vector<AbstractMap.SimpleEntry<String,String>> getLatLonTipo(String tipo){
+        Vector<AbstractMap.SimpleEntry<String, String>> lat_lon = new Vector<>();
+        for(Map.Entry<String,Vector<HashMap<String,String>>> it:city_nodes.entrySet()){
+            if(it.getKey().equals(tipo)) {
+                for (Iterator<HashMap<String, String>> it_v = it.getValue().iterator(); it_v.hasNext(); ) {
+                    HashMap<String, String> m_hashmap = it_v.next();
+                    AbstractMap.SimpleEntry<String, String> se = new AbstractMap.SimpleEntry<>(m_hashmap.get("lat"),
+                            m_hashmap.get("lon"));
+                    lat_lon.add(se);
+
+                }
+            }
+
+        }
+        return lat_lon;
+    }
     String getFilePath(){
         return json_path_file;
     }
