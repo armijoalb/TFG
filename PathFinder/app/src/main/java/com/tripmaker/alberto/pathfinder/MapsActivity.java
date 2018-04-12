@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
+import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -18,9 +18,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.tripmaker.alberto.pathfinder.custom_adapter.MyAdapter;
-import com.tripmaker.alberto.pathfinder.fragments.RecyclerFragment;
+import com.tripmaker.alberto.pathfinder.fragment.TypesFragment;
+import com.tripmaker.alberto.pathfinder.interfaces.CustomClickListener;
 import com.tripmaker.alberto.pathfinder.json_parser.jsonParser;
+import com.tripmaker.alberto.pathfinder.models.CityNode;
+import com.tripmaker.alberto.pathfinder.models.TypeOfNode;
 import org.json.JSONException;
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -33,18 +35,16 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, CustomClickListener {
 
     private GoogleMap mMap;
-    private RecyclerView mRecycler;
-    private MyAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private FloatingActionButton mFloatingButton;
-    private ArrayList<String> cityNames = new ArrayList<>();
+    private HashMap<String,Vector<String >> cityNames = new HashMap<>();
     private ArrayList<HashMap<String,String>> realData = new ArrayList<>();
+    private final TypesFragment recyclerFragment = new TypesFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +65,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
      // Función para inicializar el Fragment del RecyclerView.
     private void initFragment(){
-        // Metemos el fragment con el recyclerView
-        Bundle fragmentBundle = new Bundle();
-        fragmentBundle.putStringArrayList("nodes", cityNames);
-        RecyclerFragment recyclerFragment = new RecyclerFragment();
-        recyclerFragment.setArguments(fragmentBundle);
+
+        List<TypeOfNode> types = new ArrayList<>();
+        for(Map.Entry<String,Vector<String>> it:cityNames.entrySet()){
+            List<CityNode> nodes = new ArrayList<>();
+            for(Iterator<String> it_v = it.getValue().iterator(); it_v.hasNext();){
+                nodes.add(new CityNode(it_v.next()));
+            }
+
+            types.add(new TypeOfNode(it.getKey(),nodes));
+        }
+
+        recyclerFragment.setmList(types);
+        recyclerFragment.setListener(this);
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.recyclerLayout,recyclerFragment);
         transaction.commit();
@@ -77,23 +86,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.i("fragment", "fragment creado");
     }
 
-    // OnClickListener para el  FAB
-    class sendButtonClick implements View.OnClickListener{
-        Context mContext;
-        ArrayList<String> selected = new ArrayList<>();
-
-        public sendButtonClick(Context context, ArrayList<String> s){
-            mContext = context;
-            selected = s;
-        }
-
-        @Override
-        public void onClick(View view) {
-            SendNodes mSender = new SendNodes(selected,mContext);
-            Log.i("size_selected: ", ""+selected.size());
-            mSender.execute();
-        }
+    @Override
+    public void onSearchButtonClick(ArrayList<String> names) {
+        if(names.size() > 0)
+            Toast.makeText(this,"number_of_nodes:"+names.size(),Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(this,"selecione solamente un hotel o hostal", Toast.LENGTH_LONG).show();
     }
+
 
     // Clase asíncrona para obtener distancias entre los nodos.
     private class SendNodes extends AsyncTask<Void,Void,Void>{
@@ -240,18 +240,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 Log.e("file_out:", "Finished writting output");
 
-//                FileInputStream inputStream = openFileInput(f_url[1]);
-//                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-//                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-//                int num_lines = 0;
-//
-//                while(bufferedReader.readLine() != null){
-//                    num_lines ++;
-//                }
-//
-//                Log.e("file readed: ", "num_lines " + num_lines);
-
-
             } catch (Exception e) {
                 Log.e("Error: ", e.getMessage());
             }
@@ -316,13 +304,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     lon = Double.parseDouble(m_hashmap.get("lon"));
                     node_name = m_hashmap.get("name");
 
+                    // Añadimos Marker.
                     addMarker(lat, lon, node_name);
-                    cityNames.add(node_name);
+
+                    // Añadimos info a realData.
                     necesary_data.put("name",node_name);
                     necesary_data.put("lat",m_hashmap.get("lat"));
                     necesary_data.put("lon",m_hashmap.get("lon"));
                     realData.add(necesary_data);
                     necesary_data = new HashMap<>();
+
+                    // Añadimos info a la lista que se mostrará.
+                    if(cityNames.containsKey(it.getKey())){
+                        cityNames.get(it.getKey()).add(node_name);
+                    }else{
+                        Vector<String> aux = new Vector<>();
+                        aux.add(node_name);
+                        cityNames.put(it.getKey(),aux);
+                    }
+
                 }
             }
 
@@ -368,6 +368,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    // Función para añadir un marker al mapa.
     private void addMarker(double lat, double lon, String title){
         Log.i("addMaker: ", "adding new node");
         mMap.addMarker(new MarkerOptions()
