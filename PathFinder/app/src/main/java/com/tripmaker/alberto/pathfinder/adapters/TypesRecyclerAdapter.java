@@ -40,7 +40,10 @@ public class TypesRecyclerAdapter extends ExpandableRecyclerViewAdapter<TypeView
     public CityNodesViewHolder onCreateChildViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.nodes_viewholder,parent,false);
-        return new CityNodesViewHolder(view);
+
+        CityNodesViewHolder cv = new CityNodesViewHolder(view);
+        cv.setCheck(false);
+        return cv;
     }
 
     @Override
@@ -59,13 +62,20 @@ public class TypesRecyclerAdapter extends ExpandableRecyclerViewAdapter<TypeView
     }
 
     public void addOrRemoveNode(String tipo, String nombre){
+        Log.i(TAG,"calling to add or remove");
         if(selected.containsKey(tipo)){
             if(selected.get(tipo).contains(nombre)){
-                selected.get(tipo).remove(nombre);
+                Log.i(TAG,"addOrRemove:removing");
+                if(selected.get(tipo).size() == 1)
+                    selected.remove(tipo);
+                else
+                    selected.get(tipo).remove(nombre);
             }else{
+                Log.i(TAG,"addOrRemove:adding");
                 selected.get(tipo).add(nombre);
             }
         }else{
+            Log.i(TAG,"addOrRemove:creating new type "+tipo);
             Vector<String>  aux = new Vector<>();
             aux.add(nombre);
             selected.put(tipo,aux);
@@ -80,14 +90,26 @@ public class TypesRecyclerAdapter extends ExpandableRecyclerViewAdapter<TypeView
 
     public ArrayList<String> getSelected(){
         ArrayList<String> s_nodes = new ArrayList<>();
-        String aux_key;
+        String aux_key="";
+
+        if(selected.size() < 1){
+            Log.i(TAG,selected.size()+"");
+            return s_nodes;
+        }
+
         if(selected.containsKey("hostel")){
+            Log.i(TAG, "is an hostel");
             aux_key = "hostel";
-        }else{
+        }else if(selected.containsKey("hotel")){
+            Log.i(TAG, "is an hotel");
             aux_key = "hotel";
+        }else{
+            Log.i(TAG,"no hay nodos de salida");
+            return s_nodes;
         }
 
         if(selected.get(aux_key).size() < 2){
+            Log.i(TAG,selected.get(aux_key).size()+"");
             s_nodes.add(selected.get(aux_key).elementAt(0));
 
             for(Map.Entry<String,Vector<String>> it:selected.entrySet()){

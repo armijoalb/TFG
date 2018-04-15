@@ -5,13 +5,13 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.*;
 
-public class jsonParser {
+public class JsonParser {
     private HashMap<String,Vector<HashMap<String,String>>> city_nodes = new HashMap<>();
     private String json_path_file;
     private JSONObject file_info = new JSONObject();
-    private Vector<Vector<Long>> segs;
+    private Vector<Vector<Integer>> segs;
 
-    public jsonParser(String file_path){
+    public JsonParser(String file_path){
         this.json_path_file = file_path;
         segs = new Vector<>();
 
@@ -76,19 +76,19 @@ public class jsonParser {
 
     }
 
-    public void processGrahhopperJSON() throws JSONException{
+    public void processOSMRJSON() throws JSONException{
 
-        JSONArray times = file_info.getJSONArray("times");
-        Vector<Long> tim = new Vector<>();
+        JSONArray times = file_info.getJSONArray("durations");
+        Vector<Integer> tim = new Vector<>();
         for(int i=0; i < times.length(); i++){
             JSONArray aux_t = times.getJSONArray(i);
             for(int j=0; j < aux_t.length(); j++){
-                Long dist_time = aux_t.getLong(i);
+                int dist_time = aux_t.getInt(i);
                 tim.add(dist_time);
             }
 
             segs.add(tim);
-            tim = new Vector<Long>();
+            tim = new Vector<>();
         }
 
     }
@@ -97,7 +97,7 @@ public class jsonParser {
         return segs.size();
     }
 
-    public Vector<Vector<Long>> getSegs(){
+    public Vector<Vector<Integer>> getSegs(){
         return segs;
     }
 

@@ -11,12 +11,14 @@ public class CityNodesViewHolder extends ChildViewHolder {
     private TextView nodeName;
     private CheckBox mAddButton;
     private String TAG = CityNodesViewHolder.class.getSimpleName();
+    private boolean isChecked = false;
 
     public CityNodesViewHolder(View itemView){
         super(itemView);
         nodeName = (TextView) itemView.findViewById(R.id.nodeName);
         mAddButton = (CheckBox) itemView.findViewById(R.id.addButton);
         mAddButton.setChecked(false);
+        isChecked = false;
     }
 
     public void setOnClickListener(View.OnClickListener listener){
@@ -31,9 +33,20 @@ public class CityNodesViewHolder extends ChildViewHolder {
         if(mAddButton.isChecked()){
             Log.i(TAG,mAddButton.isChecked()+"");
             mAddButton.setChecked(true);
+            isChecked = true;
         }else{
+            Log.i(TAG,mAddButton.isChecked()+"");
             mAddButton.setChecked(false);
+            isChecked = false;
         }
+    }
+    public void setCheck(boolean check){
+        mAddButton.setChecked(check);
+    }
+
+    public void resetChecked(){
+        Log.i(TAG,isChecked+"");
+        setCheck(isChecked);
     }
 
 }

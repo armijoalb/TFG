@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -20,7 +18,7 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tripmaker.alberto.pathfinder.fragment.TypesFragment;
 import com.tripmaker.alberto.pathfinder.interfaces.CustomClickListener;
-import com.tripmaker.alberto.pathfinder.json_parser.jsonParser;
+import com.tripmaker.alberto.pathfinder.json_parser.JsonParser;
 import com.tripmaker.alberto.pathfinder.models.CityNode;
 import com.tripmaker.alberto.pathfinder.models.TypeOfNode;
 import org.json.JSONException;
@@ -29,8 +27,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,6 +43,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private HashMap<String,Vector<String >> cityNames = new HashMap<>();
     private ArrayList<HashMap<String,String>> realData = new ArrayList<>();
     private final TypesFragment recyclerFragment = new TypesFragment();
+    private final String TAG = MapsActivity.class.getSimpleName();
+    private Vector<Vector<Integer>> segundos = new Vector<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,19 +92,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Toast.makeText(this,"number_of_nodes:"+names.size(),Toast.LENGTH_LONG).show();
         else
             Toast.makeText(this,"selecione solamente un hotel o hostal", Toast.LENGTH_LONG).show();
+
+        SendNodes sendNodes = new SendNodes(names,this);
+        sendNodes.execute();
     }
 
 
     // Clase asíncrona para obtener distancias entre los nodos.
-    private class SendNodes extends AsyncTask<Void,Void,Void>{
+    private class SendNodes extends AsyncTask<Void,String,Void>{
 
         private ArrayList<String> selectedNodes = new ArrayList<>();
         private String osmr_query;
         private Context context;
+        private final String TAG = SendNodes.class.getSimpleName();
+        private String baseFolder = getApplicationContext().getFilesDir().getAbsolutePath();
 
         public SendNodes(ArrayList<String> nodes, Context mContext){
             selectedNodes = nodes;
             context = mContext;
+            Log.i(TAG,"object created");
         }
 
         private ArrayList<String> getRealDataNames(){
@@ -144,11 +150,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         protected Void doInBackground(Void... strings) {
             osmr_query = GenerateQueryString();
+            Log.i(TAG,"All prepared");
             String[] s = {osmr_query,"osmr_response.json"};
-            DownloadFileFromURL downloadFileFromURL = new DownloadFileFromURL(context);
+            DownloadFileFromURL downloadFileFromURL = new DownloadFileFromURL(context,true);
             downloadFileFromURL.execute(s);
             return null;
         }
+
+        protected void onProgressUpdate(String... update){
+        }
+
+        @Override
+        protected void onPostExecute(Void result){
+        }
+
+        @Override
+        protected void onPreExecute(){}
     }
 
     /**
@@ -181,9 +198,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     class DownloadFileFromURL extends AsyncTask<String, String, String> {
 
         private Context mContext;
+        private final String TAG = DownloadFileFromURL.class.getSimpleName();
+        private boolean parse;
 
         public DownloadFileFromURL(Context context) {
             this.mContext = context;
+        }
+
+        public DownloadFileFromURL(Context context,boolean parse){
+            this.mContext = context;
+            this.parse = parse;
+        }
+
+        @Override
+        protected void onPostExecute(String rt){
+            Log.i(TAG,rt);
+            if(parse){
+                JsonParser parser = new JsonParser(rt);
+                try {
+                    parser.processOSMRJSON();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                segundos = parser.getSegs();
+                Log.i(TAG,segundos.size()+"");
+            }
+            return;
         }
 
         @Override
@@ -192,20 +233,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // Output stream
             String baseFolder = mContext.getFilesDir().getAbsolutePath();
             File file = new File(baseFolder + File.separator + f_url[1]);
+            Log.i(TAG,"starting download");
 
-            if(file.exists()){
-                Log.i("downloader:", "file exists, no need to download");
-                return null;
-            }
 
             try {
                 URL url = new URL(f_url[0]);
-                URLConnection conection = url.openConnection();
-                conection.connect();
-
-                // this will be useful so that you can show a tipical 0-100%
-                // progress bar
-                int lenghtOfFile = conection.getContentLength();
+                HttpURLConnection conection = (HttpURLConnection) url.openConnection();
 
                 // download the file
                 InputStream input = new BufferedInputStream(url.openStream(),
@@ -214,8 +247,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 file.getParentFile().mkdirs();
                 OutputStream output = new FileOutputStream(file);
 
-                Log.e("file_out: ", "File opened");
-                Log.e("file_out:", "File saved in: " + mContext.getFilesDir().getAbsolutePath());
+                Log.i(TAG,"file_out: "+"File opened");
+                Log.i(TAG,"file_out:"+ "File saved in: " + mContext.getFilesDir().getAbsolutePath());
 
                 byte data[] = new byte[1024];
 
@@ -223,9 +256,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 while ((count = input.read(data)) != -1) {
                     total += count;
-                    // publishing the progress....
-                    // After this onProgressUpdate will be called
-                    publishProgress("" + (int) ((total * 100) / lenghtOfFile));
 
                     // writing data to file
                     output.write(data, 0, count);
@@ -238,13 +268,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 output.close();
                 input.close();
 
-                Log.e("file_out:", "Finished writting output");
+                conection.disconnect();
+
+                Log.i(TAG,"file_out:"+ "Finished writting output");
 
             } catch (Exception e) {
-                Log.e("Error: ", e.getMessage());
+                Log.e(TAG, e.getMessage());
             }
 
-            return null;
+            return baseFolder + File.separator + f_url[1];
         }
 
 
@@ -264,7 +296,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     class jsonProcessor extends AsyncTask<String,Void,Void>{
 
-        jsonParser mParser;
+        JsonParser mParser;
         private Context mContext;
 
         public jsonProcessor(Context theContext){
@@ -274,7 +306,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         protected Void doInBackground(String... file_path) {
 
-            mParser = new jsonParser(file_path[0]);
+            mParser = new JsonParser(file_path[0]);
             try {
                 mParser.processJSON();
 
