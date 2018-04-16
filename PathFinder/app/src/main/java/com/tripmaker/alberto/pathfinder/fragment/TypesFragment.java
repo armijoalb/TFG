@@ -8,13 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import com.tripmaker.alberto.pathfinder.R;
 import com.tripmaker.alberto.pathfinder.adapters.TypesRecyclerAdapter;
 import com.tripmaker.alberto.pathfinder.interfaces.CustomClickListener;
 import com.tripmaker.alberto.pathfinder.models.CityNode;
 import com.tripmaker.alberto.pathfinder.models.TypeOfNode;
-
 import java.util.ArrayList;
 import java.util.List;
 

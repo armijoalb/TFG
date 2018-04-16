@@ -37,6 +37,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.concurrent.ExecutionException;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, CustomClickListener {
 
@@ -46,6 +47,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private final TypesFragment recyclerFragment = new TypesFragment();
     private final String TAG = MapsActivity.class.getSimpleName();
     private ArrayList<String> ids = new ArrayList<>();
+    private String query_osmr;
+    private String path_to_json_osmr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +99,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         ids = names;
         SendNodes sendNodes = new SendNodes(names,this);
-        sendNodes.execute();
+        try {
+            sendNodes.execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        String[] s = {query_osmr,"osmr_response.json"};
+        Log.i(TAG,"hi");
+        DownloadFileFromURL downloadFileFromURL = new DownloadFileFromURL(this);
+        try {
+            path_to_json_osmr = downloadFileFromURL.execute(s).get();
+            Log.i(TAG,"path: "+ path_to_json_osmr);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG,"saved file");
+
+
+        Intent intent = new Intent(this,ResultActivity.class);
+        this.startActivity(intent);
     }
 
 
@@ -151,11 +176,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         @Override
         protected Void doInBackground(Void... strings) {
-            osmr_query = GenerateQueryString();
+            query_osmr = GenerateQueryString();
             Log.i(TAG,"All prepared");
-            String[] s = {osmr_query,"osmr_response.json"};
-            DownloadFileFromURL downloadFileFromURL = new DownloadFileFromURL(context,true);
-            downloadFileFromURL.execute(s);
             return null;
         }
 
@@ -164,6 +186,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         @Override
         protected void onPostExecute(Void result){
+            Log.i(TAG,"finished");
         }
 
         @Override
@@ -191,7 +214,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String[] s = {Uri.parse(url_enconded).toString(), "overpass_api.json"};
         mDownloader.execute(s);
 
-
     }
 
     /**
@@ -201,29 +223,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         private Context mContext;
         private final String TAG = DownloadFileFromURL.class.getSimpleName();
-        private boolean parse;
+        private boolean save_path;
 
         public DownloadFileFromURL(Context context) {
             this.mContext = context;
         }
 
-        public DownloadFileFromURL(Context context,boolean parse){
+        public DownloadFileFromURL(Context context, boolean spath){
             this.mContext = context;
-            this.parse = parse;
+            this.save_path = spath;
         }
+
+
 
         @Override
         protected void onPostExecute(String rt){
-            Log.i(TAG,rt);
-            if(parse){
-
-                Intent intent = new Intent(getApplicationContext(),ResultActivity.class);
-                Bundle bundle = intent.getExtras();
-                bundle.putStringArrayList("IDS",ids);
-                bundle.putString("PATH",rt);
-
-            }
-            return;
         }
 
         @Override
@@ -287,7 +301,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void processJSON() {
         String baseFolder = this.getFilesDir().getAbsolutePath();
         String file = new String(baseFolder + File.separator + "overpass_api.json");
-        new jsonProcessor(this).execute(file);
+        new jsonProcessor(this,"nodes").execute(file);
     }
 
     /**
@@ -295,30 +309,46 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     class jsonProcessor extends AsyncTask<String,Void,Void>{
 
-        JsonParser mParser;
+        private JsonParser mParser;
         private Context mContext;
+        private String option;
 
-        public jsonProcessor(Context theContext){
+        public jsonProcessor(Context theContext, String option){
             this.mContext = theContext;
+            this.option = option;
         }
 
         @Override
         protected Void doInBackground(String... file_path) {
 
             mParser = new JsonParser(file_path[0]);
-            try {
-                mParser.processJSON();
+            switch (option){
+                case "segs":
+                    try{
+                        mParser.processOSMRJSON();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case "nodes":
+                    try {
+                        mParser.processJSON();
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+
             }
+
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result){
-            //Toast.makeText(mContext,"El número de nodos es: " + mParser.getSize(),Toast.LENGTH_SHORT ).show();
-            drawNodes();
+            if(option.equals("nodes"))
+                drawNodes();
+
         }
 
         private void drawNodes(){
