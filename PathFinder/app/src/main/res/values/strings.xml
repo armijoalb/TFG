@@ -2,6 +2,8 @@
     <string name="app_name">PathFinder</string>
     <string name="title_activity_maps">Map</string>
     <string name="textViewSlideUpPanel">Sitios interesantes</string>
+    <string name="ruta_text">Descripción ruta final</string>
     <string name="startSearch">Comenzar Búsqueda</string>
+    <string name="title_activity_result">Ruta final</string>
 
 </resources>

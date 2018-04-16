@@ -1,6 +1,7 @@
 package com.tripmaker.alberto.pathfinder;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -44,7 +45,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ArrayList<HashMap<String,String>> realData = new ArrayList<>();
     private final TypesFragment recyclerFragment = new TypesFragment();
     private final String TAG = MapsActivity.class.getSimpleName();
-    private Vector<Vector<Integer>> segundos = new Vector<>();
+    private ArrayList<String> ids = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +94,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         else
             Toast.makeText(this,"selecione solamente un hotel o hostal", Toast.LENGTH_LONG).show();
 
+        ids = names;
         SendNodes sendNodes = new SendNodes(names,this);
         sendNodes.execute();
     }
@@ -214,15 +216,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         protected void onPostExecute(String rt){
             Log.i(TAG,rt);
             if(parse){
-                JsonParser parser = new JsonParser(rt);
-                try {
-                    parser.processOSMRJSON();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
 
-                segundos = parser.getSegs();
-                Log.i(TAG,segundos.size()+"");
+                Intent intent = new Intent(getApplicationContext(),ResultActivity.class);
+                Bundle bundle = intent.getExtras();
+                bundle.putStringArrayList("IDS",ids);
+                bundle.putString("PATH",rt);
+
             }
             return;
         }

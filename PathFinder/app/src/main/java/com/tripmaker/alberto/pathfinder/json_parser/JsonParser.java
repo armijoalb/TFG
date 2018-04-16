@@ -9,11 +9,11 @@ public class JsonParser {
     private HashMap<String,Vector<HashMap<String,String>>> city_nodes = new HashMap<>();
     private String json_path_file;
     private JSONObject file_info = new JSONObject();
-    private Vector<Vector<Integer>> segs;
+    private ArrayList<ArrayList<Integer>> segs = new ArrayList<>();
 
     public JsonParser(String file_path){
         this.json_path_file = file_path;
-        segs = new Vector<>();
+        segs = new ArrayList<>();
 
         try {
             // Abrimos el archivo y lo metemos en un String, después lo metemos en un JSONObject.
@@ -79,7 +79,7 @@ public class JsonParser {
     public void processOSMRJSON() throws JSONException{
 
         JSONArray times = file_info.getJSONArray("durations");
-        Vector<Integer> tim = new Vector<>();
+        ArrayList<Integer> tim = new ArrayList<>();
         for(int i=0; i < times.length(); i++){
             JSONArray aux_t = times.getJSONArray(i);
             for(int j=0; j < aux_t.length(); j++){
@@ -88,7 +88,7 @@ public class JsonParser {
             }
 
             segs.add(tim);
-            tim = new Vector<>();
+            tim = new ArrayList<>();
         }
 
     }
@@ -97,7 +97,7 @@ public class JsonParser {
         return segs.size();
     }
 
-    public Vector<Vector<Integer>> getSegs(){
+    public ArrayList<ArrayList<Integer>> getSegs(){
         return segs;
     }
 
