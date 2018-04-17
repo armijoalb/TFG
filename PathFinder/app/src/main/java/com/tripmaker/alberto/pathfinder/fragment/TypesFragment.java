@@ -65,6 +65,11 @@ public class TypesFragment extends Fragment {
         return recyclerView;
     }
 
+    public void updateContent(){
+        mAdapter.setTipos(mList);
+        mAdapter.notifyDataSetChanged();
+    }
+
 
     public ArrayList<String> getSelected(){
         return mAdapter.getSelected();

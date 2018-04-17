@@ -50,6 +50,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ArrayList<String> ids = new ArrayList<>();
     private String query_osmr;
     private String path_to_json_osmr;
+    private ArrayList<ModelNode> types = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        initFragment();
 
         Log.e("map: ", "mapa puesto");
 
@@ -70,15 +72,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
      // Función para inicializar el Fragment del RecyclerView.
     private void initFragment(){
-
-        ArrayList<ModelNode> types = new ArrayList<>();
-        for(Map.Entry<String,Vector<String>> it:cityNames.entrySet()){
-            types.add(new TypeOfNode(it.getKey()));
-            for(Iterator<String> it_v = it.getValue().iterator(); it_v.hasNext();){
-                ModelNode city = new CityNode(it_v.next(),it.getKey());
-                types.add(city);
-            }
-        }
 
         recyclerFragment.setmList(types);
         recyclerFragment.setListener(this);
@@ -88,6 +81,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         transaction.commit();
 
         Log.i("fragment", "fragment creado");
+    }
+
+    private void setTypesForRecycler(){
+        Log.i(TAG,"setting up nodes");
+        types  = new ArrayList<>();
+        for(Map.Entry<String,Vector<String>> it:cityNames.entrySet()){
+            types.add(new TypeOfNode(it.getKey()));
+            for(Iterator<String> it_v = it.getValue().iterator(); it_v.hasNext();){
+                ModelNode city = new CityNode(it_v.next(),it.getKey());
+                types.add(city);
+            }
+        }
+
+        recyclerFragment.setmList(types);
+        recyclerFragment.updateContent();
     }
 
     @Override
@@ -387,9 +395,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
 
-            initFragment();
-
-
+            setTypesForRecycler();
         }
     }
 

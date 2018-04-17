@@ -30,6 +30,10 @@ public class TypesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.tipos = all;
     }
 
+    public void setTipos(ArrayList<?extends ModelNode> tipos){
+        this.tipos = tipos;
+    }
+
     @Override
     public int getItemViewType(int position) {
         int pos=0;
