@@ -21,6 +21,7 @@ import com.tripmaker.alberto.pathfinder.fragment.TypesFragment;
 import com.tripmaker.alberto.pathfinder.interfaces.CustomClickListener;
 import com.tripmaker.alberto.pathfinder.json_parser.JsonParser;
 import com.tripmaker.alberto.pathfinder.models.CityNode;
+import com.tripmaker.alberto.pathfinder.models.ModelNode;
 import com.tripmaker.alberto.pathfinder.models.TypeOfNode;
 import org.json.JSONException;
 import java.io.BufferedInputStream;
@@ -70,14 +71,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      // Función para inicializar el Fragment del RecyclerView.
     private void initFragment(){
 
-        List<TypeOfNode> types = new ArrayList<>();
+        ArrayList<ModelNode> types = new ArrayList<>();
         for(Map.Entry<String,Vector<String>> it:cityNames.entrySet()){
-            List<CityNode> nodes = new ArrayList<>();
+            types.add(new TypeOfNode(it.getKey()));
             for(Iterator<String> it_v = it.getValue().iterator(); it_v.hasNext();){
-                nodes.add(new CityNode(it_v.next()));
+                ModelNode city = new CityNode(it_v.next(),it.getKey());
+                types.add(city);
             }
-
-            types.add(new TypeOfNode(it.getKey(),nodes));
         }
 
         recyclerFragment.setmList(types);

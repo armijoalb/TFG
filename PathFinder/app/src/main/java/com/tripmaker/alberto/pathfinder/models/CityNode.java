@@ -1,18 +1,14 @@
 package com.tripmaker.alberto.pathfinder.models;
 
-public class CityNode {
-    private String name;
+public class CityNode extends ModelNode{
+    private String type;
 
-    public CityNode(String n){
-        name = n;
+    public CityNode(String n,String type){
+        super(n);
+        this.type = type;
     }
 
-    public void setName(String n){
-        name = n;
+    public String getType() {
+        return type;
     }
-
-    public String getName(){
-        return name;
-    }
-
 }

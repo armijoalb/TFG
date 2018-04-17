@@ -1,11 +1,11 @@
 package com.tripmaker.alberto.pathfinder.viewholders;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
-import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;
 import com.tripmaker.alberto.pathfinder.R;
 
-public class TypeViewHolder extends GroupViewHolder {
+public class TypeViewHolder extends RecyclerView.ViewHolder{
 
     private TextView mTypeText;
 

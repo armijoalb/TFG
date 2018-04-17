@@ -1,14 +1,15 @@
 package com.tripmaker.alberto.pathfinder.viewholders;
 
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder;
 import com.tripmaker.alberto.pathfinder.R;
 
-public class CityNodesViewHolder extends ChildViewHolder {
+public class CityNodesViewHolder extends RecyclerView.ViewHolder {
     private TextView nodeName;
+    private TextView nodeType;
     private CheckBox mAddButton;
     private String TAG = CityNodesViewHolder.class.getSimpleName();
     private boolean isChecked = false;
@@ -17,8 +18,8 @@ public class CityNodesViewHolder extends ChildViewHolder {
         super(itemView);
         nodeName = (TextView) itemView.findViewById(R.id.nodeName);
         mAddButton = (CheckBox) itemView.findViewById(R.id.addButton);
-        mAddButton.setChecked(false);
-        isChecked = false;
+        nodeType = (TextView) itemView.findViewById(R.id.type_name);
+        mAddButton.setChecked(isChecked);
     }
 
     public void setOnClickListener(View.OnClickListener listener){
@@ -29,24 +30,29 @@ public class CityNodesViewHolder extends ChildViewHolder {
         nodeName.setText(name);
     }
 
+    public void setNodeType(String type){
+        nodeType.setText(type);
+    }
+
+    public boolean getIsChecked(){
+        return isChecked;
+    }
+
     public void changeChecked(){
         if(mAddButton.isChecked()){
             Log.i(TAG,mAddButton.isChecked()+"");
             mAddButton.setChecked(true);
-            isChecked = true;
         }else{
             Log.i(TAG,mAddButton.isChecked()+"");
             mAddButton.setChecked(false);
-            isChecked = false;
         }
+
+        isChecked = !isChecked;
     }
+
     public void setCheck(boolean check){
         mAddButton.setChecked(check);
     }
 
-    public void resetChecked(){
-        Log.i(TAG,isChecked+"");
-        setCheck(isChecked);
-    }
 
 }

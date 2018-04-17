@@ -5,5 +5,6 @@
     <string name="ruta_text">Descripción ruta final</string>
     <string name="startSearch">Comenzar Búsqueda</string>
     <string name="title_activity_result">Ruta final</string>
+    <string name="add_checkbox">Añadir</string>
 
 </resources>

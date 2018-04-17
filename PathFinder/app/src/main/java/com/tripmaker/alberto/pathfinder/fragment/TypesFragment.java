@@ -12,6 +12,7 @@ import com.tripmaker.alberto.pathfinder.R;
 import com.tripmaker.alberto.pathfinder.adapters.TypesRecyclerAdapter;
 import com.tripmaker.alberto.pathfinder.interfaces.CustomClickListener;
 import com.tripmaker.alberto.pathfinder.models.CityNode;
+import com.tripmaker.alberto.pathfinder.models.ModelNode;
 import com.tripmaker.alberto.pathfinder.models.TypeOfNode;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class TypesFragment extends Fragment {
     private RecyclerView mRecycler;
     private TypesRecyclerAdapter mAdapter;
     private Button searchButton;
-    private List<TypeOfNode> mList = new ArrayList<>();
+    private ArrayList<?extends ModelNode> mList = new ArrayList<>();
     private String TAG = TypesFragment.class.getSimpleName();
     private CustomClickListener listener;
 
@@ -30,7 +31,7 @@ public class TypesFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public void setmList(List<TypeOfNode> mList) {
+    public void setmList(ArrayList<?extends ModelNode> mList) {
         this.mList = mList;
     }
 
@@ -69,25 +70,6 @@ public class TypesFragment extends Fragment {
         return mAdapter.getSelected();
     }
 
-    private void getNodes(){
-        mList = new ArrayList<>();
-        List<CityNode> nodes = new ArrayList<>();
-        nodes.add(new CityNode("Parque de las ciencias"));
-        nodes.add(new CityNode("Museo de la historia de Andalucía"));
-        mList.add(new TypeOfNode("Museos",nodes));
-        nodes = new ArrayList<>();
-        nodes.add(new CityNode( "Catedral de Granada") );
-        mList.add(new TypeOfNode("Monumentos",nodes));
-        nodes = new ArrayList<>();
-        nodes.add(new CityNode("Mirador de San Miguel"));
-        nodes.add(new CityNode("Mirador de San Nicolás"));
-        mList.add(new TypeOfNode("Miradores",nodes));
-        nodes = new ArrayList<>();
-        nodes.add(new CityNode("Hotel el Carmen"));
-        nodes.add(new CityNode("Hotel Granada Center"));
-        mList.add(new TypeOfNode("Hoteles/Hostales",nodes));
-
-    }
 
 
 
