@@ -23,6 +23,7 @@ import com.tripmaker.alberto.pathfinder.json_parser.JsonParser;
 import com.tripmaker.alberto.pathfinder.models.CityNode;
 import com.tripmaker.alberto.pathfinder.models.ModelNode;
 import com.tripmaker.alberto.pathfinder.models.TypeOfNode;
+import com.tripmaker.alberto.pathfinder.pathFinder.PathFinder;
 import org.json.JSONException;
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -33,6 +34,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -48,9 +50,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private final TypesFragment recyclerFragment = new TypesFragment();
     private final String TAG = MapsActivity.class.getSimpleName();
     private ArrayList<String> ids = new ArrayList<>();
+    private ArrayList<ArrayList<Integer>> segundos = new ArrayList<>();
+    private ArrayList<ArrayList<SimpleEntry<GregorianCalendar,GregorianCalendar>>> horario = new ArrayList<>();
     private String query_osmr;
     private String path_to_json_osmr;
     private ArrayList<ModelNode> types = new ArrayList<>();
+    private double lat_granada = 37.1886273;
+    private double lon_granada = -3.5907775;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +106,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         recyclerFragment.updateContent();
     }
 
+    // Función para generar horarios estándar.
+    private void generateDefaultHours(){
+        ArrayList<SimpleEntry<GregorianCalendar,GregorianCalendar>> open_h = new ArrayList<>();
+        GregorianCalendar aux_mañana, aux_tarde;
+        Log.i(TAG,ids.size()+"");
+        for(int i=1; i < ids.size(); i++){
+            aux_mañana = new GregorianCalendar(1,1,1,9,0,0);
+            aux_tarde = new GregorianCalendar(1,1,1,20,0,0);
+            open_h.add(new SimpleEntry<>(aux_mañana,aux_tarde) );
+            horario.add(open_h);
+            open_h = new ArrayList<>();
+        }
+
+    }
+
     @Override
     public void onSearchButtonClick(ArrayList<String> names) {
         if(names.size() > 0)
@@ -108,28 +131,59 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ids = names;
         SendNodes sendNodes = new SendNodes(names,this);
         try {
+            // Obtenemos la expresión.
             sendNodes.execute().get();
+
+            String[] s = {query_osmr,"osmr_response.json"};
+            Log.i(TAG,"hi");
+            DownloadFileFromURL downloadFileFromURL = new DownloadFileFromURL(this);
+            try {
+                // Descargamos el archivo.
+                path_to_json_osmr = downloadFileFromURL.execute(s).get();
+                Log.i(TAG,"path: "+ path_to_json_osmr);
+                Log.i(TAG,"saved file");
+
+                JsonParser parser = new JsonParser(path_to_json_osmr);
+                try {
+                    parser.processOSMRJSON();
+                    segundos = parser.getSegs();
+                    Log.i(TAG,"segs setted up");
+                    generateDefaultHours();
+
+                    PathFinder pathFinder = new PathFinder(ids,horario,segundos);
+                    HashMap<String,SimpleEntry<GregorianCalendar,GregorianCalendar> >
+                            solution = pathFinder.obtainGreedySolution(
+                            new GregorianCalendar(1,1,1,9,0,0)
+                    );
+                    Log.i(TAG,"solution obtained");
+                    Log.i(TAG,solution.size()+"");
+                    for (Map.Entry<String,SimpleEntry<GregorianCalendar,GregorianCalendar>> it:solution.entrySet()){
+                        Log.i("solution: ", it.getKey()+" "+it.getValue().getKey()
+                        +" "+it.getValue().getValue() );
+                    }
+
+                    Intent intent = new Intent(this,ResultActivity.class);
+                    intent.putExtra("LAT",lat_granada);
+                    intent.putExtra("LON",lon_granada);
+                    intent.putExtra("IDS",ids);
+                    //this.startActivity(intent);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        String[] s = {query_osmr,"osmr_response.json"};
-        Log.i(TAG,"hi");
-        DownloadFileFromURL downloadFileFromURL = new DownloadFileFromURL(this);
-        try {
-            path_to_json_osmr = downloadFileFromURL.execute(s).get();
-            Log.i(TAG,"path: "+ path_to_json_osmr);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        Log.i(TAG,"saved file");
 
-
-        Intent intent = new Intent(this,ResultActivity.class);
-        this.startActivity(intent);
     }
 
 
@@ -356,6 +410,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         protected void onPostExecute(Void result){
             if(option.equals("nodes"))
                 drawNodes();
+            if(option.equals("segs")){
+                Log.i(TAG,"settings segs");
+                segundos = mParser.getSegs();
+            }
 
         }
 
@@ -429,7 +487,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         // Add a marker in Sydney and move the camera
-        LatLng granada = new LatLng(37.1886273, -3.5907775 );
+        LatLng granada = new LatLng(lat_granada, lon_granada );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(granada,13));
 
 

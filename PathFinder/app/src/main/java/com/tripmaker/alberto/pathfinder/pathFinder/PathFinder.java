@@ -1,5 +1,7 @@
 package com.tripmaker.alberto.pathfinder.pathFinder;
 
+import android.util.Log;
+
 import java.text.SimpleDateFormat;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ public class PathFinder {
     private ArrayList<String> identificadores;
     private ArrayList<ArrayList<SimpleEntry<GregorianCalendar,GregorianCalendar> > > horarios_abierto;
     private ArrayList<ArrayList<Integer>> duracion;
+    private String TAG = PathFinder.class.getSimpleName();
 
     // Contructor por defecto.
     public PathFinder(){
@@ -31,6 +34,7 @@ public class PathFinder {
                        ArrayList< ArrayList<SimpleEntry<GregorianCalendar,GregorianCalendar>> > horario,
                        ArrayList<ArrayList<Integer>> dur)
     {
+        Log.i(TAG,"creating objects");
         this.horarios_abierto = horario;
         this.identificadores = ids;
         this.duracion = dur;
@@ -109,9 +113,12 @@ public class PathFinder {
         return real_time;
     }
 
+
+
     // Algoritmo Greedy básico que calcula una solución seleccionando el museo más cercano a la posición actual.
-    public HashMap<String,SimpleEntry<GregorianCalendar,GregorianCalendar>> obtainGreedySolution(GregorianCalendar starting_time){
-        HashMap<String,SimpleEntry<GregorianCalendar,GregorianCalendar>> mSolution = new HashMap<>();
+    public HashMap<String,SimpleEntry<String,String>> obtainGreedySolution(GregorianCalendar starting_time){
+        Log.i(TAG,"starting algorithm");
+        HashMap<String,SimpleEntry<String,String>> mSolution = new HashMap<>();
         GregorianCalendar finish_time = new GregorianCalendar(1,1,1,20,0,0);
         GregorianCalendar current_time = new GregorianCalendar();
         current_time = starting_time;
@@ -133,6 +140,7 @@ public class PathFinder {
         solution.add(id);
         non_added.remove(id);
         valid.remove(id);
+        mSolution.put(identificadores.get(id),new SimpleEntry<>(GregorianCalendarToString(starting_time),"00:00") );
 
         // Terminaremos cuando ya hayamos llegado al tiempo límite.
         while( current_time.before(finish_time) && !non_added.isEmpty()){
@@ -160,7 +168,8 @@ public class PathFinder {
                     non_added.remove(id);
                     valid.remove(id);
 
-                    mSolution.put(identificadores.get(id),new SimpleEntry<>(aux_greg,current_time));
+                    mSolution.put(identificadores.get(id),new SimpleEntry<>(GregorianCalendarToString(aux_greg)
+                            ,GregorianCalendarToString(current_time)) );
 
 
 
@@ -184,7 +193,8 @@ public class PathFinder {
                     non_added.remove(id);
                     valid.remove(id);
 
-                    mSolution.put(identificadores.get(id),new SimpleEntry<>(aux_greg,current_time));
+                    mSolution.put(identificadores.get(id),new SimpleEntry<>(GregorianCalendarToString(aux_greg),
+                            GregorianCalendarToString(current_time)) );
 
                 } // Si no es posible ir en este momento, lo eliminamos de los casos válidos.
                 else{

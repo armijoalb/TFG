@@ -1,5 +1,6 @@
 package com.tripmaker.alberto.pathfinder;
 
+import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,15 +19,18 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.concurrent.ExecutionException;
 
 public class ResultActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private ArrayList<ArrayList<Integer>> segundos = new ArrayList<>();
-    private ArrayList<ArrayList<SimpleEntry<GregorianCalendar,GregorianCalendar>>> horario = new ArrayList<>();
+
     private ArrayList<String> identificadores = new ArrayList<>();
-    private JsonParser mParser;
+
     private String TAG = ResultActivity.class.getSimpleName();
+    private double lat_city;
+    private double lon_city;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,35 +38,18 @@ public class ResultActivity extends FragmentActivity implements OnMapReadyCallba
         setContentView(R.layout.activity_result);
 
         Log.i(TAG,"onCreate");
-
-//        identificadores = getIntent().getExtras().getStringArrayList("IDS");
-//        String path = getIntent().getExtras().getString("PATH");
-//        mParser = new JsonParser(path);
-//        try {
-//            mParser.processOSMRJSON();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        segundos = mParser.getSegs();
-//        generateDefaultHours();
+        lat_city = getIntent().getExtras().getDouble("LAT");
+        lon_city = getIntent().getExtras().getDouble("LON");
+        identificadores = getIntent().getExtras().getStringArrayList("IDS");
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.resultMap);
         mapFragment.getMapAsync(this);
+
     }
 
-    private void generateDefaultHours(){
-        ArrayList<SimpleEntry<GregorianCalendar,GregorianCalendar>> open_h = new ArrayList<>();
-        GregorianCalendar aux_mañana, aux_tarde;
-        for(Iterator<String> it = identificadores.iterator(); it.hasNext();){
-            aux_mañana = new GregorianCalendar(1,1,1,9,0,0);
-            aux_tarde = new GregorianCalendar(1,1,1,20,0,0);
-            open_h.add(new SimpleEntry<GregorianCalendar, GregorianCalendar>(aux_mañana,aux_tarde) );
-            horario.add(open_h);
-            open_h = new ArrayList<>();
-        }
-    }
+
 
 
     /**
@@ -79,8 +66,7 @@ public class ResultActivity extends FragmentActivity implements OnMapReadyCallba
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng granada = new LatLng(lat_city, lon_city );
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(granada,13));
     }
 }
