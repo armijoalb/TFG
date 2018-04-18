@@ -22,6 +22,7 @@ import com.tripmaker.alberto.pathfinder.interfaces.CustomClickListener;
 import com.tripmaker.alberto.pathfinder.json_parser.JsonParser;
 import com.tripmaker.alberto.pathfinder.models.CityNode;
 import com.tripmaker.alberto.pathfinder.models.ModelNode;
+import com.tripmaker.alberto.pathfinder.models.Solution;
 import com.tripmaker.alberto.pathfinder.models.TypeOfNode;
 import com.tripmaker.alberto.pathfinder.pathFinder.PathFinder;
 import org.json.JSONException;
@@ -147,20 +148,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 try {
                     parser.processOSMRJSON();
                     segundos = parser.getSegs();
+                    Log.i(TAG,query_osmr);
+
                     Log.i(TAG,"segs setted up");
                     generateDefaultHours();
 
                     PathFinder pathFinder = new PathFinder(ids,horario,segundos);
-                    HashMap<String,SimpleEntry<GregorianCalendar,GregorianCalendar> >
-                            solution = pathFinder.obtainGreedySolution(
+                    Solution solution = pathFinder.obtainGreedySolution(
                             new GregorianCalendar(1,1,1,9,0,0)
                     );
                     Log.i(TAG,"solution obtained");
                     Log.i(TAG,solution.size()+"");
-                    for (Map.Entry<String,SimpleEntry<GregorianCalendar,GregorianCalendar>> it:solution.entrySet()){
-                        Log.i("solution: ", it.getKey()+" "+it.getValue().getKey()
-                        +" "+it.getValue().getValue() );
+
+                    ArrayList<String> ident = solution.getIds();
+                    ArrayList<SimpleEntry<String, String>> hours = solution.getHours();
+                    for(int i=0; i < ident.size(); i++){
+                        Log.i("solution ", ident.get(i) + " " +
+                                hours.get(i).getKey() + " " + hours.get(i).getValue());
                     }
+
 
                     Intent intent = new Intent(this,ResultActivity.class);
                     intent.putExtra("LAT",lat_granada);

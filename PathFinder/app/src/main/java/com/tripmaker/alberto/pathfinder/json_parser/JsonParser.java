@@ -1,5 +1,7 @@
 package com.tripmaker.alberto.pathfinder.json_parser;
 
+import android.util.Log;
+
 import org.json.*;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -10,6 +12,7 @@ public class JsonParser {
     private String json_path_file;
     private JSONObject file_info = new JSONObject();
     private ArrayList<ArrayList<Integer>> segs = new ArrayList<>();
+    private String TAG = JsonParser.class.getSimpleName();
 
     public JsonParser(String file_path){
         this.json_path_file = file_path;
@@ -84,6 +87,7 @@ public class JsonParser {
             JSONArray aux_t = times.getJSONArray(i);
             for(int j=0; j < aux_t.length(); j++){
                 int dist_time = aux_t.getInt(i);
+                Log.i(TAG,dist_time+"");
                 tim.add(dist_time);
             }
 
