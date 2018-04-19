@@ -119,8 +119,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.i(TAG,ids.size()+"");
         for(int i=1; i < ids.size(); i++){
             aux_mañana = new GregorianCalendar(1,1,1,9,0,0);
-            aux_tarde = new GregorianCalendar(1,1,1,20,0,0);
+            aux_tarde = new GregorianCalendar(1,1,1,14,0,0);
             open_h.add(new SimpleEntry<>(aux_mañana,aux_tarde) );
+            aux_mañana = new GregorianCalendar(1,1,1,15,30,0);
+            aux_tarde = new GregorianCalendar(1,1,1,20,0,0);
+            open_h.add(new SimpleEntry<>(aux_mañana,aux_tarde));
             horario.add(open_h);
             open_h = new ArrayList<>();
         }
