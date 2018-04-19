@@ -86,7 +86,7 @@ public class JsonParser {
         for(int i=0; i < times.length(); i++){
             JSONArray aux_t = times.getJSONArray(i);
             for(int j=0; j < aux_t.length(); j++){
-                int dist_time = aux_t.getInt(i);
+                int dist_time = aux_t.getInt(j);
                 Log.i(TAG,dist_time+"");
                 tim.add(dist_time);
             }

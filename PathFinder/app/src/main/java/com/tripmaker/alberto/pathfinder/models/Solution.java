@@ -24,4 +24,22 @@ public class Solution{
     public int size(){
         return ids_solution.size();
     }
+
+    public ArrayList<String> getTimeEntrada() {
+        ArrayList<String> entradas = new ArrayList<>();
+        for (int i=0; i < franja_horaria.size(); i++){
+            entradas.add(franja_horaria.get(i).getKey());
+        }
+
+        return entradas;
+    }
+
+    public ArrayList<String> getTimeSalida() {
+        ArrayList<String> salida = new ArrayList<>();
+        for (int i=0; i < franja_horaria.size(); i++){
+            salida.add(franja_horaria.get(i).getValue());
+        }
+
+        return salida;
+    }
 }

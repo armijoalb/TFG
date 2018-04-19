@@ -58,6 +58,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ArrayList<ModelNode> types = new ArrayList<>();
     private double lat_granada = 37.1886273;
     private double lon_granada = -3.5907775;
+    private ArrayList<String> ids_solution = new ArrayList<>();
+    private ArrayList<String> entrada_solution = new ArrayList<>();
+    private ArrayList<String> salida_solution = new ArrayList<>();
+    private ArrayList<String> lat_solution = new ArrayList<>();
+    private ArrayList<String> lon_solution = new ArrayList<>();
 
 
 
@@ -153,26 +158,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Log.i(TAG,"segs setted up");
                     generateDefaultHours();
 
-                    PathFinder pathFinder = new PathFinder(ids,horario,segundos);
-                    Solution solution = pathFinder.obtainGreedySolution(
-                            new GregorianCalendar(1,1,1,9,0,0)
-                    );
-                    Log.i(TAG,"solution obtained");
-                    Log.i(TAG,solution.size()+"");
+                    FindSolution findSolution = new FindSolution(ids,horario,segundos,this);
+                    findSolution.execute();
 
-                    ArrayList<String> ident = solution.getIds();
-                    ArrayList<SimpleEntry<String, String>> hours = solution.getHours();
-                    for(int i=0; i < ident.size(); i++){
-                        Log.i("solution ", ident.get(i) + " " +
-                                hours.get(i).getKey() + " " + hours.get(i).getValue());
-                    }
-
-
-                    Intent intent = new Intent(this,ResultActivity.class);
-                    intent.putExtra("LAT",lat_granada);
-                    intent.putExtra("LON",lon_granada);
-                    intent.putExtra("IDS",ids);
-                    //this.startActivity(intent);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -190,6 +178,80 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             e.printStackTrace();
         }
 
+    }
+
+    // Clase asíncrona para obtener la solucion.
+    private class FindSolution extends AsyncTask<Void,Void,Void>{
+
+        private PathFinder pathFinder;
+        private Solution solution;
+        private HashMap<String,HashMap<String,String>> aux_map = new HashMap<>();
+        private Context context;
+
+        public FindSolution(ArrayList<String> ids,
+                            ArrayList<ArrayList<SimpleEntry<GregorianCalendar,GregorianCalendar>>> h,
+                            ArrayList<ArrayList<Integer>> segs,
+                            Context context){
+            pathFinder = new PathFinder(ids,h,segs);
+            this.context = context;
+
+
+            HashMap<String,String> aux_hashmap = new HashMap<>();
+            HashMap<String,String> add_hashmap = new HashMap<>();
+            String name;
+            String lat, lon;
+            for(int i=0; i < realData.size(); i++){
+                aux_hashmap = realData.get(i);
+                name = aux_hashmap.get("name");
+
+                lat = aux_hashmap.get("lat");
+                lon = aux_hashmap.get("lon");
+
+                add_hashmap.put("lat",lat);
+                add_hashmap.put("lon",lon);
+
+                aux_map.put(name,add_hashmap);
+                add_hashmap = new HashMap<>();
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            solution = pathFinder.obtainGreedySolution(
+                    new GregorianCalendar(1,1,1,9,0,0)
+            );
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void rt){
+
+            ids_solution = solution.getIds();
+            entrada_solution = solution.getTimeEntrada();
+            salida_solution = solution.getTimeSalida();
+
+            String aux;
+            for(int i=0; i < ids_solution.size(); i++){
+                aux = ids_solution.get(i);
+                if(aux_map.containsKey(aux)){
+                    lat_solution.add(aux_map.get(aux).get("lat"));
+                    lon_solution.add(aux_map.get(aux).get("lon"));
+                }
+            }
+
+            Intent intent = new Intent(getApplicationContext(),ResultActivity.class);
+            intent.putExtra("LAT",lat_granada);
+            intent.putExtra("LON",lon_granada);
+            intent.putExtra("IDS",ids_solution);
+            intent.putExtra("ENTRADA",entrada_solution);
+            intent.putExtra("SALIDA",salida_solution);
+            intent.putExtra("LATS",lat_solution);
+            intent.putExtra("LONS",lon_solution);
+            context.startActivity(intent);
+
+        }
     }
 
 

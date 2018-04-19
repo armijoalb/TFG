@@ -148,25 +148,8 @@ public class main {
 
 
 
-        jsonParser mParser = new jsonParser("/home/alberto/TFG/salida_overpass.json");
-        mParser.processJSON();
-        Vector<String> identificadores = mParser.getIds();
-        System.out.println(identificadores.size());
-
-        StringBuilder stringBuilder = new StringBuilder("http://router.project-osrm.org/table/v1/foot/");
-        String osrm_query = new String();
-        Vector<AbstractMap.SimpleEntry<String,String>> lat_longs = mParser.getLatLon();
-
-        for(Iterator<AbstractMap.SimpleEntry<String,String>> it = lat_longs.iterator(); it.hasNext();){
-            AbstractMap.SimpleEntry<String,String> lat_lon = it.next();
-            stringBuilder.append(lat_lon.getKey()+","+lat_lon.getValue());
-            if(it.hasNext())
-                stringBuilder.append(";");
-        }
-
-
-        osrm_query = stringBuilder.toString();
-        System.out.println(osrm_query);
+        jsonParser mParser = new jsonParser("/home/alberto/Documentos/shitty.json");
+        mParser.processOSMRJSON();
 
 
     }

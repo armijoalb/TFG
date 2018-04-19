@@ -156,8 +156,6 @@ public class PathFinder {
                 Integer pos = findNearest(id,valid);
                 aux_time = (GregorianCalendar)current_time.clone();
                 aux_time.add(GregorianCalendar.SECOND,duracion.get(id).get(pos));
-                Log.i(TAG,GregorianCalendarToString(aux_time) + "duration: "+ duracion.get(id).get(pos)
-                + id.toString() + " " + pos.toString());
                 // Comprobamos que podamos ir dentro del horario que esté abierto, o por la mañana o por la tarde.
                 if( checkTime( aux_time, horarios_abierto.get(pos-1)) ) {
                     current_time.add(GregorianCalendar.SECOND,duracion.get(id).get(pos));
