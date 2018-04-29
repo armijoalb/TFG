@@ -567,9 +567,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     // Función para añadir un marker al mapa.
     private void addMarker(double lat, double lon, String title){
         Log.i("addMaker: ", "adding new node");
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(lat,lon))
-                .title(title));
+        if(mMap != null) {
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(lat, lon))
+                    .title(title));
+        }
     }
 
 

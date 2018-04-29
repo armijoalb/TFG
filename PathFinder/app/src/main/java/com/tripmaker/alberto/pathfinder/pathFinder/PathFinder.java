@@ -1,14 +1,11 @@
 package com.tripmaker.alberto.pathfinder.pathFinder;
 
 import android.util.Log;
-
 import com.tripmaker.alberto.pathfinder.models.Solution;
-
 import java.text.SimpleDateFormat;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;

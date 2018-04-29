@@ -5,18 +5,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.tripmaker.alberto.pathfinder.R;
 import com.tripmaker.alberto.pathfinder.models.CityNode;
 import com.tripmaker.alberto.pathfinder.models.ModelNode;
+import com.tripmaker.alberto.pathfinder.models.TypeOfNode;
 import com.tripmaker.alberto.pathfinder.viewholders.CityNodesViewHolder;
 import com.tripmaker.alberto.pathfinder.viewholders.TypeViewHolder;
-import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
-import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -65,7 +61,8 @@ public class TypesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         switch (holder.getItemViewType()){
             case 0:
                 final TypeViewHolder typeViewHolder = (TypeViewHolder) holder;
-                typeViewHolder.setTypeText(tipos.get(position).getName());
+                final TypeOfNode typeNode = (TypeOfNode) tipos.get(position);
+                typeViewHolder.setTypeText(typeNode.getName());
                 break;
             case 2:
                 final CityNode cityNode = (CityNode) tipos.get(position);

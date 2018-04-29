@@ -1,0 +1,88 @@
+\chapter{Análisis}
+En este capítulo se explican los modelos teóricos y algorítmicos empleados para el diseño de las rutas y el desarrollo del sistema recomendador.
+\section[Diseño de rutas turísticas]{Diseño de rutas turísticas}
+Los problemas de diseño de rutas turísticas (Tourist Trip Design Problems, TTDP) consisten seleccionar los puntos de interés (point of interest, POI) a visitar por un turista atendiendo a sus restricciones y al beneficio o grado de satisfacción que produce su visita. El turista dispone en su estancia de un cierto número de días para organizar las visitas a los puntos de interés mediante rutas de duración limitada. Se parte de un conjunto de puntos disponibles a visitar de los que se conoce, el beneficio o grado de satisfacción, la duración de la visita y el intervalo de tiempo en el que puede realizarse. El beneficio total que intenta maximizar el turista es la suma de los beneficios obtenidos en cada visita.\newline
+Los elementos que forman parte del modelo son:
+\begin{itemize}
+	\item Un conjunto de puntos de interés (POI), asociado a un índice $i, i=1,2,...,n$ y con los siguientes atributos:
+	\begin{itemize}
+		\item Una puntuación o beneficio $s_i$.
+		\item Un tiempo de duración de la visita $r_i$.
+		\item Un intervalo de tiempo $[e_i,l_i]$ dentro del que se puede realizar la visita.
+	\end{itemize}
+	\item Un punto de partida de cada una de las rutas denotado por $i=0$.
+	\item Los tiempos de recorrido entre los pares de puntos $t_{ij}, i=0,1,...,n$.
+	\item Un tiempo máximo $T_{max}$ de duración total de la ruta del día considerando los tiempos de viaje, visita y espera en los POI.
+	\item Una función objetivo $max \sum_{i=1}^{n}s_iy_i^k$ \newline
+	En la que $y_i$ corresponde a una variable de visita para cada uno de los puntos de interés $i, i=1,...,n$. Dicha variable es binaria, teniendo como valor 1 si el punto de interés $i$ es visitado en la ruta y un 0 si no se visita.
+\end{itemize}
+El problema de optimización coincide con el Team Orienteering Problem with Time Windows (TOPTW) que se ha estudiado en la literatura científica con algunas modificaciones. Se consideran puntos de interés museos, miradores, catedrales, mezquitas, etc... de la ciudad que el usuario elija.
+\section[Heurísticas del diseño]{Heurísticas del diseño}
+Para dar soluciones de alta calidad al problema de optimización planteado se ha elegido la metaheurística constructiva GRASP (Greedy Randomized Adaptive Search Procedure) que comprende dos fases: una fase contructiva y otra de búsqueda local. En la fase constructiva se genera una solución partiendo de una ruta vacía a la que se va añadiendo puntos de interés desde una Lista Restringida de Candidatos (Restricted Candidate List, RCL en inglés) de forma aleatoria hasta que no se puedan añadir nuevos puntos a la ruta. En la fase de búsqueda local se reemplaza la solución obtenida en la parte constructiva por la mejor de sus soluciones vecinas si existe mejora. Estas dos fases se ejecutan un cierto número de iteraciones.
+
+Ahora se mostrará el pseudocódigo del algoritmo, y de cada una de las fases en inglés.
+\vspace{0.06in}
+
+\begin{algorithm}
+	\caption{Pseudocódigo algoritmo GRASP}
+	\label{alg:grasp}
+\begin{algorithmic}
+	\Function{GRASP}{maxIterations,sizeRCL}
+	\State $ readInput() $
+	\For{$i=1$ to maxIterations}
+		\State $ solution \gets GRASPConstructPhase(sizeRCL)$
+		\State $ solution \gets LocalSearch(solution)$
+		\If{$solution \geq bestSolution$}
+			\State $ bestSolution \gets solution$
+		\EndIf
+	\EndFor
+	
+	\State \textbf{return} $bestSolution$
+	\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\vspace{0.06in}
+Para la parte constructiva del algoritmo, primero crearemos una lista de candidatos (CL), la cual tiene un tamaño igual al de la lista de puntos de interés que queden disponibles. Dicha lista de candidatos contiene la posición dentro de la lista de puntos de interés y la puntuación que tiene dicho punto de interés según las preferencias elegidas por el usuario. La forma de puntuar a cada punto de interés se hace de la siguiente manera:\newline
+$ \frac{1}{time\_between(poi_{i-1},poi_i)}\sum_{j=1}^{n}c_j$ \newline
+Donde time\_between(x,y) representa el tiempo que hay entre el punto de interés x y el y. $poi_{i-1}$ representa el último punto de interés que hemos incluido en la solución y $poi_i$ al punto de interés que estamos evaluando; $c_j$ es cada uno de las preferencias posibles sobre los puntos de interés, es decir, si se ha seleccionado museos como preferencia y el punto de interés $i$ es un museo, $c_j$ devolverá uno, es caso contrario es cero.\newline
+Una vez hemos calculado la lista de candidatos, se crea la lista restringida de candidatos con los puntos de interés mejor valorados, esta es de tamaño sizeRCL. Una vez hemos obtenido la lista de candidatos restringida, elegimos uno de los puntos de interés de forma aleatoria y lo introducimos dentro de la solución. Este proceso se repite hasta que no se puedan introducir más puntos de interés dentro de la solución. El pseudocódigo de este algoritmo es el siguiente.
+\vspace{0.06in}
+\begin{algorithm}
+	\caption{Pseudocódigo algoritmo GRASPConstructPhase}
+	\label{alg:grasp_contruct}
+	\begin{algorithmic}
+		\Function{GRASPConstructPhase}{sizeRCL}
+		\State $solution.add(first\_node)$
+		\While{is posible to visit POIs}
+			\For{each poi in POIs}
+				\State $value \gets f(poi)$
+				\State $cl.add([value,i])$
+			\EndFor
+			\State Create rcl with the top sizeRCL duos in cl
+			\State Select a random duo from rcl.
+			\State Update solution adding the poi in the position i.
+		\EndWhile
+		\State \textbf{return} $solution$
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+\vspace{0.06in}
+Para la fase de optimización se utilizará el algoritmo de búsqueda local, dicho algoritmo busca la mejor solución posible entre la solución actual y los vecinos de esta. Una solución vecina es aquella que intercambie dos puntos de interés dentro de la solución, por ejemplo, el segundo por el cuarto. El procedimiento es el siguiente, se generan todos los posibles vecinos de la solución, y por cada uno de ellos se comprueba si la valoración de dicha solución vecina es mejor que la mejor solución actual; finalmente se devuelve la mejor solución encontrada. El pseudocódigo del algoritmo es el siguiente.
+\begin{algorithm}[H]
+	\caption{Pseudocódigo algoritmo LocalSearch}
+	\label{alg:local_search}
+	\begin{algorithmic}
+		\Function{LocalSearch}{solution}
+		\ForAll{neighbor\_solution of solution}
+		\If{$neighbor\_solution \geq solution$}
+			\State $solution \gets neighbor_solution$
+		\EndIf
+		\EndFor
+		\State \textbf{return} $solution$
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+

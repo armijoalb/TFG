@@ -172,9 +172,16 @@ pdfproducer = {pdflatex}
 
 \usepackage{pdfpages}
 \usepackage{datetime}
+\usepackage{geometry,calc}
+\usepackage{caption}
+\usepackage{csquotes}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\include{preambuloSimple.tex}
 \begin{document}
 \input{portada/portada}
-%\input{prefacios/prefacio}
+\input{prefacios/prefacio}
 %\frontmatter
 \tableofcontents
 %\listoffigures
@@ -185,19 +192,19 @@ pdfproducer = {pdflatex}
 
 \input{capitulos/01_Introduccion}
 %
-%\input{capitulos/02_EspecificacionRequisitos}
+\input{capitulos/02_EspecificacionRequisitos}
 %
-%\input{capitulos/03_Planificacion}
+\input{capitulos/03_Planificacion}
 %
-%\input{capitulos/04_Analisis}
+\input{capitulos/04_Analisis}
 %
-%\input{capitulos/05_Diseno}
+\input{capitulos/05_Diseno}
 %
-%\input{capitulos/06_Implementacion}
+\input{capitulos/06_Implementacion}
 %
-%\input{capitulos/07_Pruebas}
+\input{capitulos/07_Pruebas}
 %
-%\input{capitulos/08_Conclusiones}
+\input{capitulos/08_Conclusiones}
 %
 %%\chapter{Conclusiones y Trabajos Futuros}
 %
