@@ -20,19 +20,10 @@
         sothree:umanoPanelHeight="?android:attr/actionBarSize"
         sothree:umanoShadowHeight="6dp">
 
-        <!-- MAIN CONTENT -->
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:map="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+        <com.google.android.gms.maps.MapView
             android:id="@+id/resultMap"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            map:layout_constraintBottom_toBottomOf="parent"
-            map:layout_constraintEnd_toEndOf="parent"
-            map:layout_constraintStart_toStartOf="parent"
-            map:layout_constraintTop_toTopOf="parent"
-            tools:context=".ResultActivity" />
+            android:layout_height="match_parent" />
 
 
         <!-- SLIDING CONTENT -->

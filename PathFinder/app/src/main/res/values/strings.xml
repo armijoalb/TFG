@@ -7,4 +7,8 @@
     <string name="title_activity_result">Ruta final</string>
     <string name="add_checkbox">Añadir</string>
 
+    <string name="sol_1">Solución 1</string>
+    <string name="sol_2">Solución 2</string>
+    <string name="sol_3">Solución 3</string>
+
 </resources>

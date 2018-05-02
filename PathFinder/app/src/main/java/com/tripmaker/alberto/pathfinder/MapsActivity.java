@@ -100,11 +100,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void setTypesForRecycler(){
         Log.i(TAG,"setting up nodes");
         types  = new ArrayList<>();
+        types.add(new TypeOfNode("Alojamiento"));
+        String mKey = "";
+
+        for(Iterator<String> it = cityNames.get("hostel").iterator(); it.hasNext();){
+            ModelNode city = new CityNode(it.next(), "Alojamiento");
+            types.add(city);
+        }
+
+        for(Iterator<String> it = cityNames.get("hotel").iterator(); it.hasNext();){
+            ModelNode city = new CityNode(it.next(), "Alojamiento");
+            types.add(city);
+        }
+
         for(Map.Entry<String,Vector<String>> it:cityNames.entrySet()){
-            types.add(new TypeOfNode(it.getKey()));
-            for(Iterator<String> it_v = it.getValue().iterator(); it_v.hasNext();){
-                ModelNode city = new CityNode(it_v.next(),it.getKey());
-                types.add(city);
+            if( !it.getKey().equals("hostel") && !it.getKey().equals("hotel") ) {
+                Log.i(TAG,it.getKey());
+                switch (it.getKey()){
+                    case "viewpoint":
+                        mKey = "Miradores";
+                        break;
+                    case "place_of_worship":
+                        mKey = "Monumentos";
+                        break;
+                    case "museum":
+                        mKey = "Museos";
+                        break;
+                }
+
+                types.add(new TypeOfNode(mKey));
+                for (Iterator<String> it_v = it.getValue().iterator(); it_v.hasNext(); ) {
+                    ModelNode city = new CityNode(it_v.next(), mKey);
+                    types.add(city);
+                }
             }
         }
 
@@ -161,8 +189,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Log.i(TAG,"segs setted up");
                     generateDefaultHours();
 
-                    FindSolution findSolution = new FindSolution(ids,horario,segundos,this);
+                    FindSolution findSolution = new FindSolution(ids, horario, segundos, this);
                     findSolution.execute();
+
 
 
                 } catch (JSONException e) {
@@ -244,15 +273,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
 
-            Intent intent = new Intent(getApplicationContext(),ResultActivity.class);
-            intent.putExtra("LAT",lat_granada);
-            intent.putExtra("LON",lon_granada);
-            intent.putExtra("IDS",ids_solution);
-            intent.putExtra("ENTRADA",entrada_solution);
-            intent.putExtra("SALIDA",salida_solution);
-            intent.putExtra("LATS",lat_solution);
-            intent.putExtra("LONS",lon_solution);
-            context.startActivity(intent);
+            if(solution.size() > 0 ) {
+                Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
+                intent.putExtra("LAT", lat_granada);
+                intent.putExtra("LON", lon_granada);
+                intent.putExtra("IDS", ids_solution);
+                intent.putExtra("ENTRADA", entrada_solution);
+                intent.putExtra("SALIDA", salida_solution);
+                intent.putExtra("LATS", lat_solution);
+                intent.putExtra("LONS", lon_solution);
+                context.startActivity(intent);
+            }
 
         }
     }
@@ -566,7 +597,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     // Función para añadir un marker al mapa.
     private void addMarker(double lat, double lon, String title){
-        Log.i("addMaker: ", "adding new node");
+
         if(mMap != null) {
             mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(lat, lon))

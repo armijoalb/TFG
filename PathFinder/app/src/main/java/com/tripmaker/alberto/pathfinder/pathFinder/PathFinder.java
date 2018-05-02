@@ -135,6 +135,10 @@ public class PathFinder {
         Integer visita = 0;
         GregorianCalendar aux_greg = new GregorianCalendar();
 
+        if(identificadores.size() <= 0){
+            return m_solution;
+        }
+
         // Metemos siempre el índice 0 en la solución, que será nuestro punto de partida siempre, este puede ser un múseo, u otra dirección.
         solution.add(id);
         non_added.remove(id);

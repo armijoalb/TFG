@@ -74,3 +74,7 @@ https://graphhopper.com/api/1/matrix?point=37.1713418%2C-3.5888790&point=37.1734
 
 http://router.project-osrm.org/table/v1/driving/punto_lat,punto_lon;otro_punto_lat,otro_punto_lon
 http://router.project-osrm.org/table/v1/foot/punto_lat,punto_lon;otro_punto_lat,otro_punto_lon
+
+
+// API para generar rutas entre puntos.
+ https://maps.googleapis.com/maps/api/directions/json?origin=37.170478,-3.5982701&destination=37.1847201,-3.5878877&mode=walking&waypoints=37.1831301,-3.5843209|37.1770011,-3.5900734|37.1750101,-3.5926373|37.1765624,-3.5897641|37.174812,-3.5955384|37.1817642,-3.5866977&key=KEY

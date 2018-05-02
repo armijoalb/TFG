@@ -13,6 +13,7 @@ import com.tripmaker.alberto.pathfinder.viewholders.CityNodesViewHolder;
 import com.tripmaker.alberto.pathfinder.viewholders.TypeViewHolder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
@@ -21,6 +22,7 @@ public class TypesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
     private String TAG = TypesRecyclerAdapter.class.getSimpleName();
     private ArrayList<?extends ModelNode> tipos = new ArrayList<>();
     private HashMap<String, Vector<String>> selected = new HashMap<>();
+    private ArrayList<String> type_selected = new ArrayList<>();
 
     public TypesRecyclerAdapter(ArrayList< ?extends ModelNode> all) {
         this.tipos = all;
@@ -63,6 +65,14 @@ public class TypesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
                 final TypeViewHolder typeViewHolder = (TypeViewHolder) holder;
                 final TypeOfNode typeNode = (TypeOfNode) tipos.get(position);
                 typeViewHolder.setTypeText(typeNode.getName());
+                typeViewHolder.setCheck(isInTypeSelected(typeNode.getName()));
+                typeViewHolder.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        typeViewHolder.changeChecked();
+                        addOrRemoveType(typeNode.getName());
+                    }
+                });
                 break;
             case 2:
                 final CityNode cityNode = (CityNode) tipos.get(position);
@@ -81,6 +91,32 @@ public class TypesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
 
+    }
+
+    private void addOrRemoveType(String name){
+        if(type_selected.contains(name)){
+            type_selected.remove(name);
+        }else{
+            type_selected.add(name);
+        }
+
+        for(Iterator<?extends ModelNode> it = tipos.iterator(); it.hasNext();){
+            ModelNode node = it.next();
+            if(node.getClass().toString().contains("CityNode")){
+                Log.i(TAG,"new city node");
+                CityNode aux = (CityNode) node;
+                if(aux.getType().equals(name)){
+                    Log.i("Adding all types","yes");
+                    addOrRemoveNode(name,aux.getName());
+                }
+            }
+        }
+
+        notifyDataSetChanged();
+    }
+
+    private boolean isInTypeSelected(String name) {
+        return type_selected.contains(name);
     }
 
     public boolean isInSelected(String tipo, String name){
@@ -102,6 +138,11 @@ public class TypesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
                     selected.remove(tipo);
                 else
                     selected.get(tipo).remove(nombre);
+
+                if(type_selected.contains(tipo)){
+                    type_selected.remove(tipo);
+                    notifyDataSetChanged();
+                }
             } else {
                 Log.i(TAG, "addOrRemove:adding");
                 selected.get(tipo).add(nombre);
@@ -112,36 +153,32 @@ public class TypesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
             aux.add(nombre);
             selected.put(tipo, aux);
         }
+
+
     }
 
 
     public ArrayList<String> getSelected() {
         ArrayList<String> s_nodes = new ArrayList<>();
-        String aux_key = "";
+        String aux_key = "Alojamiento";
 
         if (selected.size() < 1) {
             Log.i(TAG, selected.size() + "");
             return s_nodes;
         }
 
-        if (selected.containsKey("hostel")) {
-            Log.i(TAG, "is an hostel");
-            aux_key = "hostel";
-        } else if (selected.containsKey("hotel")) {
-            Log.i(TAG, "is an hotel");
-            aux_key = "hotel";
-        } else {
+        if (!selected.containsKey("Alojamiento")) {
             Log.i(TAG, "no hay nodos de salida");
             return s_nodes;
         }
 
         if (selected.get(aux_key).size() < 2) {
-            Log.i(TAG, selected.get(aux_key).size() + "");
             s_nodes.add(selected.get(aux_key).elementAt(0));
-
+            Log.i("selected: ", selected.get(aux_key).elementAt(0));
             for (Map.Entry<String, Vector<String>> it : selected.entrySet()) {
                 if (!it.getKey().equals(aux_key)) {
                     s_nodes.addAll(it.getValue());
+                    Log.i("selected: ", it.getValue().toString());
                 }
             }
         }

@@ -1,23 +1,22 @@
 package com.tripmaker.alberto.pathfinder;
 
 
+import android.content.Context;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.tripmaker.alberto.pathfinder.adapters.SolutionRecyclerAdapter;
-import com.tripmaker.alberto.pathfinder.models.SolutionNode;
+import com.tripmaker.alberto.pathfinder.fragment.SolutionFragment;
 
 import java.util.ArrayList;
 
-public class ResultActivity extends FragmentActivity implements OnMapReadyCallback {
+public class ResultActivity extends FragmentActivity  {
 
     private GoogleMap mMap;
     private ArrayList<ArrayList<Integer>> segundos = new ArrayList<>();
@@ -31,14 +30,12 @@ public class ResultActivity extends FragmentActivity implements OnMapReadyCallba
     private ArrayList<String> lon_ids = new ArrayList<>();
     private ArrayList<String> entradas = new ArrayList<>();
     private ArrayList<String> salidas = new ArrayList<>();
-    private RecyclerView recyclerView;
-    private SolutionRecyclerAdapter adapter;
-    private ArrayList<SolutionNode> nodes = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_result);
+        setContentView(R.layout.activity_tab_sol);
 
         Log.i(TAG,"onCreate");
         lat_city = getIntent().getExtras().getDouble("LAT");
@@ -49,57 +46,65 @@ public class ResultActivity extends FragmentActivity implements OnMapReadyCallba
         entradas = getIntent().getExtras().getStringArrayList("ENTRADA");
         salidas = getIntent().getExtras().getStringArrayList("SALIDA");
 
-        for(int i=0; i < identificadores.size(); i++){
-            nodes.add(new SolutionNode(identificadores.get(i),
-                    entradas.get(i),
-                    salidas.get(i)));
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(this, getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
+
+    }
+
+    public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
+
+        private Context mContext;
+        private String TAG = SimpleFragmentPagerAdapter.class.getSimpleName();
+
+        public SimpleFragmentPagerAdapter(Context context, FragmentManager fm) {
+            super(fm);
+            mContext = context;
         }
 
-        adapter = new SolutionRecyclerAdapter(nodes);
-
-        recyclerView = findViewById(R.id.recyclerSolution);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.resultMap);
-        mapFragment.getMapAsync(this);
-
-    }
-
-
-
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        LatLng granada = new LatLng(lat_city, lon_city );
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(granada,13));
-
-        for(int i=0; i < identificadores.size(); i++){
-            addMarker(Double.parseDouble(lat_ids.get(i)),
-                    Double.parseDouble(lon_ids.get(i)),
-                    identificadores.get(i));
+        // This determines the fragment for each tab
+        @Override
+        public Fragment getItem(int position) {
+            Log.i(TAG,"position "+ position);
+            if (position == 0) {
+                return SolutionFragment.newInstance(entradas,salidas,identificadores,lat_ids,lon_ids,lat_city,lon_city);
+            } else if (position == 1){
+                return SolutionFragment.newInstance(entradas,salidas,identificadores,lat_ids,lon_ids,lat_city,lon_city);
+            } else if (position == 2){
+                return SolutionFragment.newInstance(entradas,salidas,identificadores,lat_ids,lon_ids,lat_city,lon_city);
+            } else{
+                return null;
+            }
         }
+
+        // This determines the number of tabs
+        @Override
+        public int getCount() {
+            return 1;
+        }
+
+        // This determines the title for each tab
+        @Override
+        public CharSequence getPageTitle(int position) {
+            // Generate title based on item position
+            switch (position) {
+                case 0:
+                    return "Solución 1";
+                case 1:
+                    return "Solución 2";
+                case 2:
+                    return "Solución 3";
+                default:
+                    return null;
+
+            }
+
+        }
+
     }
 
-    // Función para añadir un marker al mapa.
-    private void addMarker(double lat, double lon, String title){
-        Log.i("addMaker: ", "adding new node");
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(lat,lon))
-                .title(title));
-    }
 }
