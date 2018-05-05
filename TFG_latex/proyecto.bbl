@@ -23,4 +23,7 @@ Github osmr.
 \bibitem{directions_api}
 Google maps directions api.
 
+\bibitem{decode_polyline}
+Tutorial decodificar polyline google directions api.
+
 \end{thebibliography}

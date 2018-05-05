@@ -1,1 +1,732 @@
 \chapter{Implementación}
+
+En este apartado se mostrarán los aspectos más importantes del desarrollo del código de la aplicación, tanto en el lado de la interfaz como los procesos internos. Los métodos se organizarán en relación a los requisitos especificados en el análisis.
+
+Todo el código de la aplicación está desarrollado en Java para Android.
+
+\section[Interfaz de usuario]{Interfaz de usuario}
+\subsection{Mostrar mapa}
+Para mostrar el mapa se ha utilizado la vista que tiene integrada Android, para ello se debe crear una clave que nos permita acceder a los servicios de Google Maps. Para ello, hay que crear al menos un plan estándar desde la página de Google Maps API. Una vez tengamos la clave, hay que crear una vista del mapa dentro de la actividad donde se quiera mostrar dicho mapa y implementar la interfaz OnMapReadyCallback, para la cual tendremos que implementar el método onMapReady(GoogleMap googleMap), la cuál se llama cuando se inicializa un objeto de la clase GoogleMaps y está preparado para usarse dentro de Android. El código necesario para mostrar el mapa es el siguiente.
+\begin{lstlisting}[caption=código necesario para mostrar el mapa en la aplicación]
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, CustomClickListener {
+	private GoogleMap mMap;
+	...
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		/*
+		* Inicializar otras vistas de la actividad
+		*/
+		
+		// Obtain the SupportMapFragment and get notified when the map is ready to be used.
+		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+		.findFragmentById(R.id.map);
+		mapFragment.getMapAsync(this);
+		initFragment();
+		
+		Log.e("map: ", "mapa puesto");
+	}
+	
+	/*
+	* Otros procesos de la actividad
+	*/
+	
+	@Override
+	public void onMapReady(GoogleMap googleMap) {
+	mMap = googleMap;
+		try {
+		// Customise the styling of the base map using a JSON object defined
+		// in a raw resource file.
+		boolean success = googleMap.setMapStyle(
+			MapStyleOptions.loadRawResourceStyle(
+			this, R.raw.style_json));
+		
+		if (!success) {
+			Log.e("map_style", "Style parsing failed.");
+		}
+		} catch (Resources.NotFoundException e) {
+			Log.e("map_style", "Can't find style. Error: ", e);
+		}
+		
+		
+		
+		// Add a marker in Sydney and move the camera
+		LatLng granada = new LatLng(lat_granada, lon_granada );
+		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(granada,13));
+	}
+}
+\end{lstlisting}
+El archivo de la vista de la actividad sería el siguiente.
+\begin{lstlisting}[caption=Código XML de la vista de la actividad principal]
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
+	android:id="@+id/sliding_panel"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:gravity="bottom"
+	sothree:layout_constraintBottom_toBottomOf="parent"
+	sothree:layout_constraintEnd_toEndOf="parent"
+	sothree:layout_constraintStart_toStartOf="parent"
+	sothree:layout_constraintTop_toTopOf="parent"
+	sothree:umanoDragView="@id/recyclerLayout"
+	sothree:umanoOverlay="true"
+	sothree:umanoPanelHeight="?android:attr/actionBarSize"
+	sothree:umanoShadowHeight="6dp">
+
+		<!-- MAIN CONTENT -->
+		<fragment
+		android:id="@+id/map"
+		android:name="com.google.android.gms.maps.SupportMapFragment"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		/>
+		
+		<!-- SLIDING LAYOUT -->
+		<FrameLayout
+		android:id="@+id/recyclerLayout"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent" />
+	
+	</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+</android.support.constraint.ConstraintLayout>
+\end{lstlisting}
+\subsection{Lista de puntos de interés/alojamiento y lista solución}
+\begin{lstlisting}[caption=Código para crear una lista en Android]
+public class TypesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+private String TAG = TypesRecyclerAdapter.class.getSimpleName();
+private ArrayList<?extends ModelNode> tipos = new ArrayList<>();
+private HashMap<String, Vector<String>> selected = new HashMap<>();
+private ArrayList<String> type_selected = new ArrayList<>();
+
+public TypesRecyclerAdapter(ArrayList< ?extends ModelNode> all) {
+	this.tipos = all;
+}
+
+public void setTipos(ArrayList<?extends ModelNode> tipos){
+	this.tipos = tipos;
+}
+
+@Override
+public int getItemViewType(int position) {
+	int pos=0;
+	if(tipos.get(position).getClass().toString().contains("CityNode")){
+		pos = 2;
+	}
+	return pos;
+}
+
+@Override
+public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+	View view;
+	switch (viewType){
+		case 0:
+			view = LayoutInflater.from(parent.getContext()).inflate(R.layout.types_viewholder,
+			parent, false);
+			return new TypeViewHolder(view);
+		
+		case 2:
+			view = LayoutInflater.from(parent.getContext()).inflate(R.layout.nodes_viewholder,
+			parent,false);
+			return new CityNodesViewHolder(view);
+	}
+	return null;
+}
+
+@Override
+public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+	switch (holder.getItemViewType()){
+	case 0:
+		final TypeViewHolder typeViewHolder = (TypeViewHolder) holder;
+		final TypeOfNode typeNode = (TypeOfNode) tipos.get(position);
+		typeViewHolder.setTypeText(typeNode.getName());
+		typeViewHolder.setCheck(isInTypeSelected(typeNode.getName()));
+		typeViewHolder.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View v){
+				typeViewHolder.changeChecked();
+				addOrRemoveType(typeNode.getName());
+			}
+			});
+		break;
+	case 2:
+		final CityNode cityNode = (CityNode) tipos.get(position);
+		final CityNodesViewHolder node = (CityNodesViewHolder) holder;
+		node.setNodeName(cityNode.getName());
+		node.setNodeType(cityNode.getType());
+		node.setCheck(isInSelected(cityNode.getType(),cityNode.getName()));
+		node.setOnClickListener(new View.OnClickListener() {
+		@Override
+			public void onClick(View v) {
+				node.changeChecked();
+				addOrRemoveNode(cityNode.getType(), cityNode.getName());
+			}
+			});
+	break;
+}
+
+
+}
+
+...
+
+
+@Override
+public int getItemCount() {
+	return tipos.size();
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption=Código XML de la vista de una lista de elementos]
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/typesLayout"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".fragment.TypesFragment"
+	android:background="@color/white"
+	>
+
+
+	<android.support.v7.widget.RecyclerView
+	android:id="@+id/recycler"
+	android:layout_width="0dp"
+	android:layout_height="0dp"
+	android:layout_marginBottom="8dp"
+	android:layout_marginTop="8dp"
+	android:clickable="true"
+	android:focusable="true"
+	app:layout_constraintBottom_toTopOf="@+id/busqueda"
+	app:layout_constraintEnd_toEndOf="parent"
+	app:layout_constraintStart_toStartOf="parent"
+	app:layout_constraintTop_toBottomOf="@+id/textView"
+	tools:listitem="@layout/types_viewholder" />
+	
+	<TextView
+	android:id="@+id/textView"
+	android:layout_width="0dp"
+	android:layout_height="?android:attr/actionBarSize"
+	android:layout_marginEnd="8dp"
+	android:layout_marginStart="8dp"
+	android:text="@string/textViewSlideUpPanel"
+	android:textSize="32sp"
+	app:layout_constraintEnd_toEndOf="parent"
+	app:layout_constraintHorizontal_bias="1.0"
+	app:layout_constraintStart_toStartOf="parent"
+	app:layout_constraintTop_toTopOf="parent"
+	android:gravity="center"/>
+	
+	<Button
+	android:id="@+id/busqueda"
+	android:layout_width="0dp"
+	android:layout_height="wrap_content"
+	android:layout_marginBottom="8dp"
+	android:layout_marginEnd="8dp"
+	android:layout_marginStart="8dp"
+	android:background="@color/searchGreen"
+	android:text="@string/startSearch"
+	app:layout_constraintBottom_toBottomOf="parent"
+	app:layout_constraintEnd_toEndOf="parent"
+	app:layout_constraintStart_toStartOf="parent" />
+</android.support.constraint.ConstraintLayout>
+\end{lstlisting}
+
+\begin{lstlisting}[caption=Código para crear un elemento de una lista en Android]
+public class CityNodesViewHolder extends RecyclerView.ViewHolder {
+	private TextView nodeName;
+	private TextView nodeType;
+	private CheckBox mAddButton;
+	private String TAG = CityNodesViewHolder.class.getSimpleName();
+	private boolean isChecked = false;
+	
+	public CityNodesViewHolder(View itemView){
+		super(itemView);
+		nodeName = (TextView) itemView.findViewById(R.id.nodeName);
+		mAddButton = (CheckBox) itemView.findViewById(R.id.addButton);
+		nodeType = (TextView) itemView.findViewById(R.id.type_name);
+		mAddButton.setChecked(isChecked);
+	}
+	...
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption=Código XML de la vista de un elemento de la lista]
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/node_layout"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content">
+
+	<TextView
+	android:id="@+id/nodeName"
+	android:layout_width="0dp"
+	android:layout_height="wrap_content"
+	android:layout_marginEnd="8dp"
+	android:layout_marginStart="8dp"
+	android:layout_marginTop="8dp"
+	app:layout_constraintEnd_toStartOf="@+id/addButton"
+	app:layout_constraintStart_toStartOf="parent"
+	app:layout_constraintTop_toTopOf="parent" />
+	
+	<CheckBox
+	android:id="@+id/addButton"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_marginBottom="8dp"
+	android:layout_marginEnd="8dp"
+	android:layout_marginTop="8dp"
+	android:text="@string/add_checkbox"
+	app:layout_constraintBottom_toBottomOf="parent"
+	app:layout_constraintEnd_toEndOf="parent"
+	app:layout_constraintTop_toTopOf="parent" />
+	
+	<TextView
+	android:id="@+id/type_name"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_marginBottom="8dp"
+	android:layout_marginStart="8dp"
+	app:layout_constraintBottom_toBottomOf="parent"
+	app:layout_constraintStart_toStartOf="parent"
+	app:layout_constraintTop_toBottomOf="@+id/nodeName" />
+
+</android.support.constraint.ConstraintLayout>
+\end{lstlisting}
+
+\subsection{Mostrar diferentes soluciones}
+\begin{lstlisting}[caption=Código de una vista con tabs dentro de ella]
+public class ResultActivity extends FragmentActivity  {
+
+	/*
+	* Atributos de la clase
+	*/
+	
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		/*
+		* Inicializar de otras vistas y atributos
+		*/
+		
+		ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+		SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(this, getSupportFragmentManager());
+		viewPager.setAdapter(adapter);
+		
+		TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+		tabLayout.setupWithViewPager(viewPager);
+	}
+	
+	public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
+	
+		private Context mContext;
+		private String TAG = SimpleFragmentPagerAdapter.class.getSimpleName();
+		
+		public SimpleFragmentPagerAdapter(Context context, FragmentManager fm) {
+			super(fm);
+			mContext = context;
+		}
+		
+		// This determines the fragment for each tab
+		@Override
+		public Fragment getItem(int position) {
+			Log.i(TAG,"position "+ position);
+			if (position == 0) {
+				return SolutionFragment.newInstance(entradas,salidas,identificadores,lat_ids,lon_ids,lat_city,lon_city);
+			} else if (position == 1){
+				return SolutionFragment.newInstance(entradas,salidas,identificadores,lat_ids,lon_ids,lat_city,lon_city);
+			} else if (position == 2){
+				return SolutionFragment.newInstance(entradas,salidas,identificadores,lat_ids,lon_ids,lat_city,lon_city);
+			} else{
+				return null;
+			}
+		}
+		
+		// This determines the number of tabs
+		@Override
+		public int getCount() {
+			return 3;
+		}
+		
+		// This determines the title for each tab
+		@Override
+		public CharSequence getPageTitle(int position) {
+			// Generate title based on item position
+			switch (position) {
+			case 0:
+				return "Sol 1";
+			case 1:
+				return "Sol 2";
+			case 2:
+				return "Sol 3";
+			default:
+				return null;
+			}
+		}
+	}
+
+}
+\end{lstlisting}
+\begin{lstlisting}[caption=Código XML de la vista con tabs]
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:id="@+id/result_constraint"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+
+	<android.support.design.widget.TabLayout
+	android:id="@+id/sliding_tabs"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	app:tabMode="fixed" />
+	
+	<android.support.v4.view.ViewPager
+	android:id="@+id/viewpager"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@android:color/white" />
+
+</LinearLayout>
+\end{lstlisting}
+
+
+\section[Procesos internos]{Procesos internos}
+En este apartado se describirán las funciones de envío de peticiones a servidores, procesado de las respuestas de los servidores y el cálculo de la ruta óptima.
+\subsection{Peticiones a servidores}
+La aplicación cuenta con procesos que se encargan de mandar peticiones a servidores para obtener información sobre puntos de interés, distancias entre puntos, o camino óptimo entre dos puntos. Para enviar dichas peticiones, se debe una URL para la cual el servidor pueda devolver una respuesta, una vez se ha obtenido la respuesta se guarda en un archivo o en un String para procesarlo. La función que descarga las respuestas de servidores se puede encontrar en función doInBackground() de la clase DownloadFileFromURL.
+\begin{lstlisting}[caption=Función para enviar peticiones a servidores y guardar respuesta]
+@Override
+protected String doInBackground(String... f_url) {
+	int count;
+	// Output stream
+	String baseFolder = mContext.getFilesDir().getAbsolutePath();
+	File file = new File(baseFolder + File.separator + f_url[1]);
+	Log.i(TAG,"starting download");
+	
+	
+	try {
+		URL url = new URL(f_url[0]);
+		HttpURLConnection conection = (HttpURLConnection) url.openConnection();
+		
+		// download the file
+		InputStream input = new BufferedInputStream(url.openStream(),
+		8192);
+		
+		file.getParentFile().mkdirs();
+		OutputStream output = new FileOutputStream(file);
+		
+		Log.i(TAG,"file_out: "+"File opened");
+		Log.i(TAG,"file_out:"+ "File saved in: " + mContext.getFilesDir().getAbsolutePath());
+		
+		byte data[] = new byte[1024];
+		
+		long total = 0;
+		
+		while ((count = input.read(data)) != -1) {
+		total += count;
+		
+		// writing data to file
+		output.write(data, 0, count);
+		}
+		
+		// flushing output
+		output.flush();
+		
+		// closing streams
+		output.close();
+		input.close();
+		
+		conection.disconnect();
+		
+		Log.i(TAG,"file_out:"+ "Finished writting output");
+	
+	} catch (Exception e) {
+		Log.e(TAG, e.getMessage());
+	}
+	
+	return baseFolder + File.separator + f_url[1];
+}
+\end{lstlisting}
+
+Cuando la función termina, devuelve el PATH donde está guardado el archivo que contiene la respuesta del servidor. El parámetro que se le pasa a la función doInBackground(String... f\_url) se trata de un vector que contiene como primer elemento la URL que la función debe abrir y guardar el contenido; el segundo elemento contiene el nombre del archivo que contendrá la respuesta del servidor.
+\subsection{Procesado de respuestas de servidor}
+Para el procesado de la información que devuelven los servidores, se ha creado la clase JsonParser. Esta clase procesa los archivos y guarda la información en estructuras para poder utilizarlas después. Para procesar los datos, se debe pasar el PATH del archivo, para abrirlo y meterlo en un String que después se utilizará para inicializar un objeto del tipo JSONObject; o se puede pasar el String que contiene el fichero directamente.
+\subsubsection{Procesado de alojamientos y puntos de interés}
+Para el procesado del archivo que contiene la información sobre alojamientos y puntos de interés existe el método processJSON(), este método no tiene parámetros, por lo que hay que crear el objeto de la clase JsonParser indicando el PATH del archivo.\newline
+
+Dentro de este método se recorre el array llamado \enquote{elements}, por cada uno de los elementos del array se crea un objeto JSONObject y se obtiene la información sobre el identificador del nodo, latitud, longitud, nombre y tipo de nodo en un hashmap. El código es el siguiente.\newline
+\begin{lstlisting}[caption=Función para procesar información sobre puntos de interés y alojamientos]
+public void processJSON() throws JSONException{
+	JSONArray elements = file_info.getJSONArray("elements");
+	for(int i=0; i < elements.length(); i++){
+	JSONObject node = elements.getJSONObject(i);
+	
+	// Obtenemos datos del archivo.
+	String id = node.optString("id");
+	String latitud = node.optString("lat");
+	String longitud = node.optString("lon");
+	JSONObject tags = node.getJSONObject("tags");
+	String name = tags.optString("name", "desconocido");
+	
+	String tipo = tags.optString("tourism");
+	if( tipo.equals("") ){
+		tipo = tags.optString("amenity");
+	}
+	
+	
+	HashMap<String, String> aux_hashMap = new HashMap<>();
+	// Utilizamos un hashMap auxiliar.
+	if( !name.equals("desconocido")) {
+		aux_hashMap.put("id", id);
+		aux_hashMap.put("lat", latitud);
+		aux_hashMap.put("lon", longitud);
+		aux_hashMap.put("name", name);
+		
+		if(!city_nodes.containsKey(tipo)){
+			// Metemos un nuevo nodo.
+			System.out.println("nuevo tipo: " + tipo);
+			Vector<HashMap<String,String>> v_aux = new Vector<>();
+			v_aux.add(aux_hashMap);
+			city_nodes.put(tipo, v_aux);
+		
+		}else{
+			System.out.println("adding new map to "+ tipo);
+			city_nodes.get(tipo).add(aux_hashMap);
+		}
+	}
+	
+	
+	}
+
+}
+\end{lstlisting}
+\subsubsection{Procesado de la matriz de tiempos}
+Para el procesado de la matriz se creó el método processOSRMJSON(), dicho método necesita que antes se inicialice el objeto de la clase JsonParser para que funcione correctamente.
+Este método procesa el array llamado \enquote{durations} donde va guardando en una matriz el tiempo necesario para llegar desde un punto a otro en segundos. El código de dicho método es el siguiente.
+\begin{lstlisting}[caption=Función para procesar matriz de tiempos entre puntos]
+public void processOSMRJSON() throws JSONException{
+
+	JSONArray times = file_info.getJSONArray("durations");
+	ArrayList<Integer> tim = new ArrayList<>();
+	for(int i=0; i < times.length(); i++){
+		JSONArray aux_t = times.getJSONArray(i);
+		for(int j=0; j < aux_t.length(); j++){
+			int dist_time = aux_t.getInt(j);
+			Log.i(TAG,dist_time+"");
+			tim.add(dist_time);
+		}
+	
+	segs.add(tim);
+	tim = new ArrayList<>();
+	}
+
+}
+\end{lstlisting}
+\subsubsection{Procesado de caminos entre puntos de la solución}
+Para el procesado de caminos entre dos puntos se creó el método parseRoutes(String geo\_coord). Este método recorre el array llamado \enquote{steps}, dentro de este array se toma el String \enquote{points} que está contenido en el objeto \enquote{polyline}, después este String se debe decodificar \cite{decode_polyline}. Para entrar en el array \enquote{steps} se debe entrar en el array \enquote{routes} y dentro de este en \enquote{legs}.\newline
+El array \enquote{routes} contiene todas las rutas posibles entre los puntos que se le indiquen; las rutas se dividen en etapas, que representan la ruta entre dos puntos; dichas etapas se representan con los arrays \enquote{legs}. Dentro de una etapa puede haber más de un paso a seguir, dichos pasos se representan con los arrays \enquote{steps}.\newline
+El código de la función de procesado de rutas y de decodificar las polilíneas es el siguiente.
+\begin{lstlisting}[caption=Función para procesar los caminos entre los puntos de una ruta]
+public List<List<HashMap<String,String>>> parseRoutes(String geo_coord) throws JSONException{
+	JSONObject object = new JSONObject(geo_coord);
+	Log.i(TAG,object.toString());
+	List<List<HashMap<String, String>>> routes = new ArrayList<>() ;
+	JSONArray jRoutes;
+	JSONArray jLegs;
+	JSONArray jSteps;
+	
+	try {
+	
+		jRoutes = object.getJSONArray("routes");
+		
+		
+		for(int i=0;i<jRoutes.length();i++){
+			jLegs = ( (JSONObject)jRoutes.get(i)).getJSONArray("legs");
+			List path = new ArrayList<>();
+			
+			for(int j=0;j<jLegs.length();j++){
+				jSteps = ( (JSONObject)jLegs.get(j)).getJSONArray("steps");
+				
+				for(int k=0;k<jSteps.length();k++){
+					String polyline = "";
+					polyline = (String)((JSONObject)((JSONObject)jSteps.get(k)).get("polyline")).get("points");
+					List<LatLng> list = decodePoly(polyline);
+				
+					for(int l=0;l<list.size();l++){
+						HashMap<String, String> hm = new HashMap<>();
+						hm.put("lat", Double.toString((list.get(l)).latitude) );
+						hm.put("lng", Double.toString((list.get(l)).longitude) );
+						path.add(hm);
+					}
+				}
+			routes.add(path);
+			}
+		}
+	
+	} catch (JSONException e) {
+		e.printStackTrace();
+	}catch (Exception e){
+	}
+	
+	
+	return routes;
+}
+\end{lstlisting}
+\begin{lstlisting}[caption=Función para decodificar polilíneas]
+private ArrayList<LatLng> decodePoly(String encoded) {
+
+	ArrayList<LatLng> poly = new ArrayList<LatLng>();
+	int index = 0, len = encoded.length();
+	int lat = 0, lng = 0;
+	
+	while (index < len) {
+		int b, shift = 0, result = 0;
+		do {
+			b = encoded.charAt(index++) - 63;
+			result |= (b & 0x1f) << shift;
+			shift += 5;
+		} while (b >= 0x20);
+		int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+		lat += dlat;
+		
+		shift = 0;
+		result = 0;
+		do {
+			b = encoded.charAt(index++) - 63;
+			result |= (b & 0x1f) << shift;
+			shift += 5;
+		} while (b >= 0x20);
+		int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+		lng += dlng;
+		
+		LatLng p = new LatLng((((double) lat / 1E5)),
+		(((double) lng / 1E5)));
+		poly.add(p);
+	}
+	
+	return poly;
+}
+\end{lstlisting}
+\subsection{Cálculo de ruta}
+Para el cálculo de la ruta óptima se ha creado el método obtainGreedySolution(starting\_time); esta función implementa un algoritmo Greedy para calcular la ruta. Para ejecutar el algoritmo se debe de inicializar un objeto de la clase PathFinder pasándole como argumentos la lista de identificadores de los puntos seleccionados, la matriz de tiempos entre puntos y los horarios en los que cada punto de interés está abierto.\newline
+
+Una vez comienza el algoritmo, el primer nodo, que corresponde con el alojamiento que el usuario a seleccionado, se introduce dentro de la solución y se inicializa una variable que contiene el tiempo actual en el algoritmo, esta variable se inicializa con el valor del parámetro \enquote{starting\_time}. Después, se selecciona el punto más cercano a este que se pueda visitar y se introduce en la solución; también se añade al tiempo actual el tiempo que se tarda en realizar la visita y el tiempo necesario para llegar hasta dicho punto. Finalmente se actualiza el punto actual, que pasa a ser el punto seleccionado. Esta operación se repite hasta que no quedan más puntos por seleccionar o hasta que se llega a la hora límite, esta hora por defecto es las 20:00.\newline
+
+Una vez se termina el algoritmo, se devuelve la solución, un objeto de la clase Solution; que contiene un subconjunto de los puntos que se habían sido seleccionados por el usuario. La implementación del algoritmo se muestra en la siguiente imagen.\newline
+\begin{lstlisting}[caption=Función para encontrar la ruta entre los puntos seleccionados]
+public Solution obtainGreedySolution(GregorianCalendar starting_time){
+	Solution m_solution = new Solution();
+	GregorianCalendar finish_time = new GregorianCalendar(1,1,1,20,0,0);
+	GregorianCalendar current_time = new GregorianCalendar();
+	current_time = starting_time;
+	GregorianCalendar aux_time = new GregorianCalendar();
+	aux_time = current_time;
+	Vector<Integer> solution = new Vector<Integer>();
+	Vector<String> ids_solution = new Vector<String>();
+	Vector<Integer> non_added = new Vector<Integer>();
+	for(int i=0; i < identificadores.size(); i++){
+	non_added.add(i);
+	}
+	Vector<Integer> valid = new Vector<Integer>(non_added);
+	boolean added = false;
+	Integer id = 0;
+	Integer visita = 0;
+	GregorianCalendar aux_greg = new GregorianCalendar();
+	
+	if(identificadores.size() <= 0){
+		return m_solution;
+	}
+	
+
+	solution.add(id);
+	non_added.remove(id);
+	valid.remove(id);
+	m_solution.add(identificadores.get(0),new SimpleEntry<String, String>(GregorianCalendarToString(starting_time),
+	GregorianCalendarToString(starting_time)));
+	
+	
+	while( current_time.before(finish_time) && !non_added.isEmpty()){
+		added = false;
+		valid = non_added;
+	
+		while(!added && !valid.isEmpty()){
+			// Calculamos el museo al cual tardamos menos en llegar desde donde estamos.
+			Integer pos = findNearest(id,valid);
+			aux_time = (GregorianCalendar)current_time.clone();
+			aux_time.add(GregorianCalendar.SECOND,duracion.get(id).get(pos));
+			
+			if( checkTime( aux_time, horarios_abierto.get(pos-1)) ) {
+				current_time.add(GregorianCalendar.SECOND,duracion.get(id).get(pos));
+				aux_greg = (GregorianCalendar) current_time.clone();
+				
+				visita = ThreadLocalRandom.current().nextInt(60,180+1);
+				current_time.add(GregorianCalendar.MINUTE,visita );
+				
+				current_time = checkIfNotClosed(current_time,horarios_abierto.get(pos-1));
+				
+				id = pos;
+				solution.add(id);
+				added = true;
+				non_added.remove(id);
+				valid.remove(id);
+				
+				
+				m_solution.add(identificadores.get(id),new SimpleEntry<>(GregorianCalendarToString(aux_greg)
+				,GregorianCalendarToString(current_time)));
+						
+			} 
+			else if(checkLunchTime(aux_time, horarios_abierto.get(pos-1))){
+				if(horarios_abierto.get(pos-1).size() > 1) {
+					current_time = horarios_abierto.get(pos - 1).get(1).getKey();
+				}else{ 
+					current_time = horarios_abierto.get(pos-1).get(0).getKey();
+				}
+				aux_greg = (GregorianCalendar) current_time.clone();
+				
+				visita = ThreadLocalRandom.current().nextInt(60,180+1);
+				current_time.add(GregorianCalendar.MINUTE,visita );
+				
+				current_time = checkIfNotClosed(current_time,horarios_abierto.get(pos-1));
+				
+				id = pos;
+				solution.add(id);
+				added = true;
+				non_added.remove(id);
+				valid.remove(id);
+				
+				
+				m_solution.add(identificadores.get(id),new SimpleEntry<>(GregorianCalendarToString(aux_greg),
+				GregorianCalendarToString(current_time)) );
+			
+			}
+			else{
+				valid.remove(pos);
+			}
+		
+	}
+	
+		if(valid.isEmpty() && !added){
+			non_added.clear();
+		}
+	
+	}
+	
+	
+	return m_solution;
+}
+\end{lstlisting}
+
+Dentro de esta función se encuentran funciones para comprobar si el tiempo es válido. La función checkTime(tiempo\_actual, horarios\_punto) comprueba si el valor del parámetro \enquote{tiempo\_actual} está dentro del horario del punto de interés, si está dentro devuelve true, sino false.\newline
+La función checkLunchTime(tiempo\_actual, horario\_punto) comprueba si el parámetro \enquote{tiempo\_actual} está entre el horario de mañana del punto y el horario de tarde del punto, si es así devuelve true, sino false. Esta función se utiliza para cambiar el valor de la variable \enquote{tiempo\_actual} hasta que el punto seleccionado esté abierto.
