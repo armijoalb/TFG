@@ -1,0 +1,26 @@
+\begin{thebibliography}{1}
+
+\bibitem{unwto_resumen}
+UNWTO.
+\newblock Panoráma omt del turismo internacional.
+\newblock 2017.
+
+\bibitem{openstreetmap}
+Openstreetmap.
+
+\bibitem{openstreetmap_doc}
+Documentación de openstreetmap.
+
+\bibitem{osmr}
+Osmr project.
+
+\bibitem{osmr_doc}
+Documentación osmr.
+
+\bibitem{osmr_backend}
+Github osmr.
+
+\bibitem{directions_api}
+Google maps directions api.
+
+\end{thebibliography}

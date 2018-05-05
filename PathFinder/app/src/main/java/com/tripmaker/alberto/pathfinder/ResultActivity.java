@@ -18,9 +18,6 @@ import java.util.ArrayList;
 
 public class ResultActivity extends FragmentActivity  {
 
-    private GoogleMap mMap;
-    private ArrayList<ArrayList<Integer>> segundos = new ArrayList<>();
-
     private ArrayList<String> identificadores = new ArrayList<>();
 
     private String TAG = ResultActivity.class.getSimpleName();
