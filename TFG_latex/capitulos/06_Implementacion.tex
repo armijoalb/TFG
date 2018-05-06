@@ -6,7 +6,7 @@ Todo el código de la aplicación está desarrollado en Java para Android.
 
 \section[Interfaz de usuario]{Interfaz de usuario}
 \subsection{Mostrar mapa}
-Para mostrar el mapa se ha utilizado la vista que tiene integrada Android, para ello se debe crear una clave que nos permita acceder a los servicios de Google Maps. Para ello, hay que crear al menos un plan estándar desde la página de Google Maps API. Una vez tengamos la clave, hay que crear una vista del mapa dentro de la actividad donde se quiera mostrar dicho mapa y implementar la interfaz OnMapReadyCallback, para la cual tendremos que implementar el método onMapReady(GoogleMap googleMap), la cuál se llama cuando se inicializa un objeto de la clase GoogleMaps y está preparado para usarse dentro de Android. El código necesario para mostrar el mapa es el siguiente.
+Para mostrar el mapa se ha utilizado la vista que tiene integrada Android, para ello se debe crear una clave que  permita a la aplicación acceder a los servicios de Google Maps. Para ello, hay que crear al menos un plan estándar desde la página de Google Maps API. Una vez se tenga la clave, hay que crear una vista del mapa dentro de la actividad donde se quiera mostrar dicho mapa y implementar la interfaz OnMapReadyCallback, para la cual hay que implementar el método onMapReady(GoogleMap googleMap), el cuál se llama cuando se inicializa un objeto de la clase GoogleMaps y está preparado para usarse dentro de Android. El código necesario para mostrar el mapa es el siguiente.
 \begin{lstlisting}[caption=código necesario para mostrar el mapa en la aplicación]
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, CustomClickListener {
 	private GoogleMap mMap;
@@ -97,6 +97,58 @@ El archivo de la vista de la actividad sería el siguiente.
 </android.support.constraint.ConstraintLayout>
 \end{lstlisting}
 \subsection{Lista de puntos de interés/alojamiento y lista solución}
+Para crear una lista en Android existen diferentes estructuras, la más reciente y más versátil es crear un RecyclerView. Para utilizar un RecyclerView en Android, se debe utilizar un objeto de la clase RecyclerView en la actividad o fragment en el que se vaya a mostrar la lista. Además, hay que crear una clase que herede de la clase RecyclerView.Adapter para indicar el comportamiento de la lista, dentro de esta clase se debe sobreescribir al menos los métodos onCreateViewHolder(), que es llamado cuando se crea un nuevo objeto en la lista; onBindViewHolder(), que es llamado cuando se va a mostrar un objeto en pantalla de la lista y se le asocia una posición dentro de la lista; y la función getItemCount(), que devuelve el número de elementos de la lista.\newline
+
+Una vez se haya creado este objeto se debe de indicar al RecyclerView cual es el Adapter que se va a utilzar, esto se hace con el método RecyclerView.SetAdapter(Clase\_Adapter).También es necesario especificar el layout que tendrá el RecyclerView, para ello hay que utilizar el método RecyclerView.setLayoutManager(tipo\_layout\_manager); existen diferentes tipos de layout posibles para el RecyclerView, pero si se quiere mostrar una lista se debe utilizar como \enquote{tipo\_layout\_manager} un objeto de la clase LinearLayoutManager; para este objeto hay que especificar el contexto al crear el objeto, para ello se debe utilizar la función getActivity(), si se va a utilizar dentro de un Fragment, o this si se va a utilizar en una Activity.El código necesario para esto sería el siguiente.
+
+\begin{lstlisting}[caption=Código de una clase que contiene un RecyclerView]
+public class TypesFragment extends Fragment {
+
+	private RecyclerView mRecycler;
+	private TypesRecyclerAdapter mAdapter;
+	private Button searchButton;
+	private ArrayList<?extends ModelNode> mList = new ArrayList<>();
+	private String TAG = TypesFragment.class.getSimpleName();
+	private CustomClickListener listener;
+	
+	public TypesFragment() {
+	// Required empty public constructor
+	}
+	
+	...
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+	Bundle savedInstanceState) {
+	
+	// Init recyclerView
+	View recyclerViewLayout = inflater.inflate(R.layout.fragment_types, container, false);
+	searchButton = (Button) recyclerViewLayout.findViewById(R.id.busqueda);
+	mRecycler = (RecyclerView) recyclerViewLayout.findViewById(R.id.recycler);
+	mAdapter = new TypesRecyclerAdapter(mList);
+	mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+	mRecycler.setAdapter(mAdapter);
+	
+	searchButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				listener.onSearchButtonClick(getSelected());
+			}
+		});
+	
+	return recyclerViewLayout;
+	}
+		
+	...
+
+}
+\end{lstlisting}
+ 
 \begin{lstlisting}[caption=Código para crear una lista en Android]
 public class TypesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -239,6 +291,8 @@ public int getItemCount() {
 </android.support.constraint.ConstraintLayout>
 \end{lstlisting}
 
+Una vez se tiene  creada y definida la lista, se debe crear una clase más para especificar la vista y el comportamiento individual de cada uno de los elementos de dicha lista. Esta nueva clase debe heredar de la clase RecyclerView.ViewHolder; esta debe tener además un fichero XML que defina la estructura de la vista de dicha clase. El código necesario para crear dicha clase es el siguiente.
+
 \begin{lstlisting}[caption=Código para crear un elemento de una lista en Android]
 public class CityNodesViewHolder extends RecyclerView.ViewHolder {
 	private TextView nodeName;
@@ -304,6 +358,13 @@ public class CityNodesViewHolder extends RecyclerView.ViewHolder {
 \end{lstlisting}
 
 \subsection{Mostrar diferentes soluciones}
+Para mostrar diferentes soluciones se optó por mostrar cada una de las diferentes soluciones en un mapa distinto, para ello, se debe crear una vista del mapa y una lista para mostrar la solución por cada solución; este proceso está explicado en los apartados anteriores, por lo que no se va a entrar en más detalle en este. Para poder navegar por las diferentes vistas de las soluciones, hay que crear una vista que permita seleccionar la vista de la solución que se quiera en cada momento, para esto se puede utilizar la clase TabLayout; dicha clase debe ir acompañada de un objeto de la clase ViewPager.\newline
+
+La clase TabLayout solo se utiliza para definir tabs  que se muestran en pantalla, y cada uno de ellos hace referencia a una vista diferente. Para añadir comportamiento a cada uno de los tabs, se debe preparar al TabLayout para ser usado por la clase ViewPager, esto se hace utilizando el método TabLayout.setupWithViewPager(viewpager\_obj).\newline
+
+Para definir el comportamiento del objeto de la clase ViewPager, hay que crear una clase que defina dicho comportamiento y especificárselo al objeto de la clase ViewPager con el método ViewPager.setAdapter(adapter). Una de las posibles formas de hacer esto es crear una clase interna a la clase en la que se utiliza el ViewPager que herede de la clase FragmentViewPager. Dentro de esta clase se deben sobreescribir al menos los métodos getItem(), que determina el Frament que se debe utilizar para cada tab; getCount(), que devuelve el número de tabs; y getPageTitle(), que determina el nombre de cada uno de los tabs según su posición. \newline
+
+El siguiente código se encarga de hacer lo descrito en los párrafos anteriores.
 \begin{lstlisting}[caption=Código de una vista con tabs dentro de ella]
 public class ResultActivity extends FragmentActivity  {
 
@@ -405,7 +466,7 @@ public class ResultActivity extends FragmentActivity  {
 \section[Procesos internos]{Procesos internos}
 En este apartado se describirán las funciones de envío de peticiones a servidores, procesado de las respuestas de los servidores y el cálculo de la ruta óptima.
 \subsection{Peticiones a servidores}
-La aplicación cuenta con procesos que se encargan de mandar peticiones a servidores para obtener información sobre puntos de interés, distancias entre puntos, o camino óptimo entre dos puntos. Para enviar dichas peticiones, se debe una URL para la cual el servidor pueda devolver una respuesta, una vez se ha obtenido la respuesta se guarda en un archivo o en un String para procesarlo. La función que descarga las respuestas de servidores se puede encontrar en función doInBackground() de la clase DownloadFileFromURL.
+La aplicación cuenta con procesos que se encargan de mandar peticiones a servidores para obtener información sobre puntos de interés, distancias entre puntos, o camino óptimo entre dos puntos. Para enviar dichas peticiones, se debe especificar una URL para la cual el servidor pueda devolver una respuesta, una vez se ha obtenido la respuesta se guarda en un archivo o en un String para procesarlo. La función que descarga las respuestas de servidores se puede encontrar en la función doInBackground() de la clase DownloadFileFromURL.
 \begin{lstlisting}[caption=Función para enviar peticiones a servidores y guardar respuesta]
 @Override
 protected String doInBackground(String... f_url) {
@@ -535,8 +596,10 @@ public void processOSMRJSON() throws JSONException{
 }
 \end{lstlisting}
 \subsubsection{Procesado de caminos entre puntos de la solución}
-Para el procesado de caminos entre dos puntos se creó el método parseRoutes(String geo\_coord). Este método recorre el array llamado \enquote{steps}, dentro de este array se toma el String \enquote{points} que está contenido en el objeto \enquote{polyline}, después este String se debe decodificar \cite{decode_polyline}. Para entrar en el array \enquote{steps} se debe entrar en el array \enquote{routes} y dentro de este en \enquote{legs}.\newline
+Para el procesado de caminos entre dos puntos se creó el método parseRoutes(String geo\_coord). Este método recorre el array llamado \enquote{steps}, dentro de este array se toma el String \enquote{points} que está contenido en el objeto \enquote{polyline}, después este String se debe decodificar \cite{decode_polyline}. Para entrar en el array \enquote{steps} se debe primero entrar en el array \enquote{routes} y dentro de este en \enquote{legs}.\newline
+
 El array \enquote{routes} contiene todas las rutas posibles entre los puntos que se le indiquen; las rutas se dividen en etapas, que representan la ruta entre dos puntos; dichas etapas se representan con los arrays \enquote{legs}. Dentro de una etapa puede haber más de un paso a seguir, dichos pasos se representan con los arrays \enquote{steps}.\newline
+
 El código de la función de procesado de rutas y de decodificar las polilíneas es el siguiente.
 \begin{lstlisting}[caption=Función para procesar los caminos entre los puntos de una ruta]
 public List<List<HashMap<String,String>>> parseRoutes(String geo_coord) throws JSONException{
@@ -729,4 +792,5 @@ public Solution obtainGreedySolution(GregorianCalendar starting_time){
 \end{lstlisting}
 
 Dentro de esta función se encuentran funciones para comprobar si el tiempo es válido. La función checkTime(tiempo\_actual, horarios\_punto) comprueba si el valor del parámetro \enquote{tiempo\_actual} está dentro del horario del punto de interés, si está dentro devuelve true, sino false.\newline
+
 La función checkLunchTime(tiempo\_actual, horario\_punto) comprueba si el parámetro \enquote{tiempo\_actual} está entre el horario de mañana del punto y el horario de tarde del punto, si es así devuelve true, sino false. Esta función se utiliza para cambiar el valor de la variable \enquote{tiempo\_actual} hasta que el punto seleccionado esté abierto.
