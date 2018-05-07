@@ -141,7 +141,7 @@ public class SolutionFragment extends Fragment implements OnMapReadyCallback{
         mapView.onResume();
 
         FindRoutes findRoutes = new FindRoutes();
-        //findRoutes.execute();
+        findRoutes.execute();
 
         Log.i(TAG,"mapview initialize");
         try {
