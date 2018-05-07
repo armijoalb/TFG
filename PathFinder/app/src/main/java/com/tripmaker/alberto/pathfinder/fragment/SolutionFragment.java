@@ -294,19 +294,29 @@ public class SolutionFragment extends Fragment implements OnMapReadyCallback{
         LatLng granada = new LatLng(lat_city, lon_city );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(granada,13));
 
-        for(int i=0; i < identificadores.size(); i++){
+        addMarker(Double.parseDouble(lat_ids.get(0)),
+                Double.parseDouble(lon_ids.get(0)),
+                        identificadores.get(0),
+                        BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE),
+                "salida: "+salidas.get(0));
+
+        for(int i=1; i < identificadores.size(); i++){
             addMarker(Double.parseDouble(lat_ids.get(i)),
                     Double.parseDouble(lon_ids.get(i)),
-                    identificadores.get(i));
+                    identificadores.get(i),
+                    BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED),
+                    "entrada: "+entradas.get(i)+"\n"+"salida: "+salidas.get(i)) ;
         }
     }
 
     // Función para añadir un marker al mapa.
-    private void addMarker(double lat, double lon, String title){
+    private void addMarker(double lat, double lon, String title,BitmapDescriptor color, String snippet ){
 
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(lat,lon))
-                .title(title));
+                .title(title)
+                .icon(color)
+                .snippet(snippet));
     }
 
 }

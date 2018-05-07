@@ -73,6 +73,7 @@ public class TypesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
                         addOrRemoveType(typeNode.getName());
                     }
                 });
+                typeViewHolder.setCheckBoxVisibility(typeNode.getVisible());
                 break;
             case 2:
                 final CityNode cityNode = (CityNode) tipos.get(position);
@@ -93,23 +94,43 @@ public class TypesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     }
 
-    private void addOrRemoveType(String name){
-        if(type_selected.contains(name)){
-            type_selected.remove(name);
-        }else{
-            type_selected.add(name);
-        }
-
+    private void addAllNodesFromType(String name){
         for(Iterator<?extends ModelNode> it = tipos.iterator(); it.hasNext();){
             ModelNode node = it.next();
             if(node.getClass().toString().contains("CityNode")){
-                Log.i(TAG,"new city node");
                 CityNode aux = (CityNode) node;
                 if(aux.getType().equals(name)){
-                    Log.i("Adding all types","yes");
-                    addOrRemoveNode(name,aux.getName());
+                    addNewNode(aux.getName(),name);
                 }
             }
+        }
+    }
+
+    private void addNewNode(String name, String type_name){
+        if(selected.containsKey(type_name)){
+            if(! selected.get(type_name).contains(name) ){
+                selected.get(type_name).add(name);
+            }
+        }else{
+            Vector<String> aux = new Vector<>();
+            aux.add(name);
+            selected.put(type_name,aux);
+        }
+    }
+
+    private void removeAllNodesFromType(String type){
+        if(selected.containsKey(type)){
+            selected.remove(type);
+        }
+    }
+
+    private void addOrRemoveType(String name){
+        if(type_selected.contains(name)){
+            type_selected.remove(name);
+            removeAllNodesFromType(name);
+        }else{
+            type_selected.add(name);
+            addAllNodesFromType(name);
         }
 
         notifyDataSetChanged();

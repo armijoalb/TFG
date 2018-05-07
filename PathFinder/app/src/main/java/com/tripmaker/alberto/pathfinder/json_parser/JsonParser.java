@@ -133,8 +133,8 @@ public class JsonParser {
             for(int j=0; j < aux_t.length(); j++){
                 int dist_time = aux_t.getInt(j);
                 if(dist_time == 0 && i!=j)
-                    dist_time = 60;
-                Log.i(TAG,dist_time+"");
+                    dist_time = ThreadLocalRandom.current().nextInt(60,300);
+
                 tim.add(dist_time);
             }
 
@@ -186,7 +186,7 @@ public class JsonParser {
 
     public List<List<HashMap<String,String>>> parseRoutes(String geo_coord) throws JSONException{
         JSONObject object = new JSONObject(geo_coord);
-        Log.i(TAG,object.toString());
+
         List<List<HashMap<String, String>>> routes = new ArrayList<>() ;
         JSONArray jRoutes;
         JSONArray jLegs;

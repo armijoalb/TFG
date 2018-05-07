@@ -108,7 +108,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void setTypesForRecycler(){
         Log.i(TAG,"setting up nodes");
         types  = new ArrayList<>();
-        types.add(new TypeOfNode("Alojamiento"));
+        types.add(new TypeOfNode("Alojamiento",false));
         String mKey = "";
 
         for(Iterator<String> it = cityNames.get("hostel").iterator(); it.hasNext();){
@@ -123,7 +123,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         for(Map.Entry<String,Vector<String>> it:cityNames.entrySet()){
             if( !it.getKey().equals("hostel") && !it.getKey().equals("hotel") ) {
-                Log.i(TAG,it.getKey());
+
                 switch (it.getKey()){
                     case "viewpoint":
                         mKey = "Miradores";
@@ -136,7 +136,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         break;
                 }
 
-                types.add(new TypeOfNode(mKey));
+                types.add(new TypeOfNode(mKey,true));
                 for (Iterator<String> it_v = it.getValue().iterator(); it_v.hasNext(); ) {
                     ModelNode city = new CityNode(it_v.next(), mKey);
                     types.add(city);
@@ -182,7 +182,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             sendNodes.execute().get();
 
             String[] s = {query_osmr,"osmr_response.json"};
-            Log.i(TAG,"hi");
+
             DownloadFileFromURL downloadFileFromURL = new DownloadFileFromURL(this);
             try {
                 // Descargamos el archivo.
@@ -544,7 +544,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     node_name = m_hashmap.get("name");
                     String aux_1 = m_hashmap.get("morning_schedule_open");
                     String aux_2 = m_hashmap.get("morning_schedule_close");
-                    Log.i(TAG,"visit info "+node_name+": "+aux_1+"-"+aux_2+" | ");
+
                     visit = Integer.parseInt(m_hashmap.get("visit_time"));
                     ArrayList<SimpleEntry<GregorianCalendar,GregorianCalendar> > aux_arr = new ArrayList<>();
                     aux_arr.add(new SimpleEntry<>(parseFromString(aux_1),parseFromString(aux_2)));
@@ -554,7 +554,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     if(m_hashmap.containsKey("afternoon_schedule_open")){
                         aux_1 = m_hashmap.get("afternoon_schedule_open");
                         aux_2 = m_hashmap.get("afternoon_schedule_close");
-                        Log.i(TAG,"visit info at afternooon "+aux_1+"-"+aux_2);
+
                         aux_arr.add(new SimpleEntry<>(parseFromString(aux_1),parseFromString(aux_2)));
                     }
 

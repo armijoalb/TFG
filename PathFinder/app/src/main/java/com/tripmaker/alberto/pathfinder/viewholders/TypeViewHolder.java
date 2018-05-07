@@ -22,6 +22,14 @@ public class TypeViewHolder extends RecyclerView.ViewHolder{
         mAllTypeCheckBox.setChecked(false);
     }
 
+    public void setCheckBoxVisibility(boolean visibility){
+        if(!visibility){
+            mAllTypeCheckBox.setVisibility(View.INVISIBLE);
+        }else{
+            mAllTypeCheckBox.setVisibility(View.VISIBLE);
+        }
+    }
+
     public void setTypeText(String text){ mTypeText.setText(text); }
 
     public void setOnClickListener(View.OnClickListener listener){
