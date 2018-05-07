@@ -33,8 +33,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -63,6 +68,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ArrayList<String> salida_solution = new ArrayList<>();
     private ArrayList<String> lat_solution = new ArrayList<>();
     private ArrayList<String> lon_solution = new ArrayList<>();
+    private HashMap<String,ArrayList<SimpleEntry<GregorianCalendar,GregorianCalendar>>> hor = new HashMap<>();
+    private HashMap<String,Integer> visit_time = new HashMap<>();
+    private ArrayList<Integer> visit_selected = new ArrayList<>();
 
 
 
@@ -142,20 +150,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     // Función para generar horarios estándar.
     private void generateDefaultHours(){
-        ArrayList<SimpleEntry<GregorianCalendar,GregorianCalendar>> open_h = new ArrayList<>();
-        GregorianCalendar aux_mañana, aux_tarde;
         Log.i(TAG,ids.size()+"");
         for(int i=1; i < ids.size(); i++){
-            aux_mañana = new GregorianCalendar(1,1,1,9,0,0);
-            aux_tarde = new GregorianCalendar(1,1,1,14,0,0);
-            open_h.add(new SimpleEntry<>(aux_mañana,aux_tarde) );
-            aux_mañana = new GregorianCalendar(1,1,1,15,30,0);
-            aux_tarde = new GregorianCalendar(1,1,1,20,0,0);
-            open_h.add(new SimpleEntry<>(aux_mañana,aux_tarde));
-            horario.add(open_h);
-            open_h = new ArrayList<>();
+            horario.add(hor.get(ids.get(i)));
+            visit_selected.add(visit_time.get(ids.get(i)));
         }
 
+    }
+
+    private GregorianCalendar parseFromString(String time){
+        String[] parts = time.split(":");
+        int hours = Integer.parseInt(parts[0]);
+        int minutes = Integer.parseInt(parts[1]);
+
+        GregorianCalendar greg = new GregorianCalendar(1,1,1,hours,minutes,0);
+
+        return greg;
     }
 
     @Override
@@ -224,7 +234,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             ArrayList<ArrayList<SimpleEntry<GregorianCalendar,GregorianCalendar>>> h,
                             ArrayList<ArrayList<Integer>> segs,
                             Context context){
-            pathFinder = new PathFinder(ids,h,segs);
+            pathFinder = new PathFinder(ids,h,segs,visit_selected);
             this.context = context;
 
 
@@ -250,9 +260,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         protected Void doInBackground(Void... voids) {
 
-            solution = pathFinder.obtainGreedySolution(
-                    new GregorianCalendar(1,1,1,9,0,0)
-            );
+            solution = pathFinder.obtainGreedySolution(parseFromString("9:30"));
 
             return null;
         }
@@ -525,6 +533,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             double lat,lon;
             String node_name;
+            Integer visit;
+            GregorianCalendar hor_1, hor_2;
             HashMap<String,String> necesary_data = new HashMap<>();
             for(Map.Entry<String,Vector<HashMap<String,String>>> it:nodes.entrySet()){
                 for (Iterator<HashMap<String,String>> it_v = it.getValue().iterator(); it_v.hasNext();) {
@@ -532,6 +542,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     lat = Double.parseDouble(m_hashmap.get("lat"));
                     lon = Double.parseDouble(m_hashmap.get("lon"));
                     node_name = m_hashmap.get("name");
+                    String aux_1 = m_hashmap.get("morning_schedule_open");
+                    String aux_2 = m_hashmap.get("morning_schedule_close");
+                    Log.i(TAG,"visit info "+node_name+": "+aux_1+"-"+aux_2+" | ");
+                    visit = Integer.parseInt(m_hashmap.get("visit_time"));
+                    ArrayList<SimpleEntry<GregorianCalendar,GregorianCalendar> > aux_arr = new ArrayList<>();
+                    aux_arr.add(new SimpleEntry<>(parseFromString(aux_1),parseFromString(aux_2)));
+                    visit_time.put(node_name,visit);
+
+
+                    if(m_hashmap.containsKey("afternoon_schedule_open")){
+                        aux_1 = m_hashmap.get("afternoon_schedule_open");
+                        aux_2 = m_hashmap.get("afternoon_schedule_close");
+                        Log.i(TAG,"visit info at afternooon "+aux_1+"-"+aux_2);
+                        aux_arr.add(new SimpleEntry<>(parseFromString(aux_1),parseFromString(aux_2)));
+                    }
+
+                    hor.put(node_name, aux_arr);
 
                     // Añadimos Marker.
                     addMarker(lat, lon, node_name);

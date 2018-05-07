@@ -8,6 +8,7 @@ import org.json.*;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class JsonParser {
     private HashMap<String,Vector<HashMap<String,String>>> city_nodes = new HashMap<>();
@@ -41,6 +42,7 @@ public class JsonParser {
     }
 
     public void processJSON() throws JSONException{
+        Integer visita = 0;
         JSONArray elements = file_info.getJSONArray("elements");
         for(int i=0; i < elements.length(); i++){
             JSONObject node = elements.getJSONObject(i);
@@ -66,6 +68,43 @@ public class JsonParser {
                 aux_hashMap.put("lon", longitud);
                 aux_hashMap.put("name", name);
 
+                switch (tipo){
+                    case "viewpoint":
+                        aux_hashMap.put("morning_schedule_open","00:00");
+                        aux_hashMap.put("morning_schedule_close","00:00");
+                        visita = ThreadLocalRandom.current().nextInt(15,31);
+                        aux_hashMap.put("visit_time",visita.toString());
+                        break;
+                    case "place_of_worship":
+                        aux_hashMap.put("morning_schedule_open", "9:30");
+                        aux_hashMap.put("morning_schedule_close","14:00");
+                        aux_hashMap.put("afternoon_schedule_open","15:30");
+                        aux_hashMap.put("afternoon_schedule_close","20:00");
+                        visita = ThreadLocalRandom.current().nextInt(60,180+1);
+                        aux_hashMap.put("visit_time",visita.toString());
+                        break;
+                    case "museum":
+                        aux_hashMap.put("morning_schedule_open", "9:30");
+                        aux_hashMap.put("morning_schedule_close","14:00");
+                        aux_hashMap.put("afternoon_schedule_open","15:30");
+                        aux_hashMap.put("afternoon_schedule_close","20:00");
+                        visita = ThreadLocalRandom.current().nextInt(60,180+1);
+                        aux_hashMap.put("visit_time",visita.toString());
+                        break;
+                    case "hostel":
+                        aux_hashMap.put("morning_schedule_open","1:00");
+                        aux_hashMap.put("morning_schedule_close","00:00");
+                        visita = 0;
+                        aux_hashMap.put("visit_time",visita.toString());
+                        break;
+                    case "hotel":
+                        aux_hashMap.put("morning_schedule_open","00:00");
+                        aux_hashMap.put("morning_schedule_close","00:00");
+                        visita = 0;
+                        aux_hashMap.put("visit_time",visita.toString());
+                        break;
+                }
+
                 if(!city_nodes.containsKey(tipo)){
                     // Metemos un nuevo nodo.
                     System.out.println("nuevo tipo: " + tipo);
@@ -77,6 +116,7 @@ public class JsonParser {
                     System.out.println("adding new map to "+ tipo);
                     city_nodes.get(tipo).add(aux_hashMap);
                 }
+
             }
 
 
@@ -92,6 +132,8 @@ public class JsonParser {
             JSONArray aux_t = times.getJSONArray(i);
             for(int j=0; j < aux_t.length(); j++){
                 int dist_time = aux_t.getInt(j);
+                if(dist_time == 0 && i!=j)
+                    dist_time = 60;
                 Log.i(TAG,dist_time+"");
                 tim.add(dist_time);
             }
@@ -99,6 +141,8 @@ public class JsonParser {
             segs.add(tim);
             tim = new ArrayList<>();
         }
+
+        Log.i(TAG,segs.toString());
 
     }
 

@@ -65,7 +65,7 @@ Tras investigar diferentes posibilidades, se decidió utilizar OpenStreetMap, el
 	\caption{Logo de OpenStreetMap}
 	\label{fig:openstreetmap}
 \end{figure}
-OpenStreetMap tiene una web \cite{openstreetmap} en la cuál puedes editar cualquiera de los puntos de interés que contiene el mapa o crear nuevos siempre que estés registrado. Además, cuenta con diferentes tipos de estructuras para representar edificios, carreteras, etc... OpenStreetMap utiliza tres tipos diferentes de información:\newline
+OpenStreetMap tiene una web \cite{openstreetmap} en la cual puedes editar cualquiera de los puntos de interés que contiene el mapa o crear nuevos siempre que estés registrado. Además, cuenta con diferentes tipos de estructuras para representar edificios, carreteras, etc... OpenStreetMap utiliza tres tipos diferentes de información:\newline
 \begin{itemize}
 	\item Líneas: sirven para describir cualquier tipo de vía, como por ejemplo carreteras.
 	\item Nodos: sirven para definir cualquier tipo de edificio, como por ejemplo farmacias o museos.
@@ -73,7 +73,7 @@ OpenStreetMap tiene una web \cite{openstreetmap} en la cuál puedes editar cualq
 \end{itemize}
 Al no estar disponible el acceso a la base de datos que contiene OpenStreetMap de forma directa se tuvo que buscar una API para poder obtener los datos.
 \subsection[Overpass]{Overpass API}
-Para obtener la información necesaria de OpenStreetMap, se necesito buscar una API que permitiera obtener dicha información. Overpass es una API que permite hacer consultas sobre puntos de interés y que utiliza la información de OpenStreetMap para devolver la información sobre los puntos de interés. Dichas consultas pueden realizarse mediante urls. Las respuestas obtenidas por Overpass se devuelven en formato JSON, dentro de dicho fichero se encuentra un array llamado \enquote{elements} que contiene cada uno de los elementos. A continuación, se muestra una parte del fichero que devuelve Overpass para alojamientos y puntos de interés en Granada.\newline
+Para obtener la información necesaria de OpenStreetMap, se necesitó buscar una API que permitiera obtener dicha información. Overpass es una API que permite hacer consultas sobre puntos de interés y que utiliza la información de OpenStreetMap para devolver la información sobre los puntos de interés. Dichas consultas pueden realizarse mediante urls. Las respuestas obtenidas por Overpass se devuelven en formato JSON, dentro de dicho fichero se encuentra un array llamado \enquote{elements} que contiene cada uno de los elementos. A continuación, se muestra una parte del fichero que devuelve Overpass para alojamientos y puntos de interés en Granada.\newline
 \begin{lstlisting}[caption=Respuesta Overpass sobre alojamientos y puntos de interés en Granada]
 {
 "version": 0.6,

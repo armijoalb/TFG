@@ -2,9 +2,14 @@ package com.tripmaker.alberto.pathfinder.pathFinder;
 
 import android.util.Log;
 import com.tripmaker.alberto.pathfinder.models.Solution;
+
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Vector;
@@ -15,6 +20,7 @@ public class PathFinder {
     private ArrayList<String> identificadores;
     private ArrayList<ArrayList<SimpleEntry<GregorianCalendar,GregorianCalendar> > > horarios_abierto;
     private ArrayList<ArrayList<Integer>> duracion;
+    private ArrayList<Integer> visit_time = new ArrayList<>();
     private String TAG = PathFinder.class.getSimpleName();
 
     // Contructor por defecto.
@@ -22,6 +28,17 @@ public class PathFinder {
         this.identificadores = new ArrayList<>();
         this.horarios_abierto = new ArrayList<>();
         this.duracion = new ArrayList<>();
+        this.visit_time = new ArrayList<>();
+    }
+
+    private GregorianCalendar parseFromString(String time){
+        String[] parts = time.split(":");
+        int hours = Integer.parseInt(parts[0]);
+        int minutes = Integer.parseInt(parts[1]);
+
+        GregorianCalendar greg = new GregorianCalendar(1,1,1,hours,minutes,0);
+
+        return greg;
     }
 
     private String GregorianCalendarToString(GregorianCalendar mTime){
@@ -32,12 +49,14 @@ public class PathFinder {
     // Constructor con parámetros.
     public PathFinder( ArrayList<String> ids,
                        ArrayList< ArrayList<SimpleEntry<GregorianCalendar,GregorianCalendar>> > horario,
-                       ArrayList<ArrayList<Integer>> dur)
+                       ArrayList<ArrayList<Integer>> dur,
+                       ArrayList<Integer> vis)
     {
         Log.i(TAG,"creating objects");
         this.horarios_abierto = horario;
         this.identificadores = ids;
         this.duracion = dur;
+        this.visit_time = vis;
     }
 
     // Función para comprobar que el tiempo es válida, es decir, que está dentro de alguno de los periodos de tiempo en los que
@@ -46,11 +65,22 @@ public class PathFinder {
         boolean is_posible = false;
         SimpleEntry<GregorianCalendar,GregorianCalendar> aux_h;
 
-
+        Log.i(TAG,"actual_time: "+GregorianCalendarToString(actualTime));
 
         for(Iterator<SimpleEntry<GregorianCalendar,GregorianCalendar>> it = open_hour.iterator();it.hasNext() && !is_posible;){
             aux_h = it.next();
+            /*
+            Log.i(TAG,"open: "+GregorianCalendarToString(aux_h.getKey()));
+            Log.i(TAG,"close: "+GregorianCalendarToString(aux_h.getValue()));
+
+            Log.i(TAG,"igual abierto: "+aux_h.getKey().equals(actualTime)+"");
+            Log.i(TAG,"mayor abierto: "+aux_h.getKey().before(actualTime)+"");
+            Log.i(TAG,"menor cierre: "+aux_h.getValue().after(actualTime)+"");*/
             if( (aux_h.getKey().equals(actualTime) || actualTime.after(aux_h.getKey()) ) && actualTime.before(aux_h.getValue()) ){
+                is_posible = true;
+            }
+
+            if(aux_h.getKey().equals(aux_h.getValue())){
                 is_posible = true;
             }
 
@@ -86,7 +116,7 @@ public class PathFinder {
 
         for(Iterator<Integer> it = non_valid.iterator(); it.hasNext();){
             aux = it.next();
-            if(aux != id && duracion.get(id).get(aux) < nearest ){
+            if(aux != id && duracion.get(id).get(aux) < nearest && duracion.get(id).get(aux) > 0 ){
                 id_nearest = aux;
                 nearest = duracion.get(id).get(aux);
             }
@@ -99,6 +129,10 @@ public class PathFinder {
     // Si es menor se devuelve el horario calculado, sino se devuelve la hora de cierre del museo.
     private GregorianCalendar checkIfNotClosed(GregorianCalendar current_time,ArrayList<SimpleEntry<GregorianCalendar,GregorianCalendar>> horario){
         GregorianCalendar real_time = current_time;
+
+        if (horario.get(0).getKey().equals(horario.get(0).getValue())){
+            return real_time;
+        }
 
         if(horario.size() > 1){
             if(horario.get(0).getValue().before(current_time) && horario.get(1).getKey().after(current_time))
@@ -118,7 +152,7 @@ public class PathFinder {
     // Algoritmo Greedy básico que calcula una solución seleccionando el museo más cercano a la posición actual.
     public Solution obtainGreedySolution(GregorianCalendar starting_time){
         Solution m_solution = new Solution();
-        GregorianCalendar finish_time = new GregorianCalendar(1,1,1,20,0,0);
+        GregorianCalendar finish_time = parseFromString("20:00");
         GregorianCalendar current_time = new GregorianCalendar();
         current_time = starting_time;
         GregorianCalendar aux_time = new GregorianCalendar();
@@ -155,14 +189,19 @@ public class PathFinder {
             while(!added && !valid.isEmpty()){
                 // Calculamos el museo al cual tardamos menos en llegar desde donde estamos.
                 Integer pos = findNearest(id,valid);
+                //Log.i(TAG,"current_time: "+GregorianCalendarToString(current_time));
                 aux_time = (GregorianCalendar)current_time.clone();
+                //Log.i(TAG,"duration: "+duracion.get(id).get(pos));
                 aux_time.add(GregorianCalendar.SECOND,duracion.get(id).get(pos));
+                //Log.i(TAG,"checking out "+ identificadores.get(pos));
+                //Log.i(TAG,"checkTime:"+checkTime(aux_time,horarios_abierto.get(pos-1)) +"");
+                //Log.i(TAG,"checkLunchTime:"+checkLunchTime(aux_time,horarios_abierto.get(pos-1)) +"");
                 // Comprobamos que podamos ir dentro del horario que esté abierto, o por la mañana o por la tarde.
                 if( checkTime( aux_time, horarios_abierto.get(pos-1)) ) {
                     current_time.add(GregorianCalendar.SECOND,duracion.get(id).get(pos));
                     aux_greg = (GregorianCalendar) current_time.clone();
 
-                    visita = ThreadLocalRandom.current().nextInt(60,180+1);
+                    visita = visit_time.get(pos-1);
                     current_time.add(GregorianCalendar.MINUTE,visita );
 
                     current_time = checkIfNotClosed(current_time,horarios_abierto.get(pos-1));
@@ -188,7 +227,7 @@ public class PathFinder {
                     }
                     aux_greg = (GregorianCalendar) current_time.clone();
 
-                    visita = ThreadLocalRandom.current().nextInt(60,180+1);
+                    visita = visit_time.get(pos-1);
                     current_time.add(GregorianCalendar.MINUTE,visita );
 
                     current_time = checkIfNotClosed(current_time,horarios_abierto.get(pos-1));
