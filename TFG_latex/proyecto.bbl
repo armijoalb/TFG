@@ -1,29 +1,44 @@
 \begin{thebibliography}{1}
 
-\bibitem{unwto_resumen}
-UNWTO.
-\newblock Panoráma omt del turismo internacional.
-\newblock 2017.
-
-\bibitem{openstreetmap}
-Openstreetmap.
-
-\bibitem{openstreetmap_doc}
-Documentación de openstreetmap.
-
-\bibitem{osmr}
-Osmr project.
-
-\bibitem{osmr_doc}
-Documentación osmr.
-
-\bibitem{osmr_backend}
-Github osmr.
-
 \bibitem{directions_api}
-Google maps directions api.
+Google.
+\newblock {Google Maps Directions API}.
+\newblock
+  \url{https://developers.google.com/maps/documentation/directions/intro?hl=es-419}.
 
 \bibitem{decode_polyline}
-Tutorial decodificar polyline google directions api.
+Google.
+\newblock {Tutorial para decodificar polilínea Google Directions API}.
+\newblock
+  \url{https://developers.google.com/maps/documentation/utilities/polylinealgorithm?hl=es-419}.
+
+\bibitem{openstreetmap_doc}
+OpenStreetMap.
+\newblock {\em {Documentación de OpenStreetMap}}.
+
+\bibitem{openstreetmap}
+OpenStreetMap.
+\newblock {OpenStreetMap}.
+\newblock \url{https://www.openstreetmap.org/#map=6/40.007/-2.488}.
+
+\bibitem{osmr_doc}
+OSRM.
+\newblock {Documentación OSMR}.
+\newblock \url{http://project-osrm.org/}.
+
+\bibitem{osmr_backend}
+OSRM.
+\newblock {Github OSMR}.
+\newblock \url{https://github.com/Project-OSRM/osrm-backend}.
+
+\bibitem{osmr}
+OSRM.
+\newblock {OSMR Project}.
+\newblock \url{http://project-osrm.org/}.
+
+\bibitem{unwto_resumen}
+UNWTO.
+\newblock {Panoráma OMT del turismo internacional}.
+\newblock 2017.
 
 \end{thebibliography}

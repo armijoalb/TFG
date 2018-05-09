@@ -4,38 +4,38 @@ En este apartado se resumirán los requisitos funcionales y no funcionales del p
 \subsection[Requisitos interfaz]{Requisitos de la interfaz del usuario}
 \subsubsection[Requisitos funcionales]{Requisitos funcionales}
 \begin{itemize}
-	\item Mapa de la ciudad elegida por el usuario: la aplicación mostrará el mapa de la ciudad seleccionada por el usuario, así como los alojamientos y puntos de interés que haya en la ciudad con marcadores en el mapa.
-	\item Formulario de generación de rutas: la aplicación dispondrá de una lista de puntos de interés y de alojamientos entre los que el usuario podrá elegir para generar la ruta. 
+	\item \textbf{Mapa de la ciudad elegida por el usuario:} la aplicación mostrará el mapa de la ciudad seleccionada por el usuario, así como los alojamientos y puntos de interés que haya en la ciudad con marcadores en el mapa.
+	\item\textbf{ Formulario de generación de rutas:} la aplicación dispondrá de una lista de puntos de interés y de alojamientos entre los que el usuario podrá elegir para generar la ruta. 
 	\begin{itemize}
 		\item Alojamiento: hostales y hoteles.
 		\item Puntos de interés: museos, miradores, lugares históricos o de culto.
 	\end{itemize}
-	\item Especificación de las rutas: la aplicación deberá mostrar los puntos de interés que contiene la ruta como marcadores, así como las direcciones que deberá seguir el usuario para llegar desde un punto hasta otro. También mostrará una lista ordenada de dichos puntos en los cuales se especificará la hora de entrada y salida aproximadas de cada punto de interés.
-	\item Información sobre los marcadores: la aplicación deberá mostrar información referente a los marcadores mostrados en la interfaz. Dicha información será el nombre de dicho punto de interés.
+	\item\textbf{ Especificación de las rutas:} la aplicación deberá mostrar los puntos de interés que contiene la ruta como marcadores, así como las direcciones que deberá seguir el usuario para llegar desde un punto hasta otro. También mostrará una lista ordenada de dichos puntos en los cuales se especificará la hora de entrada y salida aproximadas de cada punto de interés.
+	\item \textbf{Información sobre los marcadores:} la aplicación deberá mostrar información referente a los marcadores mostrados en la interfaz. Dicha información será el nombre de dicho punto de interés.
 \end{itemize}
 \subsubsection[Requisitos no funcionales]{Requisitos no funcionales}
 \begin{itemize}
-	\item Interfaz: la interfaz deberá ser atractiva, ligera y lo más intuitiva posible.
-	\item Plataforma: la aplicación estará disponible para todos los dispositivos móviles que utilicen el sistema operativo Android a partir de la versión 5.0 (Lollipop).
+	\item \textbf{Interfaz:} la interfaz deberá ser atractiva, ligera y lo más intuitiva posible.
+	\item \textbf{Plataforma:} la aplicación estará disponible para todos los dispositivos móviles que utilicen el sistema operativo Android a partir de la versión 5.0 (Lollipop).
 \end{itemize}
 
 \subsection[Requisitos internos]{Requisitos de la aplicación}
 \subsubsection[Requisitos funcionales]{Requisitos funcionales}
 \begin{itemize}
-	\item Recepción de peticiones del cliente: la aplicación será capaz de recibir peticiones que el cliente le envía a través de la interfaz gráfica que contienen los puntos de interés seleccionados por el usuario.
-	\item Cálculo y retorno de rutas óptima: a partir de los datos proporcionados por el usuario y la información que se tiene sobre dichos datos; la aplicación calculará y devolverá la ruta que después será mostrada en la interfaz.
-	\item Publicación de lista de alojamientos y puntos de interés: la aplicación tendrá acceso a una lista de alojamientos y puntos de interés que el usuario podrá seleccionar desde la interfaz de la aplicación.
-	\item Publicación de la ruta en una mapa: la aplicación será capaz de mostrar en la interfaz de usuario los puntos de interés seleccionados en un mapa, así como una lista ordenada de la ruta y el camino para llegar desde un punto de interés hasta el siguiente. El primer punto siempre será el alojamiento seleccionado por el usuario.
+	\item \textbf{Recepción de peticiones del cliente:} la aplicación será capaz de recibir peticiones que el cliente le envía a través de la interfaz gráfica que contienen los puntos de interés seleccionados por el usuario.
+	\item \textbf{Cálculo y retorno de rutas óptima:} a partir de los datos proporcionados por el usuario y la información que se tiene sobre dichos datos; la aplicación calculará y devolverá la ruta que después será mostrada en la interfaz.
+	\item \textbf{Publicación de lista de alojamientos y puntos de interés:} la aplicación tendrá acceso a una lista de alojamientos y puntos de interés que el usuario podrá seleccionar desde la interfaz de la aplicación.
+	\item \textbf{Publicación de la ruta en una mapa:} la aplicación será capaz de mostrar en la interfaz de usuario los puntos de interés seleccionados en un mapa, así como una lista ordenada de la ruta y el camino para llegar desde un punto de interés hasta el siguiente. El primer punto siempre será el alojamiento seleccionado por el usuario.
 \end{itemize}
 \subsubsection[Requisitos no funcionales]{Requisitos no funcionales}
 \begin{itemize}
-	\item Envío de peticiones de puntos de interés y alojamientos: la aplicación deberá mandar peticiones a un servidor que es capaz de conectarse a una base de datos para obtener los datos necesarios sobre alojamientos y puntos de interés. Dicha información se devuelve en un fichero .json.
-	\item Importación de información sobre puntos de interés y alojamientos: tras obtener los puntos de interés y alojamientos del servidor; la aplicación deberá procesar la información contenida en el fichero .json para mostrarlos en la interfaz.
-	\item Envío de peticiones a servidor de cálculo de matrices de tiempos: la aplicación deberá mandar peticiones a un servidor que calculará la distancias entre los puntos seleccionados por el usuario. Dichos tiempos se devuelve en un archivo .json.
-	\item Importación de matriz de tiempos: una vez se ha obtenido el archivo .json que contiene la matriz de tiempos, la aplicación debe procesar dicho fichero y guardar la matriz para su uso en el cálculo de rutas.
-	\item Envío de peticiones para obtener ruta entre los distintos puntos de interés que contiene la solución calculada: la aplicación deberá enviar peticiones a un servidor que devolverá la ruta a seguir el usuario para llegar a cada uno de los puntos de interés. Dicha información se devuelve en un archivo .json.ç
+	\item \textbf{Envío de peticiones de puntos de interés y alojamientos:} la aplicación deberá mandar peticiones a un servidor que es capaz de conectarse a una base de datos para obtener los datos necesarios sobre alojamientos y puntos de interés. Dicha información se devuelve en un fichero .json.
+	\item \textbf{Importación de información sobre puntos de interés y alojamientos:} tras obtener los puntos de interés y alojamientos del servidor; la aplicación deberá procesar la información contenida en el fichero .json para mostrarlos en la interfaz.
+	\item \textbf{Envío de peticiones a servidor de cálculo de matrices de tiempos:} la aplicación deberá mandar peticiones a un servidor que calculará la distancias entre los puntos seleccionados por el usuario. Dichos tiempos se devuelve en un archivo .json.
+	\item \textbf{Importación de matriz de tiempos:} una vez se ha obtenido el archivo .json que contiene la matriz de tiempos, la aplicación debe procesar dicho fichero y guardar la matriz para su uso en el cálculo de rutas.
+	\item \textbf{Envío de peticiones para obtener ruta entre los distintos puntos de interés que contiene la solución calculada:} la aplicación deberá enviar peticiones a un servidor que devolverá la ruta a seguir el usuario para llegar a cada uno de los puntos de interés. Dicha información se devuelve en un archivo .json.ç
 	
-	\item Importación de direcciones entre puntos de interés: la aplicación deberá guardar y procesar la información que contiene el archivo .json para después mostrar las direcciones en la interfaz de usuario.
+	\item \textbf{Importación de direcciones entre puntos de interés:} la aplicación deberá guardar y procesar la información que contiene el archivo .json para después mostrar las direcciones en la interfaz de usuario.
 \end{itemize}
 
 \section[Casos de uso]{Diagramas de casos de uso}

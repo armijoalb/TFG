@@ -85,68 +85,27 @@ pdfproducer = {pdflatex}
 \setlength{\headheight}{1.5\headheight}
 
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
-%Definimos los tipos teorema, ejemplo y definición podremos usar estos tipos
-%simplemente poniendo \begin{teorema} \end{teorema} ...
-\newtheorem{teorema}{Teorema}[chapter]
-\newtheorem{ejemplo}{Ejemplo}[chapter]
-\newtheorem{definicion}{Definición}[chapter]
 
-\definecolor{gray97}{gray}{.97}
-\definecolor{gray75}{gray}{.75}
-\definecolor{gray45}{gray}{.45}
-\definecolor{gray30}{gray}{.94}
 
-\lstset{ frame=Ltb,
-     framerule=0.5pt,
-     aboveskip=0.5cm,
-     framextopmargin=3pt,
-     framexbottommargin=3pt,
-     framexleftmargin=0.1cm,
-     framesep=0pt,
-     rulesep=.4pt,
-     backgroundcolor=\color{gray97},
-     rulesepcolor=\color{black},
-     %
-     stringstyle=\ttfamily,
-     showstringspaces = false,
-     basicstyle=\scriptsize\ttfamily,
-     commentstyle=\color{gray45},
-     keywordstyle=\bfseries,
-     %
-     numbers=left,
-     numbersep=6pt,
-     numberstyle=\tiny,
-     numberfirstline = false,
-     breaklines=true,
-   }
- 
-% minimizar fragmentado de listados
-\lstnewenvironment{listing}[1][]
-   {\lstset{#1}\pagebreak[0]}{\pagebreak[0]}
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
 
-\lstdefinestyle{CodigoC}
-   {
-	basicstyle=\scriptsize,
-	frame=single,
-	language=C,
-	numbers=left
-   }
-\lstdefinestyle{CodigoC++}
-   {
-	basicstyle=\small,
-	frame=single,
-	backgroundcolor=\color{gray30},
-	language=C++,
-	numbers=left
-   }
 
- 
-\lstdefinestyle{Consola}
-   {basicstyle=\scriptsize\bf\ttfamily,
-    backgroundcolor=\color{gray30},
-    frame=single,
-    numbers=none
-   }
+\lstset{language=Java,
+	showspaces=false,
+	showtabs=false,
+	breaklines=true,
+	showstringspaces=false,
+	breakatwhitespace=true,
+	commentstyle=\color{pgreen},
+	keywordstyle=\color{pblue},
+	stringstyle=\color{pred},
+	basicstyle=\scriptsize\ttfamily,
+	moredelim=[il][\textcolor{pgrey}]{$ $},
+	moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
+}
 
 
 \newcommand{\bigrule}{\titlerule[0.5mm]}
@@ -210,9 +169,9 @@ pdfproducer = {pdflatex}
 %
 %
 %%\nocite{*}
-\bibliographystyle{unsrt}
-\bibliography{bibliografia/bibliografia}\addcontentsline{toc}{chapter}{Bibliografía}
 
+\bibliography{bibliografia/bibliografia}\addcontentsline{toc}{chapter}{Bibliografía}
+\bibliographystyle{plain}
 %\bibliographystyle{miunsrturl}
 %
 %\appendix

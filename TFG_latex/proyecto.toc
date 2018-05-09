@@ -1,7 +1,9 @@
 \babel@toc {spanish}{}
 \contentsline {chapter}{\numberline {1}Introducci\IeC {\'o}n}{15}{chapter.1}
 \contentsline {section}{\numberline {1.1}Motivaci\IeC {\'o}n}{15}{section.1.1}
-\contentsline {section}{\numberline {1.2}Antecedentes y estado del arte}{16}{section.1.2}
+\contentsline {section}{\numberline {1.2}Tourist Trip Design Problem}{16}{section.1.2}
+\contentsline {section}{\numberline {1.3}Antecedentes y estado del arte}{16}{section.1.3}
+\contentsline {section}{\numberline {1.4}Objectivos}{16}{section.1.4}
 \contentsline {chapter}{\numberline {2}Especificaci\IeC {\'o}n de Requisitos}{17}{chapter.2}
 \contentsline {section}{\numberline {2.1}Requisitos}{17}{section.2.1}
 \contentsline {subsection}{\numberline {2.1.1}Requisitos interfaz}{17}{subsection.2.1.1}
@@ -19,8 +21,10 @@
 \contentsline {subsection}{\numberline {2.3.3}OSRM}{23}{subsection.2.3.3}
 \contentsline {subsection}{\numberline {2.3.4}Google Routes API}{24}{subsection.2.3.4}
 \contentsline {chapter}{\numberline {3}Planificaci\IeC {\'o}n}{27}{chapter.3}
-\contentsline {section}{\numberline {3.1}Objectivos}{27}{section.3.1}
-\contentsline {section}{\numberline {3.2}Diagrama de Gantt}{27}{section.3.2}
+\contentsline {section}{\numberline {3.1}Diagrama de Gantt}{27}{section.3.1}
+\contentsline {section}{\numberline {3.2}Herramientas utilizadas para la planificaci\IeC {\'o}n}{27}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Trello}{27}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}GitHub}{27}{subsection.3.2.2}
 \contentsline {chapter}{\numberline {4}An\IeC {\'a}lisis}{29}{chapter.4}
 \contentsline {section}{\numberline {4.1}Dise\IeC {\~n}o de rutas tur\IeC {\'\i }sticas}{29}{section.4.1}
 \contentsline {section}{\numberline {4.2}Heur\IeC {\'\i }sticas del dise\IeC {\~n}o}{30}{section.4.2}
@@ -34,7 +38,7 @@
 \contentsline {subsection}{\numberline {6.1.3}Mostrar diferentes soluciones}{52}{subsection.6.1.3}
 \contentsline {section}{\numberline {6.2}Procesos internos}{54}{section.6.2}
 \contentsline {subsection}{\numberline {6.2.1}Peticiones a servidores}{54}{subsection.6.2.1}
-\contentsline {subsection}{\numberline {6.2.2}Procesado de respuestas de servidor}{56}{subsection.6.2.2}
+\contentsline {subsection}{\numberline {6.2.2}Procesado de respuestas de servidor}{55}{subsection.6.2.2}
 \contentsline {subsubsection}{Procesado de alojamientos y puntos de inter\IeC {\'e}s}{56}{section*.17}
 \contentsline {subsubsection}{Procesado de la matriz de tiempos}{57}{section*.18}
 \contentsline {subsubsection}{Procesado de caminos entre puntos de la soluci\IeC {\'o}n}{57}{section*.19}

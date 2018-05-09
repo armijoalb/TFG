@@ -27,17 +27,17 @@ Ahora se mostrará el pseudocódigo del algoritmo, y de cada una de las fases en
 	\caption{Pseudocódigo algoritmo GRASP}
 	\label{alg:grasp}
 \begin{algorithmic}
-	\Function{GRASP}{maxIterations,sizeRCL}
-	\State $ readInput() $
-	\For{$i=1$ to maxIterations}
-		\State $ solution \gets GRASPConstructPhase(sizeRCL)$
-		\State $ solution \gets LocalSearch(solution)$
-		\If{$solution \geq bestSolution$}
-			\State $ bestSolution \gets solution$
+	\Function{GRASP}{maxIteraciones,tamRCL}
+	\State $ leerDatos() $
+	\For{$i=1$ to maxIteraciones}
+		\State solución $ \gets $ GRASPFaseConstructiva(tamRCL)
+		\State  solución $\gets$ BúsquedaLocal(solución)
+		\If{solución $\geq$ mejorSolución}
+			\State  mejorSolución $\gets$ solución
 		\EndIf
 	\EndFor
 	
-	\State \textbf{return} $bestSolution$
+	\State \textbf{return} mejorSolución
 	\EndFunction
 \end{algorithmic}
 \end{algorithm}
@@ -49,21 +49,21 @@ Donde time\_between(x,y) representa el tiempo que hay entre el punto de interés
 Una vez hemos calculado la lista de candidatos, se crea la lista restringida de candidatos con los puntos de interés mejor valorados, esta es de tamaño sizeRCL. Una vez hemos obtenido la lista de candidatos restringida, elegimos uno de los puntos de interés de forma aleatoria y lo introducimos dentro de la solución. Este proceso se repite hasta que no se puedan introducir más puntos de interés dentro de la solución. El pseudocódigo de este algoritmo es el siguiente.\newline
 \vspace{0.06in}
 \begin{algorithm}
-	\caption{Pseudocódigo algoritmo GRASPConstructPhase}
+	\caption{Pseudocódigo algoritmo GRASPFaseConstructiva}
 	\label{alg:grasp_contruct}
 	\begin{algorithmic}
-		\Function{GRASPConstructPhase}{sizeRCL}
-		\State solution.add(first\_node)
-		\While{is posible to visit POIs}
-			\For{each poi in POIs}
-				\State value $\gets$ f(poi)
-				\State cl.add([value,i])
+		\Function{GRASPFaseConstructiva}{tamRCL}
+		\State solución.añadir(nodo\_salida)
+		\While{es posible visitar POIs}
+			\For{cada poi en POIs}
+				\State valor $\gets$ f(poi)
+				\State cl.añadir([valor,i])
 			\EndFor
-			\State Create rcl with the top sizeRCL duos in cl
-			\State Select a random duo from rcl.
-			\State Update solution adding the poi in the position i.
+			\State Crear RCL con los tamRCL duos de cl
+			\State Seleccionar un elemento de RCL de forma aleatoria.
+			\State Actualizar solución añadiendo poi i en la solución
 		\EndWhile
-		\State \textbf{return} $solution$
+		\State \textbf{return} solución
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
@@ -71,16 +71,16 @@ Una vez hemos calculado la lista de candidatos, se crea la lista restringida de 
 \vspace{0.06in}
 Para la fase de optimización se utilizará el algoritmo de búsqueda local, dicho algoritmo busca la mejor solución posible entre la solución actual y los vecinos de esta. Una solución vecina es aquella que intercambie dos puntos de interés dentro de la solución, por ejemplo, el segundo por el cuarto. El procedimiento es el siguiente, se generan todos los posibles vecinos de la solución, y por cada uno de ellos se comprueba si la valoración de dicha solución vecina es mejor que la mejor solución actual; finalmente se devuelve la mejor solución encontrada. El pseudocódigo del algoritmo es el siguiente.\newline
 \begin{algorithm}[H]
-	\caption{Pseudocódigo algoritmo LocalSearch}
+	\caption{Pseudocódigo algoritmo BúsquedaLocal}
 	\label{alg:local_search}
 	\begin{algorithmic}
-		\Function{LocalSearch}{solution}
-		\ForAll{neighbor\_solution of solution}
-		\If{$neighbor\_solution \geq solution$}
-			\State solution $\gets$ neighbor\_solution
+		\Function{BúsquedaLocal}{solución}
+		\ForAll{solución\_vecina de solución}
+		\If{solución\_vecina $\geq$ solución}
+			\State solución $\gets$ solución\_vecina
 		\EndIf
 		\EndFor
-		\State \textbf{return} $solution$
+		\State \textbf{return} solución
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
@@ -91,13 +91,13 @@ Como solución inicial a este problema se ha utilizado una heurística Greedy, l
 	\caption{Pseudocódigo algoritmo Greedy}
 	\label{alg:greedy_alg}
 	\begin{algorithmic}
-		\Function{Greedy}{solution}
-		\While(is posible to visit POI)
-			\State best\_poi $\gets$ findNearestPOI(last\_visited\_poi) 
-			\State solution.insert(best\_poi) 
-			\State remove best\_poi from the list of POIs
+		\Function{Greedy}{solución}
+		\While(es posible visitar POI)
+			\State mejor\_poi $\gets$ encontrarMásCercano(último\_poi\_visitado) 
+			\State solución.añadir(mejor\_poi)
+			\State eliminar mejor\_poi de la lista de POI disponibles
 		\EndWhile
-		\State \textbf{return} $solution$
+		\State \textbf{return} solución
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
