@@ -18,7 +18,30 @@ Los elementos que forman parte del modelo son:
 \end{itemize}
 El problema de optimización coincide con el Team Orienteering Problem with Time Windows (TOPTW) que se ha estudiado en la literatura científica con algunas modificaciones. Se consideran puntos de interés museos, miradores, catedrales, mezquitas, etc... de la ciudad que el usuario elija.
 \section[Heurísticas del diseño]{Heurísticas del diseño}
-Para dar soluciones de alta calidad al problema de optimización planteado se ha elegido la metaheurística constructiva GRASP (Greedy Randomized Adaptive Search Procedure) que comprende dos fases: una fase constructiva y otra de búsqueda local. En la fase constructiva se genera una solución partiendo de una ruta vacía a la que se va añadiendo puntos de interés desde una Lista Restringida de Candidatos (Restricted Candidate List, RCL en inglés) de forma aleatoria hasta que no se puedan añadir nuevos puntos a la ruta. En la fase de búsqueda local se reemplaza la solución obtenida en la parte constructiva por la mejor de sus soluciones vecinas si existe mejora. Estas dos fases se ejecutan un cierto número de iteraciones.
+Como solución inicial a este problema se ha utilizado una heurística Greedy, ya que es una heurística rápida que puede ejecutar cualquier dispositivo móvil. Dicha huerística Greedy seleccionará siempre el punto más cercano al punto de interés actual; este proceso se repetirá hasta que no puedan introducirse más puntos de interés en la solución, bien porque no haya más puntos de interés por visitar o bien porque no haya más tiempo para visitarlos. El psuedocódigo de dicho algoritmo es el siguiente:\newline
+\begin{algorithm}[H]
+	\caption{Pseudocódigo algoritmo Greedy}
+	\label{alg:greedy_alg}
+	\begin{algorithmic}
+		\Function{Greedy}{solución}
+		\While(es posible visitar POI)
+		\State mejor\_poi $\gets$ encontrarMásCercano(último\_poi\_visitado, tiempo\_actual) 
+		\State solución.añadir(mejor\_poi,tiempo\_entrada, tiempo\_salida)
+		\State tiempo\_actual $\gets$ tiempo\_salida
+		\State eliminar mejor\_poi de la lista de POI disponibles
+		\EndWhile
+		\State \textbf{return} solución
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+\vspace{0.06in}
+La función \textit{encontrarMásCercano(último\_poi\_visitado)} encuentra el punto de interés más cercano al último punto de interés seleccionado. Para ello, recorre un vector que contiene el tiempo necesario para llegar desde el último punto de interés visitado y otro punto; de todos los puntos de interés que estén disponibles, selecciona aquel cuyo tiempo de llegada desde el último punto de interés sea menor. Dicho vector está contenido en una matriz que guarda esta información por cada uno de los puntos de interés. Un punto de interés está disponible si está abierto a la hora en la que el algoritmo lo vaya a seleccionar y si no está incluido en la solución.\newline
+
+Dentro del pseudocódigo se pueden ver tres variables que tienen que ver con el tiempo; la variable \enquote{tiempo\_actual} guarda el tiempo actual en cada momento del algoritmo, es decir, es una variable que va actualizando su valor cada vez que se selecciona un nuevo punto de interés. La variable \enquote{tiempo\_entrada} representa el tiempo de entrada aproximado al punto de interés seleccionado; este valor se calcula con el valor de \enquote{tiempo\_actual} más el tiempo necesario para llegar desde dicho punto hasta el punto seleccionado. Por último, la variable \enquote{tiempo\_salida} representa el tiempo aproximado de salida de dicho punto de interés, esta variable se calcula como la suma de \enquote{tiempo\_entrada} y el tiempo aproximado de visita.\newline
+
+Una vez termina el algoritmo, devuelve la solución. Dicha solución cuenta con un vector que contiene los identificadores de los puntos de interés seleccionados; además, contiene la hora aproximada de entrada y salida de cada uno de los puntos de interés seleccionados. Además, los puntos de interés contenidos en la solución, se encuentran ordenados por orden en llegada.\newline
+
+Como otra posible heurística que resuelva el problema y que no necesite de mucho tiempo de cómputo, se ha propuesto también la metaheurística constructiva GRASP (Greedy Randomized Adaptive Search Procedure). Dicha metaheurística comprende dos fases: una fase constructiva y otra de búsqueda local. En la fase constructiva se genera una solución partiendo de una ruta vacía a la que se va añadiendo puntos de interés desde una Lista Restringida de Candidatos (Restricted Candidate List, RCL en inglés) de forma aleatoria hasta que no se puedan añadir nuevos puntos a la ruta. En la fase de búsqueda local se reemplaza la solución obtenida en la parte constructiva por la mejor de sus soluciones vecinas si existe mejora. Estas dos fases se ejecutan un cierto número de iteraciones.\newline
 
 Ahora se mostrará el pseudocódigo del algoritmo, y de cada una de las fases en inglés.
 \vspace{0.06in}
@@ -43,10 +66,10 @@ Ahora se mostrará el pseudocódigo del algoritmo, y de cada una de las fases en
 \end{algorithm}
 
 \vspace{0.06in}
-Para la parte constructiva del algoritmo, primero crearemos una lista de candidatos (CL), la cual tiene un tamaño igual al de la lista de puntos de interés que queden disponibles. Dicha lista de candidatos contiene la posición dentro de la lista de puntos de interés y la puntuación que tiene dicho punto de interés según las preferencias elegidas por el usuario. La forma de puntuar a cada punto de interés se hace de la siguiente manera:\newline
-$ \frac{1}{time\_between(poi_{i-1},poi_i)}\sum_{j=1}^{n}c_j$ \newline
-Donde time\_between(x,y) representa el tiempo que hay entre el punto de interés x y el y. $poi_{i-1}$ representa el último punto de interés que hemos incluido en la solución y $poi_i$ al punto de interés que estamos evaluando; $c_j$ es cada uno de las preferencias posibles sobre los puntos de interés, es decir, si se ha seleccionado museos como preferencia y el punto de interés $i$ es un museo, $c_j$ devolverá uno, es caso contrario es cero.\newline
+Para la parte constructiva del algoritmo, primero crearemos una lista de candidatos (CL), la cual tiene un tamaño igual al de la lista de puntos de interés que queden disponibles. Dicha lista de candidatos contiene la posición dentro de la lista de puntos de interés y la puntuación que tiene dicho punto de interés según las preferencias elegidas por el usuario. La forma de puntuar un punto de interés dependerá también del tiempo necesario para llegar desde el último punto de interés seleccionado y dicho punto de interés. Al igual que para la heurística Greedy, solo se considerarán aquellos puntos de interés que estén disponibles, es decir, que no estén incluidos ya en la solución que se está construyendo y que estén abiertos en el momento que pueden ser seleccionados.\newline
+
 Una vez hemos calculado la lista de candidatos, se crea la lista restringida de candidatos con los puntos de interés mejor valorados, esta es de tamaño sizeRCL. Una vez hemos obtenido la lista de candidatos restringida, elegimos uno de los puntos de interés de forma aleatoria y lo introducimos dentro de la solución. Este proceso se repite hasta que no se puedan introducir más puntos de interés dentro de la solución. El pseudocódigo de este algoritmo es el siguiente.\newline
+
 \vspace{0.06in}
 \begin{algorithm}
 	\caption{Pseudocódigo algoritmo GRASPFaseConstructiva}
@@ -70,6 +93,7 @@ Una vez hemos calculado la lista de candidatos, se crea la lista restringida de 
 
 \vspace{0.06in}
 Para la fase de optimización se utilizará el algoritmo de búsqueda local, dicho algoritmo busca la mejor solución posible entre la solución actual y los vecinos de esta. Una solución vecina es aquella que intercambie dos puntos de interés dentro de la solución, por ejemplo, el segundo por el cuarto. El procedimiento es el siguiente, se generan todos los posibles vecinos de la solución, y por cada uno de ellos se comprueba si la valoración de dicha solución vecina es mejor que la mejor solución actual; finalmente se devuelve la mejor solución encontrada. El pseudocódigo del algoritmo es el siguiente.\newline
+
 \begin{algorithm}[H]
 	\caption{Pseudocódigo algoritmo BúsquedaLocal}
 	\label{alg:local_search}
@@ -86,20 +110,7 @@ Para la fase de optimización se utilizará el algoritmo de búsqueda local, dic
 \end{algorithm}
 
 \vspace{0.06in}
-Como solución inicial a este problema se ha utilizado una heurística Greedy, la cuál se pretende mejorar utilizando el algoritmo explicado anteriormente. Dicha huerística Greedy seleccionará siempre el punto más cercano al punto de interés actual; este proceso se repetirá hasta que no puedan introducirse más puntos de interés en la solución, bien porque no haya más puntos de interés por visitar o bien porque no haya más tiempo para visitarlos. El psuedocódigo de dicho algoritmo es el siguiente:\newline
-\begin{algorithm}[H]
-	\caption{Pseudocódigo algoritmo Greedy}
-	\label{alg:greedy_alg}
-	\begin{algorithmic}
-		\Function{Greedy}{solución}
-		\While(es posible visitar POI)
-			\State mejor\_poi $\gets$ encontrarMásCercano(último\_poi\_visitado) 
-			\State solución.añadir(mejor\_poi)
-			\State eliminar mejor\_poi de la lista de POI disponibles
-		\EndWhile
-		\State \textbf{return} solución
-		\EndFunction
-	\end{algorithmic}
-\end{algorithm}
+Para generar un nuevo vecino de la solución dada, se intercambiarán la posición de dos puntos de interés dentro de la solución. Además de intercambiar dichos puntos, hay que actualizar los valores de entrada y de salida de dichos puntos y comprobar que la solución sigue siendo válida. Es decir, que sigue respetando el número de puntos de interés que hay en la solución y que la hora en la que se finaliza la ruta sigue siendo la misma.
+
 
 

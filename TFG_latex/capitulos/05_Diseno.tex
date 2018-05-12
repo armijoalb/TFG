@@ -3,7 +3,7 @@ En este capítulo se detalla la arquitectura del sistema.
 \section[Diagrama de clases]{Diagrama de clases}
 En este apartado se mostrarán los diagramas de clases de los elementos más importantes de la aplicación.\newline
 
-La primera imagen que se muestra es el diagrama de clases del Fragment \enquote{TypesFragment} \ref{fig:fragment_diagram}. Dicho diagrama de clases muestra las siguientes clases:
+La primera figura que se muestra es el diagrama de clases del Fragment \enquote{TypesFragment} \ref{fig:fragment_diagram}. Dicho diagrama de clases muestra las siguientes clases:
 \begin{itemize}
 	\item La clase \textbf{TypesFragment}:esta clase es la encargada de comunicar los elementos gráficos que se encuentra dentro de la lista de alojamientos y puntos de interés, también del botón que inicia el algoritmo de búsqueda de la ruta óptima.
 	\item La clase \textbf{TypesRecyclerFragment}: es la encargada de manejar la lista de alojamientos y puntos de interés, además devuelve los elementos seleccionados en la lista al iniciar la búsqueda de la ruta. También se encarga de gestionar la interfaz gráfica de la lista.
@@ -13,7 +13,7 @@ La primera imagen que se muestra es el diagrama de clases del Fragment \enquote{
 	\item La clase \textbf{TypeOfNode}: clase que contiene la información sobre un tipo de nodo de interés.
 \end{itemize}
 \vspace{0.06in}
-En la segunda imagen \ref{fig:main_activity_diagram}, se muestra el diagrama de clases de la actividad principal de la aplicación. Las clases que se muestran en el diagrama son las siguientes:
+En la segunda figura  \ref{fig:main_activity_diagram}, se muestra el diagrama de clases de la actividad principal de la aplicación. Las clases que se muestran en el diagrama son las siguientes:
 \begin{itemize}
 	\item La clase \textbf{MapsActivity} es la clase clase principal y gestiona el mapa que se muestra y se comunica con la clase \textbf{TypesFragment} para obtener los nodos seleccionados. Esta clase contiene vectores que almacenan información sobre los marcadores que aparecen en el mapa. Dicha información se utiliza también para obtener la matriz de distancias. También contiene otros vectores para almacenar la información contenida en la solución, dichos vectores se utilizan para mandar la información de la solución a la actividad ResultActivity.
 	\item La clase \textbf{DownloadFileFromURL}: se encarga de descargar y guardar la información que devuelven las peticiones a los servidores sobre alojamientos, puntos de interés, rutas y matriz de tiempos entre puntos de interés. Esta clase hereda de la clase AsyncTask, lo cual le permite ejecutarse en segundo plano sin que afecte al rendimiento de la interfaz de usuario.
@@ -25,88 +25,66 @@ En la segunda imagen \ref{fig:main_activity_diagram}, se muestra el diagrama de 
 	\item La clase \textbf{Solution} es la que clase que contiene una solución al problema. Esta clase cuenta con un vector que almacena los identificadores de los puntos de la solución, así como dos vectores que almacenan las horas de entrada y de salida de cada uno de los puntos de la solución.
 \end{itemize}
 \vspace{0.06in}
-En la tercera imagen \ref{fig:models_diagram}, se muestra el diagrama de clases del paquete models; dicho paquete está formador por clases que se utilizan para modelar diferentes estructuras dentro del proyecto. Las clases que aparecen en el diagrama son las siguientes:
+En la tercera figura \ref{fig:models_diagram}, se muestra el diagrama de clases del paquete models; dicho paquete está formador por clases que se utilizan para modelar diferentes estructuras dentro del proyecto. Las clases que aparecen en el diagrama son las siguientes:
 \begin{itemize}
 	\item La clase \textbf{Solution}: clase que contiene una solución al problema. Contiene vectores para almacenar identificadores y horarios de entrada y salida de los lugares por los que pasa la solución.
 	\item La clase \textbf{ModelNode}: clase genérica que se utiliza para poder mostrar elementos tanto de la clase \textbf{CityNode} y \textbf{TypeOfNode}; ambas clases están explicadas en la descripción del primer diagrama de clases.
 	\item La clase \textbf{SolutionNode}: clase que contiene el nombre, el horario de entrada y salida de un nodo de la solución. Esta clase se utiliza para encapsular los nodos de la solución y acceder a los datos a la hora de mostrar la lista de la solución.
 \end{itemize}
 \vspace{0.06in}
-La cuarta imagen \ref{fig:result_activity_diagram} muestra el diagrama de clases de la Activity ResultActivity, dicha Activity se muestra cuando se obtiene una solución. Las clases que se muestran en el diagrama son las siguientes:
+La cuarta figura \ref{fig:result_activity_diagram} muestra el diagrama de clases de la Activity ResultActivity, dicha Activity se muestra cuando se obtiene una solución. Las clases que se muestran en el diagrama son las siguientes:
 \begin{itemize}
 	\item La clase \textbf{ResultActivity}. Esta clase se ocupa de leer los datos mandados por la actividad principal y procesarlos para comunicarselos a la clase \textbf{SolutionFragment}.
 	\item La clase \textbf{SimpleFragmentPagerAdapter}. Esta clase se ocupa de ver el número de soluciones que se han encontrado y crear un objeto de la clase \textbf{SolutionFragment} para mostrar cada una de ellas.
 	\item La clase SolutionFragment. Esta clase se ocupa de mostrar en un mapa los marcadores de la solución y la lista con la información específica de cada uno de los marcadores. Además se ocupa de calcular el camino entre los distintos marcadores de la solución.
 \end{itemize}
 \vspace{0.06in}
-Por último, en la quinta imagen \ref{fig:solution_recycler_diagram} se muestra el diagrama de clases de la clase \textbf{SolutionFragment}. A continuación se describen cada una de las clases que se muestran en el diagrama:
+Por último, en la quinta figura \ref{fig:solution_recycler_diagram} se muestra el diagrama de clases de la clase \textbf{SolutionFragment}. A continuación se describen cada una de las clases que se muestran en el diagrama:
 \begin{itemize}
-	\item La clase \textbf{SolutionFragment} se ha definido en la imagen anterior. Es la encargada de gestionar todas las vistas que muestran la solución.
+	\item La clase \textbf{SolutionFragment} se ha definido en la figura \ref{fig:result_activity_diagram} anterior. Es la encargada de gestionar todas las vistas que muestran la solución.
 	\item La clase \textbf{FindRoutes}. Esta clase se encarga de mandar una petición a un servidor para obtener la ruta óptima entre los nodos de la solución y procesarla, después manda la información procesada a la clase \textbf{SolutionFragment} para que dibuje la ruta.
 	\item La clase \textbf{SolutionRecyclerAdater} se encarga de manejar la lista con los nodos de la solución y de mostrarlos en una lista.
 	\item La clase \textbf{SolutionNode}. Es una clase que contiene la información sobre un nodo de la solución.
 	\item La clase \textbf{SolutionNodeViewHolder}. Es una clase que utiliza la información de un objeto de la clase \textbf{SolutionNode}  y la muestra dentro de la lista que gestiona la clase \textbf{SolutionRecyclerAdapter}.
 \end{itemize}
-\newgeometry{scale=1}
-\thispagestyle{empty}
-{%
+\begin{figure}[H]
+	\centering
 	\label{fig:fragment_diagram}
+	\includegraphics[scale=.8,angle=90]{imagenes/fragment_class_diagram.pdf}
+	\caption{Diagrama de clases del \textbf{TypesFrament} }
+\end{figure}
+\begin{figure}[H]
 	\centering
-	\includegraphics[scale=.95,angle=90]{imagenes/fragment_class_diagram.pdf}
-	\captionof{figure}{Diagrama de clases del fragment}
-	\par
-}
-\restoregeometry
-
-\newgeometry{scale=1}
-\thispagestyle{empty}
-{%
 	\label{fig:main_activity_diagram}
+	\includegraphics[scale=.8,angle=90]{imagenes/main_activity_class_diagram.pdf}
+	\caption{Diagrama de clases de la actividad principal \ref{fig:anexo_diagrama_main_activity} }
+\end{figure}
+\begin{figure}[H]
 	\centering
-	\includegraphics[scale=.95,angle=90]{imagenes/main_activity_class_diagram.pdf}
-	\captionof{figure}{Diagrama de clases de la actividad principal}
-	\par
-}
-\restoregeometry
-
-\newgeometry{scale=1}
-\thispagestyle{empty}
-{%
 	\label{fig:models_diagram}
-	\centering
-	\includegraphics[scale=.95,angle=90]{imagenes/models_package.pdf}
-	\captionof{figure}{Diagrama de clases del paquete models}
-	\par
-}
-\restoregeometry
+	\includegraphics[scale=0.8,angle=90]{imagenes/models_package.pdf}
+	\caption{Diagrama de clases del paquete \textbf{models}}
+\end{figure}
 
-\newgeometry{scale=1}
-\thispagestyle{empty}
-{%
+\begin{figure}[H]
+	\centering
 	\label{fig:result_activity_diagram}
+	\includegraphics[scale=0.8,angle=90]{imagenes/result_activity.pdf}
+	\caption{Diagrama de clases del activity \textbf{ResultActivity}}
+\end{figure}
+\begin{figure}[H]
 	\centering
-	\includegraphics[scale=.95,angle=90]{imagenes/result_activity.pdf}
-	\captionof{figure}{Diagrama de clases del activity \textbf{ResultActivity}}
-	\par
-}
-\restoregeometry
-
-\newgeometry{scale=1}
-\thispagestyle{empty}
-{%
 	\label{fig:solution_recycler_diagram}
-	\centering
-	\includegraphics[scale=.95,angle=90]{imagenes/result_fragment.pdf}
-	\captionof{figure}{Diagrama de clases de la clase \textbf{SolutionFragment}}
-	\par
-}
-\restoregeometry
+	\includegraphics[scale=0.8,angle=90]{imagenes/result_fragment.pdf}
+	\caption{Diagrama de clases de la clase \textbf{SolutionFragment}}
+\end{figure}
+
 
 \section[Interfaz de Usuario]{Interfaz de Usuario}
 
 A continuación se mostrarán todos los elementos que conforman la interfaz de usuario de la aplicación.\newline
 
-Lo primero que se muestra es la actividad principal, esta cuenta con un mapa por el que se puede navegar y una lista de alojamientos y puntos de interés, entre los cuales el usuario puede elegir un alojamiento y el número de puntos de interés que desee, imágenes \ref{fig:main_activity_map}\ref{fig:main_activity_list}.\newline
+Lo primero que se muestra es la actividad principal, esta cuenta con un mapa por el que se puede navegar y una lista de alojamientos y puntos de interés, entre los cuales el usuario puede elegir un alojamiento y el número de puntos de interés que desee; esto se puede encontrar en las figuras \ref{fig:main_activity_map}\ref{fig:main_activity_list}.\newline
 
 Para poder ver la lista, se debe deslizar la pestaña \enquote{Sitios interesantes} hacia arriba, así tendremos acceso a la lista completa, para explorar todos los alojamientos y puntos de interés, debemos hacer scroll hacia arriba sobre la lista. Dicha lista muestra primero los alojamientos y tras estos los puntos de interés, que se organizan en \enquote{Museos}, \enquote{Miradores} y \enquote{Monumentos}.\newline
 
@@ -114,7 +92,7 @@ Dentro la lista, cada uno de los elementos contiene un caja en la que se puede p
 
 Tras elegir el alojamiento los puntos de interés que el usuario desee, se ejecuta el algoritmo y cuando este termina se abre una nueva actividad en la cual se muestran diferentes rutas al problema, por defecto se muestra la primera ruta, para mostrar otras rutas, se debe pulsar sobre los tabs llamados \enquote{"Solución X"} para mostar otras soluciones.\newline
 
-Dentro de cada una de las soluciones, se puede pulsar sobre los marcadores para mostrar información sobre los mismos. Además, en la parte inferior de la pantalla se muestra una lista oculta que muestra la información detalla de la ruta; para poder ver dicha información se debe deslizar hacia arriba en \enquote{Descripción ruta final} o pulsar. Dentro de la lista, se muestra en orden los puntos de interés que contiene la ruta, el primer punto que se muestra es el alojamiento seleccionado; además, cada uno de los puntos de interés muestra la hora aproximada de entrada y de salida de dicho punto de interés. Debajo se muestran imágenes de ejemplo sobre esto \ref{fig:result_activity}\ref{fig:result_activity_2}.
+Dentro de cada una de las soluciones, se puede pulsar sobre los marcadores para mostrar información sobre los mismos. Además, en la parte inferior de la pantalla se muestra una lista oculta que muestra la información detalla de la ruta; para poder ver dicha información se debe deslizar hacia arriba en \enquote{Descripción ruta final} o pulsar. Dentro de la lista, se muestra en orden los puntos de interés que contiene la ruta, el primer punto que se muestra es el alojamiento seleccionado; además, cada uno de los puntos de interés muestra la hora aproximada de entrada y de salida de dicho punto de interés. Debajo se muestran figuras de ejemplo sobre esto \ref{fig:result_activity}\ref{fig:result_activity_2}.
 
 
 \newpage

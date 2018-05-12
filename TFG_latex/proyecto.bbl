@@ -1,4 +1,9 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{github}
+Github.
+\newblock {Página oficial de GitHub}.
+\newblock \url{https://github.com/}.
 
 \bibitem{directions_api}
 Google.
@@ -23,18 +28,28 @@ OpenStreetMap.
 
 \bibitem{osmr_doc}
 OSRM.
-\newblock {Documentación OSMR}.
+\newblock {Documentación OSRM}.
 \newblock \url{http://project-osrm.org/}.
 
 \bibitem{osmr_backend}
 OSRM.
-\newblock {Github OSMR}.
+\newblock {Github OSRM}.
 \newblock \url{https://github.com/Project-OSRM/osrm-backend}.
 
 \bibitem{osmr}
 OSRM.
 \newblock {OSMR Project}.
 \newblock \url{http://project-osrm.org/}.
+
+\bibitem{overpass}
+Overpass.
+\newblock {Overpass Turbo}.
+\newblock \url{https://overpass-turbo.eu/}.
+
+\bibitem{trello}
+Trello.
+\newblock {Página oficial de Trello}.
+\newblock \url{https://trello.com/}.
 
 \bibitem{unwto_resumen}
 UNWTO.

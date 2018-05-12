@@ -1,0 +1,82 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.4.16)  11 MAY 2018 19:32
+entering extended mode
+**./entradas_glosario.tex
+(entradas_glosario.tex
+LaTeX2e <2017-04-15>
+Babel <3.18> and hyphenation patterns for 75 language(s) loaded.
+! Undefined control sequence.
+l.1 \huge
+          \textbf{Glosario}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+! LaTeX Error: Missing \begin{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1 \huge \textbf{Glosario}
+                           
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: The font size command \normalsize is not defined:
+               there is probably something wrong with the class file.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2 \normalsize
+               
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+Overfull \hbox (61.7928pt too wide) in paragraph at lines 1--3
+[]\OT1/cmr/bx/n/10 Glosario 
+ []
+
+
+Overfull \hbox (44.15254pt too wide) in paragraph at lines 4--5
+\OT1/cmr/bx/n/10 Activity: 
+ []
+
+
+Overfull \hbox (50.94417pt too wide) in paragraph at lines 5--6
+\OT1/cmr/bx/n/10 Fragment: 
+ []
+
+
+Overfull \hbox (28.65958pt too wide) in paragraph at lines 6--7
+\OT1/cmr/bx/n/10 View: 
+ []
+
+
+Overfull \hbox (60.96497pt too wide) in paragraph at lines 7--8
+\OT1/cmr/bx/n/10 ViewGroup: 
+ []
+
+)
+! Emergency stop.
+<*> ./entradas_glosario.tex
+                           
+*** (job aborted, no legal \end found)
+
+ 
+Here is how much of TeX's memory you used:
+ 12 strings out of 493305
+ 322 string characters out of 3123710
+ 53825 words of memory out of 3000000
+ 3662 multiletter control sequences out of 15000+200000
+ 3948 words of font info for 15 fonts, out of 3000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 13i,1n,10p,68b,107s stack positions out of 5000i,500n,10000p,200000b,50000s
+!  ==> Fatal error occurred, no output PDF file produced!
