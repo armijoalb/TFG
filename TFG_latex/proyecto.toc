@@ -44,9 +44,11 @@
 \contentsline {subsubsection}{Procesado de caminos entre puntos de la soluci\IeC {\'o}n}{61}{section*.24}
 \contentsline {subsection}{\numberline {6.2.3}C\IeC {\'a}lculo de ruta}{63}{subsection.6.2.3}
 \contentsline {chapter}{\numberline {7}Pruebas}{67}{chapter.7}
-\contentsline {chapter}{\numberline {8}Conclusiones}{69}{chapter.8}
-\contentsline {section}{\numberline {8.1}Conclusiones}{69}{section.8.1}
-\contentsline {section}{\numberline {8.2}Trabajos futuros}{70}{section.8.2}
-\contentsline {chapter}{Bibliograf\IeC {\'\i }a}{71}{chapter*.25}
-\contentsline {chapter}{\numberline {9}Anexo}{73}{chapter.9}
-\contentsline {chapter}{Glosario}{76}{chapter.9}
+\contentsline {section}{\numberline {7.1}Caso 1}{67}{section.7.1}
+\contentsline {section}{\numberline {7.2}Caso 2}{69}{section.7.2}
+\contentsline {chapter}{\numberline {8}Conclusiones}{71}{chapter.8}
+\contentsline {section}{\numberline {8.1}Conclusiones}{71}{section.8.1}
+\contentsline {section}{\numberline {8.2}Trabajos futuros}{72}{section.8.2}
+\contentsline {chapter}{Bibliograf\IeC {\'\i }a}{73}{chapter*.29}
+\contentsline {chapter}{\numberline {9}Anexo}{75}{chapter.9}
+\contentsline {chapter}{Glosario}{78}{chapter.9}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.4.16)  12 MAY 2018 12:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.4.16)  12 MAY 2018 20:05
 entering extended mode
 **./proyecto.tex
 (proyecto.tex
@@ -1126,7 +1126,7 @@ Package caption Info: float package is loaded.
 Package caption Info: End \AtBeginDocument code.
 (portada/portada.tex
 \centeroffset=\skip75
-<imagenes/logo_ugr.jpg, id=178, 777.90625pt x 231.86626pt>
+<imagenes/logo_ugr.jpg, id=186, 777.90625pt x 231.86626pt>
 File: imagenes/logo_ugr.jpg Graphic file (type jpg)
 <use imagenes/logo_ugr.jpg>
 Package pdftex.def Info: imagenes/logo_ugr.jpg  used on input line 10.
@@ -1136,7 +1136,7 @@ Overfull \hbox (17.92543pt too wide) in paragraph at lines 7--24
 | $[]$ 
  []
 
-<imagenes/etsiit_logo.png, id=179, 110.814pt x 40.4712pt>
+<imagenes/etsiit_logo.png, id=187, 110.814pt x 40.4712pt>
 File: imagenes/etsiit_logo.png Graphic file (type png)
 <use imagenes/etsiit_logo.png>
 Package pdftex.def Info: imagenes/etsiit_logo.png  used on input line 32.
@@ -1831,7 +1831,7 @@ Package babel Info: Redefining spanish shorthand "?
 
 pdfTeX warning: pdflatex.exe (file ./imagenes/Interfaz.pdf): PDF inclusion: fou
 nd PDF version <1.7>, but at most version <1.5> allowed
-<imagenes/Interfaz.pdf, id=323, 844.65562pt x 596.98032pt>
+<imagenes/Interfaz.pdf, id=333, 844.65562pt x 596.98032pt>
 File: imagenes/Interfaz.pdf Graphic file (type pdf)
 <use imagenes/Interfaz.pdf>
 Package pdftex.def Info: imagenes/Interfaz.pdf  used on input line 45.
@@ -1857,7 +1857,7 @@ Package babel Info: Redefining spanish shorthand "?
 
 pdfTeX warning: pdflatex.exe (file ./imagenes/Aplicacion.pdf): PDF inclusion: f
 ound PDF version <1.7>, but at most version <1.5> allowed
-<imagenes/Aplicacion.pdf, id=324, 844.65562pt x 596.98032pt>
+<imagenes/Aplicacion.pdf, id=334, 844.65562pt x 596.98032pt>
 File: imagenes/Aplicacion.pdf Graphic file (type pdf)
 <use imagenes/Aplicacion.pdf>
 Package pdftex.def Info: imagenes/Aplicacion.pdf  used on input line 53.
@@ -1921,7 +1921,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 59.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 59.
-<imagenes/Openstreetmap_logo.png, id=334, 2007.5pt x 2007.5pt>
+<imagenes/Openstreetmap_logo.png, id=344, 2007.5pt x 2007.5pt>
 File: imagenes/Openstreetmap_logo.png Graphic file (type png)
 <use imagenes/Openstreetmap_logo.png>
 Package pdftex.def Info: imagenes/Openstreetmap_logo.png  used on input line 64
@@ -2315,7 +2315,7 @@ Package babel Info: Redefining spanish shorthand "!
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 22.
 [28]
-<imagenes/Gantt.png, id=573, 1300.86pt x 303.1325pt>
+<imagenes/Gantt.png, id=583, 1300.86pt x 303.1325pt>
 File: imagenes/Gantt.png Graphic file (type png)
 <use imagenes/Gantt.png>
 Package pdftex.def Info: imagenes/Gantt.png  used on input line 25.
@@ -2749,7 +2749,7 @@ See the caption package documentation for explanation.
 LaTeX Warning: Reference `fig:result_activity_diagram' on page 39 undefined on 
 input line 44.
 
-<imagenes/fragment_class_diagram.pdf, id=634, 845.1575pt x 597.23125pt>
+<imagenes/fragment_class_diagram.pdf, id=644, 845.1575pt x 597.23125pt>
 File: imagenes/fragment_class_diagram.pdf Graphic file (type pdf)
 <use imagenes/fragment_class_diagram.pdf>
 Package pdftex.def Info: imagenes/fragment_class_diagram.pdf  used on input lin
@@ -2760,7 +2760,7 @@ Overfull \hbox (59.53197pt too wide) in paragraph at lines 53--54
  [][] 
  []
 
-<imagenes/main_activity_class_diagram.pdf, id=635, 845.1575pt x 597.23125pt>
+<imagenes/main_activity_class_diagram.pdf, id=645, 845.1575pt x 597.23125pt>
 File: imagenes/main_activity_class_diagram.pdf Graphic file (type pdf)
 <use imagenes/main_activity_class_diagram.pdf>
 Package pdftex.def Info: imagenes/main_activity_class_diagram.pdf  used on inpu
@@ -2831,7 +2831,7 @@ Package babel Info: Redefining spanish shorthand "?
 
 pdfTeX warning: pdflatex.exe (file ./imagenes/models_package.pdf): PDF inclusio
 n: found PDF version <1.7>, but at most version <1.5> allowed
-<imagenes/models_package.pdf, id=649, 844.65562pt x 596.98032pt>
+<imagenes/models_package.pdf, id=659, 844.65562pt x 596.98032pt>
 File: imagenes/models_package.pdf Graphic file (type pdf)
 <use imagenes/models_package.pdf>
 Package pdftex.def Info: imagenes/models_package.pdf  used on input line 65.
@@ -2905,7 +2905,7 @@ Package babel Info: Redefining spanish shorthand "?
 
 pdfTeX warning: pdflatex.exe (file ./imagenes/result_activity.pdf): PDF inclusi
 on: found PDF version <1.7>, but at most version <1.5> allowed
-<imagenes/result_activity.pdf, id=661, 844.65562pt x 596.98032pt>
+<imagenes/result_activity.pdf, id=671, 844.65562pt x 596.98032pt>
 File: imagenes/result_activity.pdf Graphic file (type pdf)
 <use imagenes/result_activity.pdf>
 Package pdftex.def Info: imagenes/result_activity.pdf  used on input line 72.
@@ -2919,7 +2919,7 @@ Overfull \hbox (59.33122pt too wide) in paragraph at lines 72--73
 
 pdfTeX warning: pdflatex.exe (file ./imagenes/result_fragment.pdf): PDF inclusi
 on: found PDF version <1.7>, but at most version <1.5> allowed
-<imagenes/result_fragment.pdf, id=662, 844.65562pt x 596.98032pt>
+<imagenes/result_fragment.pdf, id=672, 844.65562pt x 596.98032pt>
 File: imagenes/result_fragment.pdf Graphic file (type pdf)
 <use imagenes/result_fragment.pdf>
 Package pdftex.def Info: imagenes/result_fragment.pdf  used on input line 78.
@@ -3054,30 +3054,30 @@ Package babel Info: Redefining spanish shorthand "!
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 98.
 [45]
-<imagenes/main_activity_map.png, id=690, 1084.05pt x 1927.2pt>
+<imagenes/main_activity_map.png, id=700, 1084.05pt x 1927.2pt>
 File: imagenes/main_activity_map.png Graphic file (type png)
 <use imagenes/main_activity_map.png>
 Package pdftex.def Info: imagenes/main_activity_map.png  used on input line 101
 .
 (pdftex.def)             Requested size: 142.26378pt x 252.89732pt.
-<imagenes/main_activity_list.png, id=691, 1084.05pt x 1927.2pt>
+<imagenes/main_activity_list.png, id=701, 1084.05pt x 1927.2pt>
 File: imagenes/main_activity_list.png Graphic file (type png)
 <use imagenes/main_activity_list.png>
 Package pdftex.def Info: imagenes/main_activity_list.png  used on input line 10
 8.
 (pdftex.def)             Requested size: 142.26378pt x 252.89732pt.
-<imagenes/main_activity_list_2.png, id=692, 1084.05pt x 1927.2pt>
+<imagenes/main_activity_list_2.png, id=702, 1084.05pt x 1927.2pt>
 File: imagenes/main_activity_list_2.png Graphic file (type png)
 <use imagenes/main_activity_list_2.png>
 Package pdftex.def Info: imagenes/main_activity_list_2.png  used on input line 
 109.
 (pdftex.def)             Requested size: 142.26378pt x 252.89732pt.
-<imagenes/solution.png, id=693, 1084.05pt x 1927.2pt>
+<imagenes/solution.png, id=703, 1084.05pt x 1927.2pt>
 File: imagenes/solution.png Graphic file (type png)
 <use imagenes/solution.png>
 Package pdftex.def Info: imagenes/solution.png  used on input line 117.
 (pdftex.def)             Requested size: 142.26378pt x 252.89732pt.
-<imagenes/list_solution.png, id=694, 1084.05pt x 1927.2pt>
+<imagenes/list_solution.png, id=704, 1084.05pt x 1927.2pt>
 File: imagenes/list_solution.png Graphic file (type png)
 <use imagenes/list_solution.png>
 Package pdftex.def Info: imagenes/list_solution.png  used on input line 118.
@@ -3110,12 +3110,12 @@ Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 121.
  [46 <./imagenes/main_activity_map.png> <./imagenes/main_activity_list.png> <./
 imagenes/main_activity_list_2.png>]
-<imagenes/solution_2.png, id=701, 1084.05pt x 1927.2pt>
+<imagenes/solution_2.png, id=711, 1084.05pt x 1927.2pt>
 File: imagenes/solution_2.png Graphic file (type png)
 <use imagenes/solution_2.png>
 Package pdftex.def Info: imagenes/solution_2.png  used on input line 125.
 (pdftex.def)             Requested size: 142.26378pt x 252.89732pt.
-<imagenes/solution_3.png, id=702, 1084.05pt x 1927.2pt>
+<imagenes/solution_3.png, id=712, 1084.05pt x 1927.2pt>
 File: imagenes/solution_3.png Graphic file (type png)
 <use imagenes/solution_3.png>
 Package pdftex.def Info: imagenes/solution_3.png  used on input line 126.
@@ -3948,35 +3948,146 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 1.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 1.
-) (capitulos/08_Conclusiones.tex
 Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 1.
+(babel)             in language  on input line 4.
 Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 1.
+(babel)             in language  on input line 4.
 Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 1.
+(babel)             in language  on input line 4.
 Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 1.
+(babel)             in language  on input line 4.
 Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 1.
+(babel)             in language  on input line 4.
 Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 1.
+(babel)             in language  on input line 4.
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--6
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--8
+
+ []
+
+<imagenes/seleccion_museos.png, id=1525, 1084.05pt x 1927.2pt>
+File: imagenes/seleccion_museos.png Graphic file (type png)
+<use imagenes/seleccion_museos.png>
+Package pdftex.def Info: imagenes/seleccion_museos.png  used on input line 12.
+(pdftex.def)             Requested size: 142.26378pt x 252.89732pt.
+<imagenes/salida_1.png, id=1526, 1084.05pt x 1927.2pt>
+File: imagenes/salida_1.png Graphic file (type png)
+<use imagenes/salida_1.png>
+Package pdftex.def Info: imagenes/salida_1.png  used on input line 18.
+(pdftex.def)             Requested size: 113.81102pt x 202.31786pt.
+<imagenes/descripcion_ruta.png, id=1527, 1084.05pt x 1927.2pt>
+File: imagenes/descripcion_ruta.png Graphic file (type png)
+<use imagenes/descripcion_ruta.png>
+Package pdftex.def Info: imagenes/descripcion_ruta.png  used on input line 19.
+(pdftex.def)             Requested size: 113.81102pt x 202.31786pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
 Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 1.
+(babel)             in language  on input line 22.
 Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 1.
+(babel)             in language  on input line 22.
 Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 1.
+(babel)             in language  on input line 22.
 Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 1.
+(babel)             in language  on input line 22.
 Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 1.
+(babel)             in language  on input line 22.
 Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 1.
+(babel)             in language  on input line 22.
+Package babel Info: Redefining spanish shorthand <<
+(babel)             in language  on input line 22.
+Package babel Info: Redefining spanish shorthand >>
+(babel)             in language  on input line 22.
+Package babel Info: Redefining spanish shorthand "=
+(babel)             in language  on input line 22.
+Package babel Info: Redefining spanish shorthand "~
+(babel)             in language  on input line 22.
+Package babel Info: Redefining spanish shorthand "!
+(babel)             in language  on input line 22.
+Package babel Info: Redefining spanish shorthand "?
+(babel)             in language  on input line 22.
  [67
 
 ]
 Package babel Info: Redefining spanish shorthand <<
+(babel)             in language  on input line 24.
+Package babel Info: Redefining spanish shorthand >>
+(babel)             in language  on input line 24.
+Package babel Info: Redefining spanish shorthand "=
+(babel)             in language  on input line 24.
+Package babel Info: Redefining spanish shorthand "~
+(babel)             in language  on input line 24.
+Package babel Info: Redefining spanish shorthand "!
+(babel)             in language  on input line 24.
+Package babel Info: Redefining spanish shorthand "?
+(babel)             in language  on input line 24.
+<imagenes/seleccion_miradores.png, id=1535, 1084.05pt x 1927.2pt>
+File: imagenes/seleccion_miradores.png Graphic file (type png)
+<use imagenes/seleccion_miradores.png>
+Package pdftex.def Info: imagenes/seleccion_miradores.png  used on input line 2
+7.
+(pdftex.def)             Requested size: 113.81102pt x 202.31786pt.
+<imagenes/seleccion_parque.png, id=1536, 1084.05pt x 1927.2pt>
+File: imagenes/seleccion_parque.png Graphic file (type png)
+<use imagenes/seleccion_parque.png>
+Package pdftex.def Info: imagenes/seleccion_parque.png  used on input line 28.
+(pdftex.def)             Requested size: 113.81102pt x 202.31786pt.
+<imagenes/seleccion_catedral.png, id=1537, 1084.05pt x 1927.2pt>
+File: imagenes/seleccion_catedral.png Graphic file (type png)
+<use imagenes/seleccion_catedral.png>
+Package pdftex.def Info: imagenes/seleccion_catedral.png  used on input line 29
+.
+(pdftex.def)             Requested size: 113.81102pt x 202.31786pt.
+<imagenes/salida_2.png, id=1538, 1084.05pt x 1927.2pt>
+File: imagenes/salida_2.png Graphic file (type png)
+<use imagenes/salida_2.png>
+Package pdftex.def Info: imagenes/salida_2.png  used on input line 35.
+(pdftex.def)             Requested size: 113.81102pt x 202.31786pt.
+<imagenes/descripcion_2.png, id=1539, 722.7pt x 1284.8pt>
+File: imagenes/descripcion_2.png Graphic file (type png)
+<use imagenes/descripcion_2.png>
+Package pdftex.def Info: imagenes/descripcion_2.png  used on input line 36.
+(pdftex.def)             Requested size: 113.81102pt x 202.31786pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \. on input line 39.
+LaTeX Info: Redefining \% on input line 39.
+Package babel Info: Redefining spanish shorthand <<
+(babel)             in language  on input line 39.
+Package babel Info: Redefining spanish shorthand >>
+(babel)             in language  on input line 39.
+Package babel Info: Redefining spanish shorthand "=
+(babel)             in language  on input line 39.
+Package babel Info: Redefining spanish shorthand "~
+(babel)             in language  on input line 39.
+Package babel Info: Redefining spanish shorthand "!
+(babel)             in language  on input line 39.
+Package babel Info: Redefining spanish shorthand "?
+(babel)             in language  on input line 39.
+Package babel Info: Redefining spanish shorthand <<
+(babel)             in language  on input line 39.
+Package babel Info: Redefining spanish shorthand >>
+(babel)             in language  on input line 39.
+Package babel Info: Redefining spanish shorthand "=
+(babel)             in language  on input line 39.
+Package babel Info: Redefining spanish shorthand "~
+(babel)             in language  on input line 39.
+Package babel Info: Redefining spanish shorthand "!
+(babel)             in language  on input line 39.
+Package babel Info: Redefining spanish shorthand "?
+(babel)             in language  on input line 39.
+ [68 <./imagenes/seleccion_museos.png> <./imagenes/salida_1.png> <./imagenes/de
+scripcion_ruta.png>]) (capitulos/08_Conclusiones.tex
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+Package babel Info: Redefining spanish shorthand <<
 (babel)             in language  on input line 1.
 Package babel Info: Redefining spanish shorthand >>
 (babel)             in language  on input line 1.
@@ -4000,7 +4111,34 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 1.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 1.
- [68
+ [69 <./imagenes/seleccion_miradores.png> <./imagenes/seleccion_parque.png> <./
+imagenes/seleccion_catedral.png> <./imagenes/salida_2.png> <./imagenes/descripc
+ion_2.png>]
+Package babel Info: Redefining spanish shorthand <<
+(babel)             in language  on input line 1.
+Package babel Info: Redefining spanish shorthand >>
+(babel)             in language  on input line 1.
+Package babel Info: Redefining spanish shorthand "=
+(babel)             in language  on input line 1.
+Package babel Info: Redefining spanish shorthand "~
+(babel)             in language  on input line 1.
+Package babel Info: Redefining spanish shorthand "!
+(babel)             in language  on input line 1.
+Package babel Info: Redefining spanish shorthand "?
+(babel)             in language  on input line 1.
+Package babel Info: Redefining spanish shorthand <<
+(babel)             in language  on input line 1.
+Package babel Info: Redefining spanish shorthand >>
+(babel)             in language  on input line 1.
+Package babel Info: Redefining spanish shorthand "=
+(babel)             in language  on input line 1.
+Package babel Info: Redefining spanish shorthand "~
+(babel)             in language  on input line 1.
+Package babel Info: Redefining spanish shorthand "!
+(babel)             in language  on input line 1.
+Package babel Info: Redefining spanish shorthand "?
+(babel)             in language  on input line 1.
+ [70
 
 ]
 Cap\'{\i }tulo 8.
@@ -4073,7 +4211,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 18.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 18.
-[69]
+[71]
 Underfull \hbox (badness 10000) in paragraph at lines 19--20
 
  []
@@ -4117,7 +4255,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 1.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 1.
- [70]
+ [72]
 Underfull \hbox (badness 10000) in paragraph at lines 15--19
 []\OT1/cmr/m/n/10.95 Google.  Tu-to-rial pa-ra de-co-di-fi-car po-lilnea Goo-
 gle Di-rec-tions API.
@@ -4167,7 +4305,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 1.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 1.
- [71
+ [73
 
 ]
 Package babel Info: Redefining spanish shorthand <<
@@ -4194,7 +4332,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 1.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 1.
- [72
+ [74
 
 ]
 Cap\'{\i }tulo 9.
@@ -4234,7 +4372,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 2.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 2.
-[73]
+[75]
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: pdftex
 * paper: a4paper
@@ -4299,7 +4437,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 10.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 10.
- [74
+ [76
 
 ]
 Overfull \vbox (0.1086pt too high) has occurred while \output is active []
@@ -4331,7 +4469,7 @@ Package babel Info: Redefining spanish shorthand "!
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 10.
 
-[75]) (glosario/entradas_glosario.tex)
+[77]) (glosario/entradas_glosario.tex)
 Package babel Info: Redefining spanish shorthand <<
 (babel)             in language  on input line 174.
 Package babel Info: Redefining spanish shorthand >>
@@ -4368,7 +4506,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 177.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 177.
- [76
+ [78
 
 ]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 180.
@@ -4396,7 +4534,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 180.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 180.
- [77
+ [79
 
 ]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 180.
@@ -4407,7 +4545,7 @@ LaTeX Info: Redefining \% on input line 23.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 180.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 180.
 Package rerunfilecheck Info: File `proyecto.out' has not changed.
-(rerunfilecheck)             Checksum: 75BE594060342552EC6B3632B75A20DC;2881.
+(rerunfilecheck)             Checksum: 2C0917A15B6DD59FEF982F1EDED58E15;2989.
 
 
 LaTeX Warning: There were undefined references.
@@ -4415,10 +4553,10 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 180.
  ) 
 Here is how much of TeX's memory you used:
- 15378 strings out of 493305
- 233255 string characters out of 3123710
- 391999 words of memory out of 3000000
- 17571 multiletter control sequences out of 15000+200000
+ 15439 strings out of 493305
+ 234728 string characters out of 3123710
+ 392406 words of memory out of 3000000
+ 17609 multiletter control sequences out of 15000+200000
  11532 words of font info for 42 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  53i,13n,92p,1049b,2075s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -4441,9 +4579,9 @@ Armijo Ruiz/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
 tt10.pfb><C:/Users/Alberto Armijo Ruiz/AppData/Local/Programs/MiKTeX 2.9/fonts/
 type1/public/amsfonts/cm/cmtt8.pfb><C:/Users/Alberto Armijo Ruiz/AppData/Local/
 Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/latxfont/lasy10.pfb>
-Output written on proyecto.pdf (77 pages, 5188068 bytes).
+Output written on proyecto.pdf (79 pages, 7264134 bytes).
 PDF statistics:
- 1837 PDF objects out of 2073 (max. 8388607)
- 1066 named destinations out of 1200 (max. 500000)
- 443 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1882 PDF objects out of 2073 (max. 8388607)
+ 1081 named destinations out of 1200 (max. 500000)
+ 499 words of extra memory for PDF output out of 10000 (max. 10000000)
 
