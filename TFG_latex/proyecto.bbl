@@ -1,5 +1,26 @@
 \begin{thebibliography}{10}
 
+\bibitem{clustered_op}
+Vindigni~M Angelelli~E, Archetti~C.
+\newblock {The clustered orienteering problem}.
+\newblock {\em {Eur J Oper Res}}, 238:404–414, 2014.
+
+\bibitem{Chao}
+Wasil~EA Chao~IM, Golden~BL.
+\newblock {The team orienteering problem}.
+\newblock {\em {Eur J Oper Res}}, 88:464--474, 1996.
+
+\bibitem{TDOP}
+Lingas~A Fomin~FV.
+\newblock {Approximation algorithms for time-dependent orienteering}.
+\newblock {\em {Inform Process Lett}}, 83:57–62, 2002.
+
+\bibitem{TDTOPTW}
+Linaza MT Vansteenwegen P Souffriau~W Garcia~A, Arbelaitz~O.
+\newblock {Personalized tourist route generation}.
+\newblock {\em {Proceedings of the 10th international conference on Current
+  trends in web engineering}}, page 486–497, 2010.
+
 \bibitem{github}
 Github.
 \newblock {Página oficial de GitHub}.
@@ -16,6 +37,11 @@ Google.
 \newblock {Tutorial para decodificar polilínea Google Directions API}.
 \newblock
   \url{https://developers.google.com/maps/documentation/utilities/polylinealgorithm?hl=es-419}.
+
+\bibitem{dptop}
+Labadie~N Murat Afsar~H.
+\newblock {Team orienteering problem with decreasing profits}.
+\newblock {\em {Electron Notes Discrete Math}}, 41:285--293, 2013.
 
 \bibitem{openstreetmap_doc}
 OpenStreetMap.
@@ -46,6 +72,18 @@ Overpass.
 \newblock {Overpass Turbo}.
 \newblock \url{https://overpass-turbo.eu/}.
 
+\bibitem{multiconstrained_toptw}
+Musliu~N Sylejmani~K, Dorn~J.
+\newblock {A tabu search approach for multi constrained team orienteering
+  problem and its application in touristic trip planning}.
+\newblock {\em {12th international conference on hybrid intelligent systems
+  (HIS)}}, page 300–305, 2012.
+
+\bibitem{first_article_OP}
+Tsiligirides T.
+\newblock {Heuristic methods applied to orienteering}.
+\newblock {\em {J Oper Res Soc}}, 35:797--809, 1984.
+
 \bibitem{trello}
 Trello.
 \newblock {Página oficial de Trello}.
@@ -54,6 +92,17 @@ Trello.
 \bibitem{unwto_resumen}
 UNWTO.
 \newblock {Panoráma OMT del turismo internacional}.
-\newblock 2017.
+\newblock {\em UNWTO}, 2017.
+
+\bibitem{first_article_TTDP}
+Van Oudheusden~D Vansteenwegen~P.
+\newblock {The mobile tourist guide: an OR opportunity}.
+\newblock {\em {OR Insight}}, 20:21--17, 2007.
+
+\bibitem{TOPTW}
+Vanden Berghe G Van Oudheusden~D Vansteenwegen~P, Souffriau~W.
+\newblock {Iterated local search for the team orienteering problem with time
+  windows}.
+\newblock {\em {Comput Oper Res}}, 36:3281–3290, 2009.
 
 \end{thebibliography}

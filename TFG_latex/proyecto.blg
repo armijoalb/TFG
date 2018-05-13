@@ -1,5 +1,16 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: proyecto.aux
 The style file: plain.bst
 Database file #1: bibliografia/bibliografia.bib
-Warning--empty journal in unwto_resumen
-(There was 1 warning)
+Too many commas in name 1 of "Vansteenwegen P, Souffriau W, Vanden Berghe G, Van Oudheusden D" for entry TOPTW
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Garcia A, Arbelaitz O, Linaza MT, Vansteenwegen P, Souffriau W" for entry TDTOPTW
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Garcia A, Arbelaitz O, Linaza MT, Vansteenwegen P, Souffriau W" for entry TDTOPTW
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Garcia A, Arbelaitz O, Linaza MT, Vansteenwegen P, Souffriau W" for entry TDTOPTW
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Garcia A, Arbelaitz O, Linaza MT, Vansteenwegen P, Souffriau W" for entry TDTOPTW
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Vansteenwegen P, Souffriau W, Vanden Berghe G, Van Oudheusden D" for entry TOPTW
+while executing---line 1090 of file plain.bst
+(There were 6 error messages)
