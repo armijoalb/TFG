@@ -1,4 +1,4 @@
-\babel@toc {spanish}{}
+\select@language {spanish}
 \contentsline {chapter}{\numberline {1}Introducci\IeC {\'o}n}{15}{chapter.1}
 \contentsline {section}{\numberline {1.1}Motivaci\IeC {\'o}n}{15}{section.1.1}
 \contentsline {section}{\numberline {1.2}Tourist Trip Design Problem}{16}{section.1.2}
