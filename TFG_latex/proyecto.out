@@ -2,44 +2,31 @@
 \BOOKMARK [1][-]{section.1.1}{Motivaci\363n}{chapter.1}% 2
 \BOOKMARK [1][-]{section.1.2}{Tourist Trip Design Problem}{chapter.1}% 3
 \BOOKMARK [1][-]{section.1.3}{Objectivos}{chapter.1}% 4
-\BOOKMARK [0][-]{chapter.2}{Especificaci\363n de Requisitos}{}% 5
-\BOOKMARK [1][-]{section.2.1}{Requisitos}{chapter.2}% 6
-\BOOKMARK [2][-]{subsection.2.1.1}{Requisitos interfaz}{section.2.1}% 7
-\BOOKMARK [2][-]{subsection.2.1.2}{Requisitos internos}{section.2.1}% 8
-\BOOKMARK [1][-]{section.2.2}{Casos de uso}{chapter.2}% 9
-\BOOKMARK [2][-]{subsection.2.2.1}{Interfaz de usuario}{section.2.2}% 10
-\BOOKMARK [2][-]{subsection.2.2.2}{Aplicaci\363n}{section.2.2}% 11
-\BOOKMARK [1][-]{section.2.3}{Fuente de los datos}{chapter.2}% 12
-\BOOKMARK [2][-]{subsection.2.3.1}{OSM}{section.2.3}% 13
-\BOOKMARK [2][-]{subsection.2.3.2}{Overpass}{section.2.3}% 14
-\BOOKMARK [2][-]{subsection.2.3.3}{OSRM}{section.2.3}% 15
-\BOOKMARK [2][-]{subsection.2.3.4}{Google Routes API}{section.2.3}% 16
-\BOOKMARK [0][-]{chapter.3}{Planificaci\363n}{}% 17
-\BOOKMARK [1][-]{section.3.1}{Diagrama de Gantt}{chapter.3}% 18
-\BOOKMARK [1][-]{section.3.2}{Herramientas utilizadas para la planificaci\363n}{chapter.3}% 19
-\BOOKMARK [2][-]{subsection.3.2.1}{Trello}{section.3.2}% 20
-\BOOKMARK [2][-]{subsection.3.2.2}{GitHub}{section.3.2}% 21
-\BOOKMARK [0][-]{chapter.4}{An\341lisis}{}% 22
-\BOOKMARK [1][-]{section.4.1}{Dise\361o de rutas tur\355sticas}{chapter.4}% 23
-\BOOKMARK [1][-]{section.4.2}{Heur\355sticas del dise\361o}{chapter.4}% 24
-\BOOKMARK [0][-]{chapter.5}{Dise\361o}{}% 25
-\BOOKMARK [1][-]{section.5.1}{Diagrama de clases}{chapter.5}% 26
-\BOOKMARK [1][-]{section.5.2}{Interfaz de Usuario}{chapter.5}% 27
-\BOOKMARK [0][-]{chapter.6}{Implementaci\363n}{}% 28
-\BOOKMARK [1][-]{section.6.1}{Interfaz de usuario}{chapter.6}% 29
-\BOOKMARK [2][-]{subsection.6.1.1}{Mostrar mapa}{section.6.1}% 30
-\BOOKMARK [2][-]{subsection.6.1.2}{Lista de puntos de inter\351s/alojamiento y lista soluci\363n}{section.6.1}% 31
-\BOOKMARK [2][-]{subsection.6.1.3}{Mostrar diferentes soluciones}{section.6.1}% 32
-\BOOKMARK [1][-]{section.6.2}{Procesos internos}{chapter.6}% 33
-\BOOKMARK [2][-]{subsection.6.2.1}{Peticiones a servidores}{section.6.2}% 34
-\BOOKMARK [2][-]{subsection.6.2.2}{Procesado de respuestas de servidor}{section.6.2}% 35
-\BOOKMARK [2][-]{subsection.6.2.3}{C\341lculo de ruta}{section.6.2}% 36
-\BOOKMARK [0][-]{chapter.7}{Pruebas}{}% 37
-\BOOKMARK [1][-]{section.7.1}{Caso 1}{chapter.7}% 38
-\BOOKMARK [1][-]{section.7.2}{Caso 2}{chapter.7}% 39
-\BOOKMARK [0][-]{chapter.8}{Conclusiones}{}% 40
-\BOOKMARK [1][-]{section.8.1}{Conclusiones}{chapter.8}% 41
-\BOOKMARK [1][-]{section.8.2}{Trabajos futuros}{chapter.8}% 42
-\BOOKMARK [0][-]{chapter*.29}{Bibliograf\355a}{}% 43
-\BOOKMARK [0][-]{chapter.9}{Anexo}{}% 44
-\BOOKMARK [0][-]{chapter.9}{Glosario}{}% 45
+\BOOKMARK [0][-]{chapter.2}{Planificaci\363n y Especificaci\363n de Requisitos}{}% 5
+\BOOKMARK [1][-]{section.2.1}{Planificaci\363n}{chapter.2}% 6
+\BOOKMARK [2][-]{subsection.2.1.1}{Diagrama de Gantt}{section.2.1}% 7
+\BOOKMARK [2][-]{subsection.2.1.2}{Herramientas utilizadas para la planificaci\363n}{section.2.1}% 8
+\BOOKMARK [1][-]{section.2.2}{Especificaci\363n de Requisitos}{chapter.2}% 9
+\BOOKMARK [2][-]{subsection.2.2.1}{Requisitos}{section.2.2}% 10
+\BOOKMARK [2][-]{subsection.2.2.2}{Casos de uso}{section.2.2}% 11
+\BOOKMARK [2][-]{subsection.2.2.3}{Fuente de los datos}{section.2.2}% 12
+\BOOKMARK [0][-]{chapter.3}{An\341lisis y Dise\361o}{}% 13
+\BOOKMARK [1][-]{section.3.1}{An\341lisis}{chapter.3}% 14
+\BOOKMARK [2][-]{subsection.3.1.1}{Dise\361o de rutas tur\355sticas}{section.3.1}% 15
+\BOOKMARK [2][-]{subsection.3.1.2}{Heur\355sticas propuestas}{section.3.1}% 16
+\BOOKMARK [1][-]{section.3.2}{Dise\361o}{chapter.3}% 17
+\BOOKMARK [2][-]{subsection.3.2.1}{Diagrama de clases}{section.3.2}% 18
+\BOOKMARK [2][-]{subsection.3.2.2}{Interfaz de Usuario}{section.3.2}% 19
+\BOOKMARK [0][-]{chapter.4}{Implementaci\363n y Pruebas}{}% 20
+\BOOKMARK [1][-]{section.4.1}{Implementaci\363n}{chapter.4}% 21
+\BOOKMARK [2][-]{subsection.4.1.1}{Interfaz de usuario}{section.4.1}% 22
+\BOOKMARK [2][-]{subsection.4.1.2}{Procesos internos}{section.4.1}% 23
+\BOOKMARK [2][-]{subsection.4.1.3}{Glosario de t\351rminos de Android}{section.4.1}% 24
+\BOOKMARK [1][-]{section.4.2}{Pruebas}{chapter.4}% 25
+\BOOKMARK [2][-]{subsection.4.2.1}{Caso 1}{section.4.2}% 26
+\BOOKMARK [2][-]{subsection.4.2.2}{Caso 2}{section.4.2}% 27
+\BOOKMARK [0][-]{chapter.5}{Conclusiones}{}% 28
+\BOOKMARK [1][-]{section.5.1}{Conclusiones}{chapter.5}% 29
+\BOOKMARK [1][-]{section.5.2}{Trabajos futuros}{chapter.5}% 30
+\BOOKMARK [0][-]{chapter.6}{Anexo}{}% 31
+\BOOKMARK [0][-]{chapter*.38}{Bibliograf\355a}{}% 32

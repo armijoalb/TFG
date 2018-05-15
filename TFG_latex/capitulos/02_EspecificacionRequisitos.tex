@@ -1,8 +1,12 @@
-\chapter{Especificación de  Requisitos}
-\section[Requisitos]{Requisitos}
+\chapter{Planificación y Especificación de Requisitos}
+En este capítulo se mostrará la planificación del Trabajo de Fin de Grado. También se describen los requisitos (de la interfaz y de la aplicación ), se presentan los diagramas de caso de uso y se describen	las fuentes de datos a partir de las cuales la aplicación obtiene la información necesaria.
+
+\input{capitulos/03_Planificacion}
+\section{Especificación de  Requisitos}
+\subsection[Requisitos]{Requisitos}
 En este apartado se resumirán los requisitos funcionales y no funcionales del proyecto, dividiéndolos en los requisitos de la interfaz de usuario y los requisitos internos de la aplicación.
-\subsection[Requisitos interfaz]{Requisitos de la interfaz del usuario}
-\subsubsection[Requisitos funcionales]{Requisitos funcionales}
+\subsubsection[Requisitos interfaz]{Requisitos de la interfaz del usuario}
+\textbf{Requisitos funcionales:}
 \begin{itemize}
 	\item \textbf{Mapa de la ciudad elegida por el usuario:} la aplicación mostrará el mapa de la ciudad seleccionada por el usuario, así como los alojamientos y puntos de interés que haya en la ciudad con marcadores en el mapa.
 	\item\textbf{ Formulario de generación de rutas:} la aplicación dispondrá de una lista de puntos de interés y de alojamientos entre los que el usuario podrá elegir para generar la ruta. 
@@ -13,21 +17,21 @@ En este apartado se resumirán los requisitos funcionales y no funcionales del p
 	\item\textbf{ Especificación de las rutas:} la aplicación deberá mostrar los puntos de interés que contiene la ruta como marcadores, así como las direcciones que deberá seguir el usuario para llegar desde un punto hasta otro. También mostrará una lista ordenada de dichos puntos en los cuales se especificará la hora de entrada y salida aproximadas de cada punto de interés.
 	\item \textbf{Información sobre los marcadores:} la aplicación deberá mostrar información referente a los marcadores mostrados en la interfaz. Dicha información será el nombre de dicho punto de interés.
 \end{itemize}
-\subsubsection[Requisitos no funcionales]{Requisitos no funcionales}
+\textbf{Requisitos no funcionales:}
 \begin{itemize}
 	\item \textbf{Interfaz:} la interfaz deberá ser atractiva, ligera y lo más intuitiva posible.
 	\item \textbf{Plataforma:} la aplicación estará disponible para todos los dispositivos móviles que utilicen el sistema operativo Android a partir de la versión 5.0 (Lollipop).
 \end{itemize}
 
-\subsection[Requisitos internos]{Requisitos de la aplicación}
-\subsubsection[Requisitos funcionales]{Requisitos funcionales}
+\subsubsection[Requisitos internos]{Requisitos de la aplicación}
+\textbf{Requisitos funcionales}
 \begin{itemize}
 	\item \textbf{Recepción de peticiones del cliente:} la aplicación será capaz de recibir peticiones que el cliente le envía a través de la interfaz gráfica que contienen los puntos de interés seleccionados por el usuario.
 	\item \textbf{Cálculo y retorno de rutas óptima:} a partir de los datos proporcionados por el usuario y la información que se tiene sobre dichos datos; la aplicación calculará y devolverá la ruta que después será mostrada en la interfaz.
 	\item \textbf{Publicación de lista de alojamientos y puntos de interés:} la aplicación tendrá acceso a una lista de alojamientos y puntos de interés que el usuario podrá seleccionar desde la interfaz de la aplicación.
 	\item \textbf{Publicación de la ruta en una mapa:} la aplicación será capaz de mostrar en la interfaz de usuario los puntos de interés seleccionados en un mapa, así como una lista ordenada de la ruta y el camino para llegar desde un punto de interés hasta el siguiente. El primer punto siempre será el alojamiento seleccionado por el usuario.
 \end{itemize}
-\subsubsection[Requisitos no funcionales]{Requisitos no funcionales}
+\textbf{Requisitos no funcionales}
 \begin{itemize}
 	\item \textbf{Envío de peticiones de puntos de interés y alojamientos:} la aplicación deberá mandar peticiones a un servidor que es capaz de conectarse a una base de datos para obtener los datos necesarios sobre alojamientos y puntos de interés. Dicha información se devuelve en un fichero .json.
 	\item \textbf{Importación de información sobre puntos de interés y alojamientos:} tras obtener los puntos de interés y alojamientos del servidor; la aplicación deberá procesar la información contenida en el fichero .json para mostrarlos en la interfaz.
@@ -38,8 +42,8 @@ En este apartado se resumirán los requisitos funcionales y no funcionales del p
 	\item \textbf{Importación de direcciones entre puntos de interés:} la aplicación deberá guardar y procesar la información que contiene el archivo .json para después mostrar las direcciones en la interfaz de usuario.
 \end{itemize}
 
-\section[Casos de uso]{Diagramas de casos de uso}
-\subsection[Interfaz de usuario]{Interfaz de usuario}
+\subsection[Casos de uso]{Diagramas de casos de uso}
+\subsubsection[Interfaz de usuario]{Interfaz de usuario}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{imagenes/Interfaz.pdf}
@@ -47,7 +51,7 @@ En este apartado se resumirán los requisitos funcionales y no funcionales del p
 	\label{fig:user_interface}
 \end{figure}
 
-\subsection[Aplicación]{Aplicación móvil}
+\subsubsection[Aplicación]{Aplicación móvil}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.55]{imagenes/Aplicacion.pdf}
@@ -55,8 +59,8 @@ En este apartado se resumirán los requisitos funcionales y no funcionales del p
 	\label{fig:app}
 \end{figure}
 
-\section[Fuente de los datos]{Fuente de los datos}
-\subsection[OSM]{Open Street Map}
+\subsection[Fuente de los datos]{Fuente de los datos}
+\subsubsection[OSM]{Open Street Map}
 Ya que el objetivo de la aplicación fue crear rutas a partir de puntos de interés, se requirió obtener una lista con todos los puntos de interés y alojamientos disponibles en una ciudad con la suficiente información para que puedan ser usados para calcular rutas.\newline
 Tras investigar diferentes posibilidades, se decidió utilizar OpenStreetMap, el cual es un proyecto colaborativo que permite crear mapas y editar los ya existentes.\newline
 \begin{figure}[H]
@@ -72,7 +76,7 @@ OpenStreetMap tiene una web \cite{openstreetmap} en la cual puedes editar cualqu
 	\item Áreas: sirven para definir el espacio ocupado por un nodo, por ejemplo, un parque. Dichas áreas están formadas un conjunto de nodos que delimitan el área.
 \end{itemize}
 Al no estar disponible el acceso a la base de datos que contiene OpenStreetMap de forma directa se tuvo que buscar una API para poder obtener los datos.
-\subsection[Overpass]{Overpass API}
+\subsubsection[Overpass]{Overpass API}
 Para obtener la información necesaria de OpenStreetMap, se necesitó buscar una API que permitiera obtener dicha información. Overpass es una API que permite hacer consultas sobre puntos de interés y que utiliza la información de OpenStreetMap para devolver la información sobre los puntos de interés. Dichas consultas pueden realizarse mediante urls. Las respuestas obtenidas por Overpass se devuelven en formato JSON, dentro de dicho fichero se encuentra un array llamado \enquote{elements} que contiene cada uno de los elementos. A continuación, se muestra una parte del fichero que devuelve Overpass para alojamientos y puntos de interés en Granada.\newline
 \begin{lstlisting}[caption=Respuesta Overpass sobre alojamientos y puntos de interés en Granada]
 {
@@ -172,7 +176,7 @@ node["tourism"="hostel"](around.ciudad:7000);
 out;
 \end{lstlisting}
 
-\subsection[OSRM]{Open Source Routing Machine}
+\subsubsection[OSRM]{Open Source Routing Machine}
 Como la aplicación necesita obtener la matriz de distancias entre los distintos puntos seleccionados por el usuario, se investigó para encontrar una herramienta que permitiera obtener dicha matriz a través de peticiones mediante URL.\newline
 Tras probar con varias herramientas, se optó por usar OSRM \cite{osmr},la cual es de uso gratuito. OSRM permite hacer peticiones a sus servidores\cite{osmr_doc} o montar uno propio \cite{osmr_backend}.\newline
 OSRM devuelve de sus peticiones un archivo JSON que contiene las distancias entre los puntos especificados en la petición, el tiempo que se tarda en llegar desde un punto a otro está guardado en un array llamado \enquote{durations}; cada elemento de dicho array contiene otro array con los tiempos desde dicho punto de interés al resto de puntos de interés. Un ejemplo de la salida de OSRM es el siguiente:
@@ -193,7 +197,7 @@ OSRM devuelve de sus peticiones un archivo JSON que contiene las distancias entr
 }
 \end{lstlisting}
 
-\subsection[Google Routes API]{Google Maps Directions API}
+\subsubsection[Google Routes API]{Google Maps Directions API}
 Dado que la aplicación debe mostrar el camino óptimo entre dos puntos seleccionados en la solución, se buscó una herramienta que lo calculara. Tras investigar y probar diferentes herramientas, se optó por utilizar Google Maps Directions API \cite{directions_api}.\newline
 Esta herramienta permite hacer peticiones a un servidor y devuelve un archivo JSON que contiene la ruta que se debe seguir. Este archivo se debe procesar para obtener las polilíneas que represetan el camino entre dos puntos. Un ejemplo de este archivo es el siguiente.\newline
 \begin{lstlisting}[caption=Salida de Google Maps Directions API]

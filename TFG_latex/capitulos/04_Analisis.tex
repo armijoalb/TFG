@@ -1,6 +1,7 @@
-\chapter{Análisis}
-En este capítulo se explican los modelos teóricos y algorítmicos empleados para el diseño de las rutas y el desarrollo del sistema recomendador.
-\section[Diseño de rutas turísticas]{Diseño de rutas turísticas}
+\chapter{Análisis y Diseño}
+En este capítulo se presenta el problema de diseño de rutas con puntos de interés y modelización. Para resolver el problema, se proponen inicialmente dos métodos heurísticos que permitirán evaluar el funcionamiento del prototipo. Además se detallarán los aspectos más importantes relacionados con el diseño del prototipo.
+\section[Análisis]{Análisis}
+\subsection[Diseño de rutas turísticas]{Diseño de rutas turísticas}
 Los problemas de diseño de rutas turísticas (Tourist Trip Design Problems, TTDP) consisten seleccionar los puntos de interés (point of interest, POI) a visitar por un turista atendiendo a sus restricciones y al beneficio o grado de satisfacción que produce su visita. El turista dispone en su estancia de un cierto número de días para organizar las visitas a los puntos de interés mediante rutas de duración limitada. Se parte de un conjunto de puntos disponibles a visitar de los que se conoce, el beneficio o grado de satisfacción, la duración de la visita y el intervalo de tiempo en el que puede realizarse. El beneficio total que intenta maximizar el turista es la suma de los beneficios obtenidos en cada visita.\newline
 Los elementos que forman parte del modelo son:
 \begin{itemize}
@@ -17,7 +18,7 @@ Los elementos que forman parte del modelo son:
 	En la que $y_i$ corresponde a una variable de visita para cada uno de los puntos de interés $i, i=1,...,n$. Dicha variable es binaria, teniendo como valor 1 si el punto de interés $i$ es visitado en la ruta y un 0 si no se visita.
 \end{itemize}
 El problema de optimización coincide con el Team Orienteering Problem with Time Windows (TOPTW) que se ha estudiado en la literatura científica con algunas modificaciones. Se consideran puntos de interés museos, miradores, catedrales, mezquitas, etc... de la ciudad que el usuario elija.
-\section[Heurísticas del diseño]{Heurísticas del diseño}
+\subsection[Heurísticas propuestas]{Heurísticas propuestas}
 Como solución inicial a este problema se ha utilizado una heurística Greedy, ya que es una heurística rápida que puede ejecutar cualquier dispositivo móvil. Dicha huerística Greedy seleccionará siempre el punto más cercano al punto de interés actual; este proceso se repetirá hasta que no puedan introducirse más puntos de interés en la solución, bien porque no haya más puntos de interés por visitar o bien porque no haya más tiempo para visitarlos. El psuedocódigo de dicho algoritmo es el siguiente:\newline
 \begin{algorithm}[H]
 	\caption{Pseudocódigo algoritmo Greedy}
@@ -112,5 +113,5 @@ Para la fase de optimización se utilizará el algoritmo de búsqueda local, dic
 \vspace{0.06in}
 Para generar un nuevo vecino de la solución dada, se intercambiarán la posición de dos puntos de interés dentro de la solución. Además de intercambiar dichos puntos, hay que actualizar los valores de entrada y de salida de dichos puntos y comprobar que la solución sigue siendo válida. Es decir, que sigue respetando el número de puntos de interés que hay en la solución y que la hora en la que se finaliza la ruta sigue siendo la misma.
 
-
+\input{capitulos/05_Diseno}
 
