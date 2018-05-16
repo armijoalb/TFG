@@ -7,7 +7,7 @@ El código de la aplicación ha sido desarrollado en Java para implementar la fu
 \subsubsection{Mostrar mapa}
 Para mostrar el mapa se ha utilizado la vista que tiene integrada Android, para ello se debe crear una clave que  permita a la aplicación acceder a los servicios de Google Maps. Para ello, hay que crear al menos un plan estándar desde la página de Google Maps API. Una vez se tenga la clave, hay que crear una vista del mapa dentro de la actividad donde se quiera mostrar dicho mapa y implementar la interfaz \textit{OnMapReadyCallback}, para la cual hay que implementar el método \textit{onMapReady(GoogleMap googleMap)}, el cuál se llama cuando se inicializa un objeto de la clase GoogleMaps y está preparado para usarse dentro de Android. El código necesario para mostrar el mapa es el siguiente.
 \newpage
-\begin{lstlisting}[caption=código necesario para mostrar el mapa en la aplicación]
+\begin{lstlisting}[caption=código necesario para mostrar el mapa en la aplicación.]
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, CustomClickListener {
 	private GoogleMap mMap;
 	...
@@ -59,7 +59,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 \end{lstlisting}
 \newpage
 El archivo de la vista de la actividad sería el siguiente.
-\begin{lstlisting}[caption=Código XML de la vista de la actividad principal]
+\begin{lstlisting}[caption=Código XML de la vista de la actividad principal.]
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
@@ -97,12 +97,12 @@ El archivo de la vista de la actividad sería el siguiente.
 
 </android.support.constraint.ConstraintLayout>
 \end{lstlisting}
-\subsubsection{Lista de puntos de interés/alojamiento y lista solución}
+\subsubsection{Lista de POIs/alojamiento y lista solución}
 Para crear una lista en Android existen diferentes estructuras, la más reciente y más versátil es crear un \textit{RecyclerView}. Para utilizar un \textit{RecyclerView} en Android, se debe utilizar un objeto de la clase \textit{RecyclerView} en la actividad o Fragment en el que se vaya a mostrar la lista. Además, hay que crear una clase que herede de la clase \textit{RecyclerView.Adapter} para indicar el comportamiento de la lista, dentro de esta clase se debe sobreescribir al menos los métodos \textit{onCreateViewHolder()}, que es llamado cuando se crea un nuevo objeto en la lista; \textit{onBindViewHolder()}, que es llamado cuando se va a mostrar un objeto en pantalla de la lista y se le asocia una posición dentro de la lista; y la función \textit{getItemCount()}, que devuelve el número de elementos de la lista.\newline
 
-Una vez se haya creado este objeto se debe de indicar al \textit{RecyclerView} cual es el \textit{Adapter} que se va a utilizar, esto se hace con el método \textit{RecyclerView.SetAdapter(Clase\_Adapter)}. También es necesario especificar el layout que tendrá el \textit{RecyclerView}, para ello hay que utilizar el método \textit{RecyclerView.setLayoutManager(tipo\_layout\_manager)}; existen diferentes tipos de layout posibles para el \textit{RecyclerView}, pero si se quiere mostrar una lista se debe utilizar como \enquote{tipo\_layout\_manager} un objeto de la clase \textit{LinearLayoutManager}; para este objeto hay que especificar el contexto al crear el objeto, para ello se debe utilizar la función \textit{getActivity()}, si se va a utilizar dentro de un Fragment, o \enquote{this} si se va a utilizar en una Activity.El código necesario para esto sería el siguiente.
+Una vez se haya creado este objeto se debe de indicar al \textit{RecyclerView} cual es el \textit{Adapter} que se va a utilizar, esto se hace con el método \textit{RecyclerView.SetAdapter(Clase\_Adapter)}. También es necesario especificar el layout que tendrá el \textit{RecyclerView}, para ello hay que utilizar el método \textit{RecyclerView.setLayoutManager(tipo\_layout\_manager)}; existen diferentes tipos de layout posibles para el \textit{RecyclerView}, pero si se quiere mostrar una lista se debe utilizar como \enquote*{tipo\_layout\_manager} un objeto de la clase \textit{LinearLayoutManager}; para este objeto hay que especificar el contexto al crear el objeto, para ello se debe utilizar la función \textit{getActivity()}, si se va a utilizar dentro de un Fragment, o \enquote*{this} si se va a utilizar en una Activity.El código necesario para esto sería el siguiente.
 
-\begin{lstlisting}[caption=Código de una clase que contiene un RecyclerView]
+\begin{lstlisting}[caption=Código de una clase que contiene un RecyclerView.]
 public class TypesFragment extends Fragment {
 
 	private RecyclerView mRecycler;
@@ -150,7 +150,7 @@ public class TypesFragment extends Fragment {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[caption=Código para crear una lista en Android]
+\begin{lstlisting}[caption=Código para crear una lista en Android.]
 public class TypesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 private String TAG = TypesRecyclerAdapter.class.getSimpleName();
@@ -236,7 +236,7 @@ public int getItemCount() {
 }
 \end{lstlisting}
 \newpage
-\begin{lstlisting}[caption=Código XML de la vista de una lista de elementos]
+\begin{lstlisting}[caption=Código XML de la vista de una lista de elementos.]
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -294,7 +294,7 @@ public int getItemCount() {
 \newpage
 Una vez se tiene  creada y definida la lista, se debe crear una clase más para especificar la vista y el comportamiento individual de cada uno de los elementos de dicha lista. Esta nueva clase debe heredar de la clase \textit{RecyclerView.ViewHolder}; esta debe tener además un fichero XML que defina la estructura de la vista de dicha clase. El código necesario para crear dicha clase es el siguiente.
 
-\begin{lstlisting}[caption=Código para crear un elemento de una lista en Android]
+\begin{lstlisting}[caption=Código para crear un elemento de una lista en Android.]
 public class CityNodesViewHolder extends RecyclerView.ViewHolder {
 	private TextView nodeName;
 	private TextView nodeType;
@@ -313,7 +313,7 @@ public class CityNodesViewHolder extends RecyclerView.ViewHolder {
 }
 \end{lstlisting}
 \newpage
-\begin{lstlisting}[caption=Código XML de la vista de un elemento de la lista]
+\begin{lstlisting}[caption=Código XML de la vista de un elemento de la lista.]
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -366,7 +366,7 @@ La clase \textit{TabLayout} solo se utiliza para definir tabs  que se muestran e
 Para definir el comportamiento del objeto de la clase \textit{ViewPager}, hay que crear una clase que defina dicho comportamiento y especificárselo al objeto de la clase \textit{ViewPager} con el método \textit{ViewPager.setAdapter(adapter)}. Una de las posibles formas de hacer esto es crear una clase interna a la clase en la que se utiliza el \textit{ViewPager} que herede de la clase \textit{FragmentViewPager}. Dentro de esta clase se deben sobreescribir al menos los métodos \textit{getItem()}, que determina el Frament que se debe utilizar para cada tab; \textit{getCount()}, que devuelve el número de tabs; y \textit{getPageTitle()}, que determina el nombre de cada uno de los tabs según su posición. \newline
 
 El siguiente código se encarga de hacer lo descrito en los párrafos anteriores.
-\begin{lstlisting}[caption=Código de una vista con tabs dentro de ella]
+\begin{lstlisting}[caption=Código de una vista con tabs dentro de ella.]
 public class ResultActivity extends FragmentActivity  {
 
 	/*
@@ -439,7 +439,7 @@ public class ResultActivity extends FragmentActivity  {
 
 }
 \end{lstlisting}
-\begin{lstlisting}[caption=Código XML de la vista con tabs]
+\begin{lstlisting}[caption=Código XML de la vista con tabs.]
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -467,8 +467,8 @@ public class ResultActivity extends FragmentActivity  {
 \subsection[Procesos internos]{Procesos internos}
 En este apartado se describirán las funciones de envío de peticiones a servidores, procesado de las respuestas de los servidores y el cálculo de la ruta óptima.
 \subsubsection{Peticiones a servidores}
-La aplicación cuenta con procesos que se encargan de mandar peticiones a servidores para obtener información sobre puntos de interés, distancias entre puntos, o camino óptimo entre dos puntos. Para enviar dichas peticiones, se debe especificar una URL para la cual el servidor pueda devolver una respuesta, una vez se ha obtenido la respuesta se guarda en un archivo o en un String para procesarlo. La función que descarga las respuestas de servidores se puede encontrar en la función \textit{doInBackground()} de la clase \textit{DownloadFileFromURL.}
-\begin{lstlisting}[caption=Función para enviar peticiones a servidores y guardar respuesta]
+La aplicación cuenta con procesos que se encargan de mandar peticiones a servidores para obtener información sobre POIs, distancias entre puntos, o camino óptimo entre dos puntos. Para enviar dichas peticiones, se debe especificar una URL para la cual el servidor pueda devolver una respuesta, una vez se ha obtenido la respuesta se guarda en un archivo o en un String para procesarlo. La función que descarga las respuestas de servidores se puede encontrar en la función \textit{doInBackground()} de la clase \textit{DownloadFileFromURL.}
+\begin{lstlisting}[caption=Función para enviar peticiones a servidores y guardar respuesta.]
 @Override
 protected String doInBackground(String... f_url) {
 	int count;
@@ -522,17 +522,17 @@ protected String doInBackground(String... f_url) {
 }
 \end{lstlisting}
 
-Cuando la función termina, devuelve el \enquote{PATH} donde está guardado el archivo que contiene la respuesta del servidor. El parámetro que se le pasa a la función \textit{doInBackground(String... f\_url)} se trata de un vector que contiene como primer elemento la URL que la función debe abrir y guardar el contenido; el segundo elemento contiene el nombre del archivo que contendrá la respuesta del servidor.
+Cuando la función termina, devuelve el \enquote*{PATH} donde está guardado el archivo que contiene la respuesta del servidor. El parámetro que se le pasa a la función \textit{doInBackground(String... f\_url)} se trata de un vector que contiene como primer elemento la URL que la función debe abrir y guardar el contenido; el segundo elemento contiene el nombre del archivo que contendrá la respuesta del servidor.
 \subsubsection{Procesado de respuestas de servidor}
-Para el procesado de la información que devuelven los servidores, se ha creado la clase \textit{JsonParser}. Esta clase procesa los archivos y guarda la información en estructuras para poder utilizarlas después. Para procesar los datos, se debe pasar el \enquote{PATH} del archivo, para abrirlo y meterlo en un String que después se utilizará para inicializar un objeto del tipo \textit{JSONObject}; o se puede pasar el String que contiene el fichero directamente.\newline
+Para el procesado de la información que devuelven los servidores, se ha creado la clase \textit{JsonParser}. Esta clase procesa los archivos y guarda la información en estructuras para poder utilizarlas después. Para procesar los datos, se debe pasar el \enquote*{PATH} del archivo, para abrirlo y meterlo en un String que después se utilizará para inicializar un objeto del tipo \textit{JSONObject}; o se puede pasar el String que contiene el fichero directamente.\newline
 
 \vspace{0.06in}
-\textbf{Procesado de alojamientos y puntos de interés:}\\
-Para el procesado del archivo que contiene la información sobre alojamientos y puntos de interés existe el método \textit{processJSON()}, este método no tiene parámetros, por lo que hay que crear el objeto de la clase \textit{JsonParser} indicando el \enquote{PATH} del archivo.\newline
+\textbf{Procesado de alojamientos y POIs:}\\
+Para el procesado del archivo que contiene la información sobre alojamientos y POIs existe el método \textit{processJSON()}, este método no tiene parámetros, por lo que hay que crear el objeto de la clase \textit{JsonParser} indicando el \enquote*{PATH} del archivo.\newline
 
-Dentro de este método se recorre el array llamado \enquote{elements}, por cada uno de los elementos del array se crea un objeto \textit{JSONObject} y se obtiene la información sobre el identificador del nodo, latitud, longitud, nombre y tipo de nodo en un hashmap. El código es el siguiente.\newline
+Dentro de este método se recorre el array llamado \enquote*{elements}, por cada uno de los elementos del array se crea un objeto \textit{JSONObject} y se obtiene la información sobre el identificador del nodo, latitud, longitud, nombre y tipo de nodo en un hashmap. El código es el siguiente.\newline
 \newpage
-\begin{lstlisting}[caption=Función para procesar información sobre puntos de interés y alojamientos]
+\begin{lstlisting}[caption=Función para procesar información sobre POIs y alojamientos.]
 public void processJSON() throws JSONException{
 	JSONArray elements = file_info.getJSONArray("elements");
 	for(int i=0; i < elements.length(); i++){
@@ -580,9 +580,9 @@ public void processJSON() throws JSONException{
 \vspace{0.06in}
 \textbf{Procesado de la matriz de tiempos:}\\
 Para el procesado de la matriz se creó el método \textit{processOSRMJSON()}, dicho método necesita que antes se inicialice el objeto de la clase \textit{JsonParser} para que funcione correctamente.
-Este método procesa el array llamado \enquote{durations} donde va guardando en una matriz el tiempo necesario para llegar desde un punto a otro en segundos. El código de dicho método es el siguiente.
+Este método procesa el array llamado \enquote*{durations} donde va guardando en una matriz el tiempo necesario para llegar desde un punto a otro en segundos. El código de dicho método es el siguiente.
 \newpage
-\begin{lstlisting}[caption=Función para procesar matriz de tiempos entre puntos]
+\begin{lstlisting}[caption=Función para procesar matriz de tiempos entre puntos.]
 public void processOSMRJSON() throws JSONException{
 
 	JSONArray times = file_info.getJSONArray("durations");
@@ -603,13 +603,13 @@ public void processOSMRJSON() throws JSONException{
 \end{lstlisting}
 \vspace{0.06in}
 \textbf{Procesado de caminos entre puntos de la solución:}\\
-Para el procesado de caminos entre dos puntos se creó el método \textit{parseRoutes(String geo\_coord)}. Este método recorre el array llamado \enquote{steps}, dentro de este array se toma el String \enquote{points} que está contenido en el objeto \enquote{polyline}, después este String se debe decodificar \cite{decode_polyline}. Para entrar en el array \enquote{steps} se debe primero entrar en el array \enquote{routes} y dentro de este en \enquote{legs}.\newline
+Para el procesado de caminos entre dos puntos se creó el método \textit{parseRoutes(String geo\_coord)}. Este método recorre el array llamado \enquote*{steps}, dentro de este array se toma el String \enquote*{points} que está contenido en el objeto \enquote*{polyline}, después este String se debe decodificar \cite{decode_polyline}. Para entrar en el array \enquote*{steps} se debe primero entrar en el array \enquote*{routes} y dentro de este en \enquote*{legs}.\newline
 
-El array \enquote{routes} contiene todas las rutas posibles entre los puntos que se le indiquen; las rutas se dividen en etapas, que representan la ruta entre dos puntos; dichas etapas se representan con los arrays \enquote{legs}. Dentro de una etapa puede haber más de un paso a seguir, dichos pasos se representan con los arrays \enquote{steps}.\newline
+El array \enquote*{routes} contiene todas las rutas posibles entre los puntos que se le indiquen; las rutas se dividen en etapas, que representan la ruta entre dos puntos; dichas etapas se representan con los arrays \enquote*{legs}. Dentro de una etapa puede haber más de un paso a seguir, dichos pasos se representan con los arrays \enquote*{steps}.\newline
 
 El código de la función de procesado de rutas y de decodificar las polilíneas es el siguiente.
 \newpage
-\begin{lstlisting}[caption=Función para procesar los caminos entre los puntos de una ruta]
+\begin{lstlisting}[caption=Función para procesar los caminos entre los puntos de una ruta.]
 public List<List<HashMap<String,String>>> parseRoutes(String geo_coord) throws JSONException{
 	JSONObject object = new JSONObject(geo_coord);
 	Log.i(TAG,object.toString());
@@ -656,7 +656,7 @@ public List<List<HashMap<String,String>>> parseRoutes(String geo_coord) throws J
 }
 \end{lstlisting}
 \newpage
-\begin{lstlisting}[caption=Función para decodificar polilíneas]
+\begin{lstlisting}[caption=Función para decodificar polilíneas.]
 private ArrayList<LatLng> decodePoly(String encoded) {
 
 	ArrayList<LatLng> poly = new ArrayList<LatLng>();
@@ -692,12 +692,12 @@ private ArrayList<LatLng> decodePoly(String encoded) {
 }
 \end{lstlisting}
 \subsubsection{Cálculo de ruta}
-Para el cálculo de la ruta óptima se ha creado el método \textit{obtainGreedySolution(starting\_time)}; esta función implementa un algoritmo Greedy para calcular la ruta. Para ejecutar el algoritmo se debe de inicializar un objeto de la clase \textit{PathFinder} pasándole como argumentos la lista de identificadores de los puntos seleccionados, la matriz de tiempos entre puntos y los horarios en los que cada punto de interés está abierto.\newline
+Para el cálculo de la ruta óptima se ha creado el método \textit{obtainGreedySolution(starting\_time)}; esta función implementa un algoritmo Greedy para calcular la ruta. Para ejecutar el algoritmo se debe de inicializar un objeto de la clase \textit{PathFinder} pasándole como argumentos la lista de identificadores de los puntos seleccionados, la matriz de tiempos entre puntos y los horarios en los que cada POI está abierto.\newline
 
-Una vez comienza el algoritmo, el primer nodo, que corresponde con el alojamiento que el usuario a seleccionado, se introduce dentro de la solución y se inicializa una variable que contiene el tiempo actual en el algoritmo, esta variable se inicializa con el valor del parámetro \enquote{starting\_time}. Después, se selecciona el punto más cercano a este que se pueda visitar y se introduce en la solución; también se añade al tiempo actual el tiempo que se tarda en realizar la visita y el tiempo necesario para llegar hasta dicho punto. Finalmente se actualiza el punto actual, que pasa a ser el punto seleccionado. Esta operación se repite hasta que no quedan más puntos por seleccionar o hasta que se llega a la hora límite, esta hora por defecto es las 20:00.\newline
+Una vez comienza el algoritmo, el primer nodo, que corresponde con el alojamiento que el usuario a seleccionado, se introduce dentro de la solución y se inicializa una variable que contiene el tiempo actual en el algoritmo, esta variable se inicializa con el valor del parámetro \enquote*{starting\_time}. Después, se selecciona el punto más cercano a este que se pueda visitar y se introduce en la solución; también se añade al tiempo actual el tiempo que se tarda en realizar la visita y el tiempo necesario para llegar hasta dicho punto. Finalmente se actualiza el punto actual, que pasa a ser el punto seleccionado. Esta operación se repite hasta que no quedan más puntos por seleccionar o hasta que se llega a la hora límite, esta hora por defecto es las 20:00.\newline
 
 Una vez se termina el algoritmo, se devuelve la solución, un objeto de la clase \textit{Solution}; que contiene un subconjunto de los puntos que se habían sido seleccionados por el usuario. La implementación del algoritmo se muestra en la siguiente figura.\newline
-\begin{lstlisting}[caption=Función para encontrar la ruta entre los puntos seleccionados]
+\begin{lstlisting}[caption=Función para encontrar la ruta entre los puntos seleccionados.]
 public Solution obtainGreedySolution(GregorianCalendar starting_time){
 	Solution m_solution = new Solution();
 	GregorianCalendar finish_time = new GregorianCalendar(1,1,1,20,0,0);
@@ -800,15 +800,15 @@ public Solution obtainGreedySolution(GregorianCalendar starting_time){
 }
 \end{lstlisting}
 
-Dentro de esta función se encuentran funciones para comprobar si el tiempo es válido. La función \textit{checkTime(tiempo\_actual, horarios\_punto)} comprueba si el valor del parámetro \enquote{tiempo\_actual} está dentro del horario del punto de interés, si está dentro devuelve true, sino false.\newline
+Dentro de esta función se encuentran funciones para comprobar si el tiempo es válido. La función \textit{checkTime(tiempo\_actual, horarios\_punto)} comprueba si el valor del parámetro \enquote*{tiempo\_actual} está dentro del horario del POI, si está dentro devuelve true, sino false.\newline
 
-La función \textit{checkLunchTime(tiempo\_actual, horario\_punto)} comprueba si el parámetro \enquote{tiempo\_actual} está entre el horario de mañana del punto y el horario de tarde del punto, si es así devuelve true, sino false. Esta función se utiliza para cambiar el valor de la variable \enquote{tiempo\_actual} hasta que el punto seleccionado esté abierto.
+La función \textit{checkLunchTime(tiempo\_actual, horario\_punto)} comprueba si el parámetro \enquote*{tiempo\_actual} está entre el horario de mañana del punto y el horario de tarde del punto, si es así devuelve true, sino false. Esta función se utiliza para cambiar el valor de la variable \enquote*{tiempo\_actual} hasta que el punto seleccionado esté abierto.
 
 \subsection{Glosario de términos de Android}
 En este apartado se describen algunos términos de Android utilizados en el apartado anterior.
 \begin{itemize}
 	\item \textbf{Activity:} es una componente de la aplicación que contiene una pantalla con la que un usuario puede interactuar. Cada actividad tiene una pantalla asociada a una interfaz de usuario. Normalmente la pantalla suele ocupar toda la pantalla.
-	\item \textbf{Fragment:} representa un comportamiento o parte de la interfaz de usuario de una Activity. Dentro de una Activity se pueden combinar varios Fragments. Al igual que una Activity, tiene un ciclo de vida propio y recibe sus propios eventos de entrada. Podría definirse como una \enquote{subactividad}.
+	\item \textbf{Fragment:} representa un comportamiento o parte de la interfaz de usuario de una Activity. Dentro de una Activity se pueden combinar varios Fragments. Al igual que una Activity, tiene un ciclo de vida propio y recibe sus propios eventos de entrada. Podría definirse como una \enquote*{subactividad}.
 	\item \textbf{View:} representa el bloque básico para representar cualquier elemento básico de la interfaz de usuario en Android.
 	\item \textbf{ViewGroup:} es un tipo especial de View que puede contener Views a su vez. Este tipo de View es utilizada como base de un Layout y otro contenedores complejos dentro de Android.
 	\item \textbf{Layout:} define la estructura para el diseño de una interfaz de usuario, como la UI de una actividad o un widget de una aplicación.

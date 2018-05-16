@@ -2,7 +2,7 @@
 \subsection[Diagrama de clases]{Diagrama de clases}
 En este apartado se mostrarán los diagramas de clases de los elementos más importantes de la aplicación.\newline
 
-En la figura \ref{fig:fragment_diagram} se muestra el diagrama de clases del Fragment \enquote{TypesFragment} . Dicho diagrama de clases muestra las siguientes clases:
+En la figura \ref{fig:fragment_diagram} se muestra el diagrama de clases del Fragment \enquote*{TypesFragment} . Dicho diagrama de clases muestra las siguientes clases:
 \begin{itemize}
 	\item La clase \textbf{TypesFragment}:esta clase es la encargada de comunicar los elementos gráficos que se encuentra dentro de la lista de alojamientos y puntos de interés, también del botón que inicia el algoritmo de búsqueda de la ruta óptima.
 	\item La clase \textbf{TypesRecyclerFragment}: es la encargada de manejar la lista de alojamientos y puntos de interés, además devuelve los elementos seleccionados en la lista al iniciar la búsqueda de la ruta. También se encarga de gestionar la interfaz gráfica de la lista.
@@ -50,32 +50,32 @@ Por último, en la figura \ref{fig:solution_recycler_diagram} se muestra el diag
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=.8,angle=90]{imagenes/fragment_class_diagram.pdf}
-	\caption{Diagrama de clases del \textbf{TypesFrament} }
+	\caption{Diagrama de clases del \textbf{TypesFrament}.}
 	\label{fig:fragment_diagram}
 \end{figure}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=.8,angle=90]{imagenes/main_activity_class_diagram.pdf}
-	\caption{Diagrama de clases de la actividad principal \ref{fig:anexo_diagrama_main_activity} }
+	\caption{Diagrama de clases de la actividad principal \ref{fig:anexo_diagrama_main_activity}. }
 	\label{fig:main_activity_diagram}
 \end{figure}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.8,angle=90]{imagenes/models_package.pdf}
-	\caption{Diagrama de clases del paquete \textbf{models}}
+	\caption{Diagrama de clases del paquete \textbf{models}.}
 	\label{fig:models_diagram}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.8,angle=90]{imagenes/result_activity.pdf}
-	\caption{Diagrama de clases del activity \textbf{ResultActivity}}
+	\caption{Diagrama de clases del activity \textbf{ResultActivity}.}
 	\label{fig:result_activity_diagram}
 \end{figure}
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.8,angle=90]{imagenes/result_fragment.pdf}
-	\caption{Diagrama de clases de la clase \textbf{SolutionFragment}}
+	\caption{Diagrama de clases de la clase \textbf{SolutionFragment}.}
 	\label{fig:solution_recycler_diagram}
 \end{figure}
 
@@ -86,20 +86,20 @@ A continuación se mostrarán todos los elementos que conforman la interfaz de u
 
 Lo primero que se muestra es la actividad principal, esta cuenta con un mapa por el que se puede navegar y una lista de alojamientos y puntos de interés, entre los cuales el usuario puede elegir un alojamiento y el número de puntos de interés que desee; esto se puede encontrar en las figuras \ref{fig:main_activity_map}\ref{fig:main_activity_list}.\newline
 
-Para poder ver la lista, se debe deslizar la pestaña \enquote{Sitios interesantes} hacia arriba, así tendremos acceso a la lista completa, para explorar todos los alojamientos y puntos de interés, debemos hacer scroll hacia arriba sobre la lista. Dicha lista muestra primero los alojamientos y tras estos los puntos de interés, que se organizan en \enquote{Museos}, \enquote{Miradores} y \enquote{Monumentos}.\newline
+Para poder ver la lista, se debe deslizar la pestaña \enquote*{Sitios interesantes} hacia arriba, así tendremos acceso a la lista completa, para explorar todos los alojamientos y puntos de interés, debemos hacer scroll hacia arriba sobre la lista. Dicha lista muestra primero los alojamientos y tras estos los puntos de interés, que se organizan en \enquote*{Museos}, \enquote*{Miradores} y \enquote*{Monumentos}.\newline
 
 Dentro la lista, cada uno de los elementos contiene un caja en la que se puede pulsar para seleccionar o deseleccionar de dicho elemento. Dentro de las vistas de los tipos de punto de interés, se encuentra también una caja, dicha caja permite seleccionar o deseleccionar todos los puntos de interés de ese tipo.\newline
 
-Tras elegir el alojamiento los puntos de interés que el usuario desee, se ejecuta el algoritmo y cuando este termina se abre una nueva actividad en la cual se muestran diferentes rutas al problema, por defecto se muestra la primera ruta, para mostrar otras rutas, se debe pulsar sobre los tabs llamados \enquote{"Solución X"} para mostar otras soluciones.\newline
+Tras elegir el alojamiento los puntos de interés que el usuario desee, se ejecuta el algoritmo y cuando este termina se abre una nueva actividad en la cual se muestran diferentes rutas al problema, por defecto se muestra la primera ruta, para mostrar otras rutas, se debe pulsar sobre los tabs llamados \enquote*{"Solución X"} para mostar otras soluciones.\newline
 
-Dentro de cada una de las soluciones, se puede pulsar sobre los marcadores para mostrar información sobre los mismos. Además, en la parte inferior de la pantalla se muestra una lista oculta que muestra la información detalla de la ruta; para poder ver dicha información se debe deslizar hacia arriba en \enquote{Descripción ruta final} o pulsar. Dentro de la lista, se muestra en orden los puntos de interés que contiene la ruta, el primer punto que se muestra es el alojamiento seleccionado; además, cada uno de los puntos de interés muestra la hora aproximada de entrada y de salida de dicho punto de interés. Debajo se muestran figuras de ejemplo sobre esto \ref{fig:result_activity}\ref{fig:result_activity_2}.
+Dentro de cada una de las soluciones, se puede pulsar sobre los marcadores para mostrar información sobre los mismos. Además, en la parte inferior de la pantalla se muestra una lista oculta que muestra la información detalla de la ruta; para poder ver dicha información se debe deslizar hacia arriba en \enquote*{Descripción ruta final} o pulsar. Dentro de la lista, se muestra en orden los puntos de interés que contiene la ruta, el primer punto que se muestra es el alojamiento seleccionado; además, cada uno de los puntos de interés muestra la hora aproximada de entrada y de salida de dicho punto de interés. Debajo se muestran figuras de ejemplo sobre esto \ref{fig:result_activity}\ref{fig:result_activity_2}.
 
 
 \newpage
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=50mm]{imagenes/main_activity_map}
-	\caption{Mapa mostrando los puntos de interés y alojamientos sobre el mapa}
+	\caption{Mapa mostrando los puntos de interés y alojamientos sobre el mapa.}
 	\label{fig:main_activity_map}
 \end{figure}
 \vspace{0.06in}
@@ -107,7 +107,7 @@ Dentro de cada una de las soluciones, se puede pulsar sobre los marcadores para 
 	\centering
 	\subfigure{\includegraphics[width=50mm]{imagenes/main_activity_list}}
 	\subfigure{\includegraphics[width=50mm]{imagenes/main_activity_list_2}}
-	\caption{Lista de alojamientos y puntos de interés disponibles para seleccionar}
+	\caption{Lista de alojamientos y puntos de interés disponibles para seleccionar.}
 	\label{fig:main_activity_list}
 \end{figure}
 
@@ -116,7 +116,7 @@ Dentro de cada una de las soluciones, se puede pulsar sobre los marcadores para 
 	\centering
 	\subfigure{\includegraphics[width=50mm]{imagenes/solution}}
 	\subfigure{\includegraphics[width=50mm]{imagenes/list_solution}}
-	\caption{Mapa mostrando solución y lista de puntos de interés de la solución}
+	\caption{Mapa mostrando solución y lista de puntos de interés de la solución.}
 	\label{fig:result_activity}
 \end{figure}
 
@@ -124,6 +124,6 @@ Dentro de cada una de las soluciones, se puede pulsar sobre los marcadores para 
 	\centering
 	\subfigure{\includegraphics[width=50mm]{imagenes/solution_2}}
 	\subfigure{\includegraphics[width=50mm]{imagenes/solution_3}}
-	\caption{Diferentes soluciones mostradas en un mapa}
+	\caption{Diferentes soluciones mostradas en un mapa.}
 	\label{fig:result_activity_2}
 \end{figure}

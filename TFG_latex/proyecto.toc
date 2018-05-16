@@ -32,7 +32,7 @@
 \contentsline {section}{\numberline {4.1}Implementaci\IeC {\'o}n}{47}{section.4.1}
 \contentsline {subsection}{\numberline {4.1.1}Interfaz de usuario}{47}{subsection.4.1.1}
 \contentsline {subsubsection}{Mostrar mapa}{47}{section*.28}
-\contentsline {subsubsection}{Lista de puntos de inter\IeC {\'e}s/alojamiento y lista soluci\IeC {\'o}n}{49}{section*.29}
+\contentsline {subsubsection}{Lista de POIs/alojamiento y lista soluci\IeC {\'o}n}{49}{section*.29}
 \contentsline {subsubsection}{Mostrar diferentes soluciones}{55}{section*.30}
 \contentsline {subsection}{\numberline {4.1.2}Procesos internos}{58}{subsection.4.1.2}
 \contentsline {subsubsection}{Peticiones a servidores}{58}{section*.31}
