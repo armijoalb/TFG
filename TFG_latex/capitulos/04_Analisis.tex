@@ -2,7 +2,7 @@
 En este capítulo se presenta el problema de diseño de rutas con POIs y modelización. Para resolver el problema, se proponen inicialmente dos métodos heurísticos que permitirán evaluar el funcionamiento del prototipo. Además se detallarán los aspectos más importantes relacionados con el diseño del prototipo.
 \section[Análisis]{Análisis}
 \subsection[Diseño de rutas turísticas]{Diseño de rutas turísticas}
-Los problemas de diseño de rutas turísticas (Tourist Trip Design Problems, TTDP) consisten seleccionar los POIs (points of interest / puntos de interés ) a visitar por un turista atendiendo a sus restricciones y al beneficio o grado de satisfacción que produce su visita. El turista dispone en su estancia de un cierto número de días para organizar las visitas a los POIs mediante rutas de duración limitada. Se parte de un conjunto de puntos disponibles a visitar de los que se conoce, el beneficio o grado de satisfacción, la duración de la visita y el intervalo de tiempo en el que puede realizarse. El beneficio total que intenta maximizar el turista es la suma de los beneficios obtenidos en cada visita.\newline
+Los problemas de diseño de rutas turísticas (Tourist Trip Design Problems, TTDP) consisten en seleccionar los POIs (points of interest / puntos de interés ) a visitar por un turista atendiendo a sus restricciones y al beneficio o grado de satisfacción que produce su visita. El turista dispone en su estancia de un cierto número de días para organizar las visitas a los POIs mediante rutas de duración limitada. Se parte de un conjunto de puntos disponibles a visitar de los que se conoce, el beneficio o grado de satisfacción, la duración de la visita y el intervalo de tiempo en el que puede realizarse. El beneficio total que intenta maximizar el turista es la suma de los beneficios obtenidos en cada visita.\newline
 Los elementos que forman parte del modelo son:
 \begin{itemize}
 	\item Un conjunto de POIs , asociado a un índice $i, i=1,2,...,n$ y con los siguientes atributos:
@@ -12,20 +12,20 @@ Los elementos que forman parte del modelo son:
 		\item Un intervalo de tiempo $[e_i,l_i]$ dentro del que se puede realizar la visita.
 	\end{itemize}
 	\item Un punto de partida de cada una de las rutas denotado por $i=0$.
-	\item Los tiempos de recorrido entre los pares de puntos $t_{ij}, i=0,1,...,n$.
+	\item Los tiempos de recorrido entre los pares de puntos $t_{ij}, i,j=0,1,...,n$.
 	\item Un tiempo máximo $T_{max}$ de duración total de la ruta del día considerando los tiempos de viaje, visita y espera en los POI.
 	\item Una función objetivo $max \sum_{i=1}^{n}s_iy_i^k$ \newline
 	En la que $y_i$ corresponde a una variable de visita para cada uno de los POIs $i, i=1,...,n$. Dicha variable es binaria, teniendo como valor 1 si el punto de interés $i$ es visitado en la ruta y un 0 si no se visita.
 \end{itemize}
 El problema de optimización coincide con el Team Orienteering Problem with Time Windows (TOPTW) que se ha estudiado en la literatura científica con algunas modificaciones. Se consideran POIs museos, miradores, catedrales, mezquitas, etc... de la ciudad que el usuario elija.
 \subsection[Heurísticas propuestas]{Heurísticas propuestas}
-Como solución inicial a este problema se ha utilizado una heurística Greedy, ya que es una heurística rápida que puede ejecutar cualquier dispositivo móvil. Dicha huerística Greedy seleccionará siempre el punto más cercano al punto de interés actual; este proceso se repetirá hasta que no puedan introducirse más POIs en la solución, bien porque no haya más POIs por visitar o bien porque no haya más tiempo para visitarlos. El psuedocódigo de dicho algoritmo es el siguiente:\newline
+Como solución inicial a este problema se ha utilizado una heurística Greedy, ya que es una heurística rápida que puede ejecutar cualquier dispositivo móvil. Dicha huerística Greedy seleccionará siempre el punto más cercano al punto de interés actual; este proceso se repetirá hasta que no puedan introducirse más POIs en la solución, bien porque no haya más POIs por visitar o bien porque no haya más tiempo para visitarlos. El pseudocódigo de dicho algoritmo es el siguiente:\newline
 \begin{algorithm}[H]
 	\caption{Pseudocódigo algoritmo Greedy.}
 	\label{alg:greedy_alg}
 	\begin{algorithmic}
 		\Function{Greedy}{solución}
-		\While(es posible visitar POI)
+		\While( es posible visitar POI)
 		\State mejor\_poi $\gets$ encontrarMásCercano(último\_poi\_visitado, tiempo\_actual) 
 		\State solución.añadir(mejor\_poi,tiempo\_entrada, tiempo\_salida)
 		\State tiempo\_actual $\gets$ tiempo\_salida

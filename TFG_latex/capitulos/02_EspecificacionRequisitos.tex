@@ -77,7 +77,7 @@ OpenStreetMap tiene una web \cite{openstreetmap} en la cual puedes editar cualqu
 \end{itemize}
 Al no estar disponible el acceso a la base de datos que contiene OpenStreetMap de forma directa se tuvo que buscar una API para poder obtener los datos.
 \subsubsection[Overpass]{Overpass API}
-Para obtener la información necesaria de OpenStreetMap, se necesitó buscar una API que permitiera obtener dicha información. Overpass es una API que permite hacer consultas sobre POIs y que utiliza la información de OpenStreetMap para devolver la información sobre los POIs. Dichas consultas pueden realizarse mediante urls. Las respuestas obtenidas por Overpass se devuelven en formato JSON, dentro de dicho fichero se encuentra un array llamado \enquote*{elements} que contiene cada uno de los elementos. A continuación, se muestra una parte del fichero que devuelve Overpass para alojamientos y POIs en Granada.\newline
+Para obtener la información necesaria de OpenStreetMap, se necesitó buscar una  interfaz de programación de aplicaciones (API,Application Programming Interface) que permitiera obtener dicha información. Overpass es una API que permite hacer consultas sobre POIs y que utiliza la información de OpenStreetMap para devolver la información sobre los POIs. Dichas consultas pueden realizarse mediante urls. Las respuestas obtenidas por Overpass se devuelven en formato JSON, dentro de dicho fichero se encuentra un array llamado \enquote*{elements} que contiene cada uno de los elementos. A continuación, se muestra una parte del fichero que devuelve Overpass para alojamientos y POIs en Granada.\newline
 \begin{lstlisting}[caption=Respuesta Overpass sobre alojamientos y POIs en Granada.]
 {
 "version": 0.6,
@@ -151,7 +151,7 @@ Para obtener la información necesaria de OpenStreetMap, se necesitó buscar una
 \end{lstlisting}
 
 Para generar dicho fichero de salida, se deben ajustar ciertos parámetros dentro de la petición que se hace a Overpass. Para probar diferentes parámetros, se puede utilizar la herramienta de Overpass llamada Overpass-turbo.\newline
-Overpass-turbo es una página web que contiene un mapa interactivo y una ventana donde nos permite escribir consultas a Overpass; desde ahí, se puede generar un script que encuentre todos los POIs y alojamientos en una ciudad; después, dicho script puede exportarse como una petición en formato URL para utilizarla sin necesidad de utilizar Overpass-turbo. Dentro de dicho script debe especificarse los tipos de nodos que se quieren obtener, la información sobre los diferentes tipos de nodos se encuentra dentro de la documentación de OpenStreetMap \cite{openstreetmap_doc}.El script para obtener la información mostrada arriba es el siguiente. \newline
+Overpass-turbo es una página web que contiene un mapa interactivo y una ventana donde nos permite escribir consultas a Overpass; desde ahí, se puede generar un script que encuentre todos los POIs y alojamientos en una ciudad; después, dicho script puede exportarse como una petición en formato URL para utilizarla sin necesidad de utilizar Overpass-turbo. Dentro de dicho script debe especificarse los tipos de nodos que se quieren obtener. La información sobre los diferentes tipos de nodos se encuentra dentro de la documentación de OpenStreetMap \cite{openstreetmap_doc}. El script para obtener la información mostrada arriba es el siguiente. \newline
 \begin{lstlisting}[caption=Script para encontrar todos los POIs y alojamientos de una ciudad.]
 [out:json][timeout:100]; 
 
@@ -178,7 +178,7 @@ out;
 
 \subsubsection[OSRM]{Open Source Routing Machine}
 Como la aplicación necesita obtener la matriz de distancias entre los distintos puntos seleccionados por el usuario, se investigó para encontrar una herramienta que permitiera obtener dicha matriz a través de peticiones mediante URL.\newline
-Tras probar con varias herramientas, se optó por usar OSRM \cite{osmr},la cual es de uso gratuito. OSRM permite hacer peticiones a sus servidores\cite{osmr_doc} o montar uno propio \cite{osmr_backend}.\newline
+Tras probar con varias herramientas, se optó por usar Open Source Routing Machine (OSRM) \cite{osmr},la cual es de uso gratuito. OSRM permite hacer peticiones a sus servidores \cite{osmr_doc} o montar uno propio \cite{osmr_backend}.\newline
 OSRM devuelve de sus peticiones un archivo JSON que contiene las distancias entre los puntos especificados en la petición, el tiempo que se tarda en llegar desde un punto a otro está guardado en un array llamado \enquote*{durations}; cada elemento de dicho array contiene otro array con los tiempos desde dicho POI al resto de POIs. Un ejemplo de la salida de OSRM es el siguiente:
 \begin{lstlisting}[caption=Salida de OSRM.]
 {"durations":
