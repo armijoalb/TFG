@@ -15,18 +15,20 @@ Los elementos que forman parte del modelo son:
 	\item Los tiempos de recorrido entre los pares de puntos $t_{ij}, i,j=0,1,...,n$.
 	\item Un tiempo máximo $T_{max}$ de duración total de la ruta del día considerando los tiempos de viaje, visita y espera en los POI.
 	\item Una función objetivo $max \sum_{i=1}^{n}s_iy_i^k$ \newline
-	En la que $y_i$ corresponde a una variable de visita para cada uno de los POIs $i, i=1,...,n$. Dicha variable es binaria, teniendo como valor 1 si el punto de interés $i$ es visitado en la ruta y un 0 si no se visita.
+	En la que $y_i$ corresponde a una variable de visita para cada uno de los POIs $i, i=1,...,n$. Dicha variable es binaria, teniendo como valor 1 si el punto de interés $i$ es visitado en la ruta y un 0 si no se visita. Esta variable solamente tendrá valor 1 si además está disponible cuando se quiere visitar dicho punto de interés, es decir, si el punto se va a visitar durante el intervalo de tiempo $[e_i,l_i]$ asociado a la variable.
 \end{itemize}
-El problema de optimización coincide con el Team Orienteering Problem with Time Windows (TOPTW) que se ha estudiado en la literatura científica con algunas modificaciones. Se consideran POIs museos, miradores, catedrales, mezquitas, etc... de la ciudad que el usuario elija.
+El problema de optimización coincide con el Team Orienteering Problem with Time Windows (TOPTW) que se ha estudiado en la literatura científica con algunas modificaciones. Se consideran POIs museos, miradores, catedrales, mezquitas, etc... de la ciudad que el usuario elija antes de iniciar el algoritmo; además, dicho POIs son considerados para la ruta de un único día.
 \subsection[Heurísticas propuestas]{Heurísticas propuestas}
 Como solución inicial a este problema se ha utilizado una heurística Greedy, ya que es una heurística rápida que puede ejecutar cualquier dispositivo móvil. Dicha huerística Greedy seleccionará siempre el punto más cercano al punto de interés actual; este proceso se repetirá hasta que no puedan introducirse más POIs en la solución, bien porque no haya más POIs por visitar o bien porque no haya más tiempo para visitarlos. El pseudocódigo de dicho algoritmo es el siguiente:\newline
 \begin{algorithm}[H]
 	\caption{Pseudocódigo algoritmo Greedy.}
 	\label{alg:greedy_alg}
 	\begin{algorithmic}
-		\Function{Greedy}{solución}
+		\Function{Greedy}{lista\_POI}
 		\While( es posible visitar POI)
 		\State mejor\_poi $\gets$ encontrarMásCercano(último\_poi\_visitado, tiempo\_actual) 
+		\State tiempo\_entrada$\gets$tiempo\_actual$+$tiempo\_llegada(último\_poi\_visitado,mejor\_poi)
+		\State tiempo\_salida $\gets$ tiempo\_entrada $+$ tiempo\_visita\_mejor\_poi
 		\State solución.añadir(mejor\_poi,tiempo\_entrada, tiempo\_salida)
 		\State tiempo\_actual $\gets$ tiempo\_salida
 		\State eliminar mejor\_poi de la lista de POI disponibles
@@ -36,9 +38,11 @@ Como solución inicial a este problema se ha utilizado una heurística Greedy, y
 	\end{algorithmic}
 \end{algorithm}
 \vspace{0.06in}
-La función \textit{encontrarMásCercano(último\_poi\_visitado)} encuentra el punto de interés más cercano al último punto de interés seleccionado. Para ello, recorre un vector que contiene el tiempo necesario para llegar desde el último punto de interés visitado y otro punto; de todos los POIs que estén disponibles, selecciona aquel cuyo tiempo de llegada desde el último punto de interés sea menor. Dicho vector está contenido en una matriz que guarda esta información por cada uno de los POIs. Un punto de interés está disponible si está abierto a la hora en la que el algoritmo lo vaya a seleccionar y si no está incluido en la solución.\newline
+El parámetro \enquote*{lista\_POI} es la lista de POIs seleccionados para realizar la búsqueda, los cuales se van a usar para buscar la ruta en el algoritmo.\newline
 
-Dentro del pseudocódigo se pueden ver tres variables que tienen que ver con el tiempo; la variable \enquote*{tiempo\_actual} guarda el tiempo actual en cada momento del algoritmo, es decir, es una variable que va actualizando su valor cada vez que se selecciona un nuevo punto de interés. La variable \enquote*{tiempo\_entrada} representa el tiempo de entrada aproximado al punto de interés seleccionado; este valor se calcula con el valor de \enquote*{tiempo\_actual} más el tiempo necesario para llegar desde dicho punto hasta el punto seleccionado. Por último, la variable \enquote*{tiempo\_salida} representa el tiempo aproximado de salida de dicho punto de interés, esta variable se calcula como la suma de \enquote*{tiempo\_entrada} y el tiempo aproximado de visita.\newline
+La función \textit{encontrarMásCercano(último\_poi\_visitado, tiempo\_actual)} encuentra el punto de interés más cercano al último punto de interés seleccionado y que se pueda visitar en el momento que se sale del último punto de interés, es decir, que el tiempo de entrada a dicho punto de interés esté dentro del intervalo de tiempo permitido para dicho punto de interés. Para ello, recorre un vector que contiene el tiempo necesario para llegar desde el último punto de interés visitado y otro punto; de todos los POIs que estén disponibles, selecciona aquel cuyo tiempo de llegada desde el último punto de interés sea menor. Dicho vector está contenido en una matriz que guarda esta información por cada uno de los POIs. Un punto de interés está disponible si está abierto a la hora en la que el algoritmo lo vaya a seleccionar y si no está incluido en la solución.\newline
+
+Dentro del pseudocódigo se pueden ver tres variables que tienen que ver con el tiempo; la variable \enquote*{tiempo\_actual} guarda el tiempo actual en cada momento del algoritmo, es decir, es una variable que va actualizando su valor cada vez que se selecciona un nuevo punto de interés. La variable \enquote*{tiempo\_entrada} representa el tiempo de entrada aproximado al punto de interés seleccionado; este valor se calcula con el valor de \enquote*{tiempo\_actual} más el tiempo necesario para llegar desde dicho punto hasta el punto seleccionado, representado por la función \enquote*{tiempo\_llegada(último\_poi\_visitado,mejor\_poi)}. Por último, la variable \enquote*{tiempo\_salida} representa el tiempo aproximado de salida de dicho punto de interés, esta variable se calcula como la suma de \enquote*{tiempo\_entrada} y el tiempo aproximado de visita, representado por la variable  \enquote*{tiempo\_visita\_mejor\_poi}.\newline
 
 Una vez termina el algoritmo, devuelve la solución. Dicha solución cuenta con un vector que contiene los identificadores de los POIs seleccionados; además, contiene la hora aproximada de entrada y salida de cada uno de los POIs seleccionados. Además, los POIs contenidos en la solución, se encuentran ordenados por orden en llegada.\newline
 
@@ -69,7 +73,7 @@ Ahora se mostrará el pseudocódigo del algoritmo, y de cada una de las fases en
 \vspace{0.06in}
 Para la parte constructiva del algoritmo, primero crearemos una lista de candidatos (CL), la cual tiene un tamaño igual al de la lista de POIs que queden disponibles. Dicha lista de candidatos contiene la posición dentro de la lista de POIs y la puntuación que tiene dicho punto de interés según las preferencias elegidas por el usuario. La forma de puntuar un punto de interés dependerá también del tiempo necesario para llegar desde el último punto de interés seleccionado y dicho punto de interés. Al igual que para la heurística Greedy, solo se considerarán aquellos POIs que estén disponibles, es decir, que no estén incluidos ya en la solución que se está construyendo y que estén abiertos en el momento que pueden ser seleccionados.\newline
 
-Una vez hemos calculado la lista de candidatos, se crea la lista restringida de candidatos con los POIs mejor valorados, esta es de tamaño sizeRCL. Una vez hemos obtenido la lista de candidatos restringida, elegimos uno de los POIs de forma aleatoria y lo introducimos dentro de la solución. Este proceso se repite hasta que no se puedan introducir más POIs dentro de la solución. El pseudocódigo de este algoritmo es el siguiente.\newline
+Una vez hemos calculado la lista de candidatos, se crea la lista restringida de candidatos con los POIs mejor valorados, esta es de tamaño \enquote*{tamRCL}. Una vez hemos obtenido la lista de candidatos restringida, elegimos uno de los POIs de forma aleatoria y lo introducimos dentro de la solución. Este proceso se repite hasta que no se puedan introducir más POIs dentro de la solución. El pseudocódigo de este algoritmo es el siguiente.\newline
 
 \vspace{0.06in}
 \begin{algorithm}
@@ -79,20 +83,22 @@ Una vez hemos calculado la lista de candidatos, se crea la lista restringida de 
 		\Function{GRASPFaseConstructiva}{tamRCL}
 		\State solución.añadir(nodo\_salida)
 		\While{es posible visitar POIs}
-			\For{cada poi en POIs}
+			\For{cada poi en lista\_POIs}
 				\State valor $\gets$ f(poi)
-				\State cl.añadir([valor,i])
+				\State CL.añadir([valor,i])
 			\EndFor
-			\State Crear RCL con los tamRCL duos de cl
-			\State Seleccionar un elemento de RCL de forma aleatoria.
-			\State Actualizar solución añadiendo poi i en la solución
+			\State Crear RCL con los mejores tamRCL elementos de CL
+			\State seleccionado $\gets$ seleccionarRandom(RCL)
+			\State solución.añadir(lista\_POIs[seleccionado.i])
 		\EndWhile
 		\State \textbf{return} solución
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
-
 \vspace{0.06in}
+
+En este algoritmo, la función llamada \enquote*{f(poi)} devuelve el valor de dicho POI, dicho valor esta representado por el tiempo necesario para llegar desde el último punto visitado hasta dicho punto \enquote*{poi}. La variable \enquote*{i} representa la posición del POI dentro de \enquote*{lista\_POIs}, utilizada para acceder directamente a la información de dicho POI dentro de \enquote*{lista\_POIs}. La variable \enquote*{seleccionado} representa el elemento seleccionado de la lista \enquote*{RCL} (un par que contiene el valor de dicho POI y la posición dentro de \enquote*{lista\_POIs}) de forma aleatoria.\newline
+
 Para la fase de optimización se utilizará el algoritmo de búsqueda local, dicho algoritmo busca la mejor solución posible entre la solución actual y los vecinos de esta. Una solución vecina es aquella que intercambie dos POIs dentro de la solución, por ejemplo, el segundo por el cuarto. El procedimiento es el siguiente, se generan todos los posibles vecinos de la solución, y por cada uno de ellos se comprueba si la valoración de dicha solución vecina es mejor que la mejor solución actual; finalmente se devuelve la mejor solución encontrada. El pseudocódigo del algoritmo es el siguiente.\newline
 
 \begin{algorithm}[H]
