@@ -2,7 +2,10 @@
 En este capítulo se presenta el problema de diseño de rutas con POIs y modelización. Para resolver el problema, se proponen inicialmente dos métodos heurísticos que permitirán evaluar el funcionamiento del prototipo. Además se detallarán los aspectos más importantes relacionados con el diseño del prototipo.
 \section[Análisis]{Análisis}
 \subsection[Diseño de rutas turísticas]{Diseño de rutas turísticas}
-Los problemas de diseño de rutas turísticas (Tourist Trip Design Problems, TTDP) consisten en seleccionar los POIs (points of interest / puntos de interés ) a visitar por un turista atendiendo a sus restricciones y al beneficio o grado de satisfacción que produce su visita. El turista dispone en su estancia de un cierto número de días para organizar las visitas a los POIs mediante rutas de duración limitada. Se parte de un conjunto de puntos disponibles a visitar de los que se conoce, el beneficio o grado de satisfacción, la duración de la visita y el intervalo de tiempo en el que puede realizarse. El beneficio total que intenta maximizar el turista es la suma de los beneficios obtenidos en cada visita.\newline
+Los \textit{Problemas de Diseño de Rutas Turísticas} (Tourist Trip Design Problems, TTDP) consisten en seleccionar los POIs (points of interest / puntos de interés ) a visitar por un turista atendiendo a sus restricciones y al beneficio o grado de satisfacción que produce su visita. El turista dispone en su estancia de un día para organizar las visitas a los POIs mediante una ruta de duración limitada. Se parte de un conjunto de puntos disponibles a visitar de los que se conoce, el beneficio o grado de satisfacción, la duración de la visita y el intervalo de tiempo en el que puede realizarse. El beneficio total que se intenta maximizar es la suma de los beneficios obtenidos en cada visita.\newline
+
+En este caso, se trata de un caso particular del problema Team Orienteering Problem with Time Windows (TOPTW) que se ha estudiado en la literatura científica.\newline
+
 Los elementos que forman parte del modelo son:
 \begin{itemize}
 	\item Un conjunto de POIs , asociado a un índice $i, i=1,2,...,n$ y con los siguientes atributos:
@@ -13,14 +16,16 @@ Los elementos que forman parte del modelo son:
 	\end{itemize}
 	\item Un punto de partida de cada una de las rutas denotado por $i=0$.
 	\item Los tiempos de recorrido entre los pares de puntos $t_{ij}, i,j=0,1,...,n$.
-	\item Un tiempo máximo $T_{max}$ de duración total de la ruta del día considerando los tiempos de viaje, visita y espera en los POI.
-	\item Una función objetivo $max \sum_{i=1}^{n}s_iy_i^k$ \newline
+	\item Un tiempo máximo $T_{max}$ de duración total de la ruta del día considerando los tiempos de viaje y visita en los POI.
+	\item Una función objetivo $max \sum_{i=1}^{n}s_iy_i$ \newline
 	En la que $y_i$ corresponde a una variable de visita para cada uno de los POIs $i, i=1,...,n$. Dicha variable es binaria, teniendo como valor 1 si el punto de interés $i$ es visitado en la ruta y un 0 si no se visita. Esta variable solamente tendrá valor 1 si además está disponible cuando se quiere visitar dicho punto de interés, es decir, si el punto se va a visitar durante el intervalo de tiempo $[e_i,l_i]$ asociado a la variable.
 \end{itemize}
-El problema de optimización coincide con el Team Orienteering Problem with Time Windows (TOPTW) que se ha estudiado en la literatura científica con algunas modificaciones. Se consideran POIs museos, miradores, catedrales, mezquitas, etc... de la ciudad que el usuario elija antes de iniciar el algoritmo; además, dicho POIs son considerados para la ruta de un único día.
+Se consideran POIs museos, miradores, catedrales, mezquitas, etc... de la ciudad que el usuario elija antes de iniciar el algoritmo; además, dicho POIs son considerados para la ruta de un único día.
 \subsection[Heurísticas propuestas]{Heurísticas propuestas}
-Como solución inicial a este problema se ha utilizado una heurística Greedy, ya que es una heurística rápida que puede ejecutar cualquier dispositivo móvil. Dicha huerística Greedy seleccionará siempre el punto más cercano al punto de interés actual; este proceso se repetirá hasta que no puedan introducirse más POIs en la solución, bien porque no haya más POIs por visitar o bien porque no haya más tiempo para visitarlos. El pseudocódigo de dicho algoritmo es el siguiente:\newline
+\subsubsection{Greedy}
+Como solución inicial a este problema se ha utilizado una heurística Greedy \ref{alg:greedy_alg}, ya que es una heurística rápida que puede ejecutar cualquier dispositivo móvil. Dicha huerística Greedy seleccionará siempre el punto más cercano al punto de interés actual; este proceso se repetirá hasta que no puedan introducirse más POIs en la solución, bien porque no haya más POIs por visitar o bien porque no haya más tiempo para visitarlos. El pseudocódigo de dicho algoritmo es el siguiente:\newline
 \begin{algorithm}[H]
+	\floatname{algorithm}{Algoritmo}
 	\caption{Pseudocódigo algoritmo Greedy.}
 	\label{alg:greedy_alg}
 	\begin{algorithmic}
@@ -46,12 +51,14 @@ Dentro del pseudocódigo se pueden ver tres variables que tienen que ver con el 
 
 Una vez termina el algoritmo, devuelve la solución. Dicha solución cuenta con un vector que contiene los identificadores de los POIs seleccionados; además, contiene la hora aproximada de entrada y salida de cada uno de los POIs seleccionados. Además, los POIs contenidos en la solución, se encuentran ordenados por orden en llegada.\newline
 
-Como otra posible heurística que resuelva el problema y que no necesite de mucho tiempo de cómputo, se ha propuesto también la metaheurística constructiva GRASP (Greedy Randomized Adaptive Search Procedure). Dicha metaheurística comprende dos fases: una fase constructiva y otra de búsqueda local. En la fase constructiva se genera una solución partiendo de una ruta vacía a la que se va añadiendo POIs desde una Lista Restringida de Candidatos (Restricted Candidate List, RCL en inglés) de forma aleatoria hasta que no se puedan añadir nuevos puntos a la ruta. En la fase de búsqueda local se reemplaza la solución obtenida en la parte constructiva por la mejor de sus soluciones vecinas si existe mejora. Estas dos fases se ejecutan un cierto número de iteraciones.\newline
+\subsubsection{GRASP}
+Como otra posible heurística que resuelva el problema y que no necesite de mucho tiempo de cómputo, se ha propuesto también la metaheurística constructiva GRASP (Greedy Randomized Adaptive Search Procedure) \ref{alg:grasp}. Dicha metaheurística comprende dos fases: una fase constructiva y otra de búsqueda local. En la fase constructiva se genera una solución partiendo de una ruta vacía a la que se va añadiendo POIs desde una Lista Restringida de Candidatos (Restricted Candidate List, RCL en inglés) de forma aleatoria hasta que no se puedan añadir nuevos puntos a la ruta. En la fase de búsqueda local se reemplaza la solución obtenida en la parte constructiva por la mejor de sus soluciones vecinas si existe mejora. Estas dos fases se ejecutan un cierto número de iteraciones.\newline
 
-Ahora se mostrará el pseudocódigo del algoritmo, y de cada una de las fases en inglés.
-\vspace{0.06in}
+En el Algoritmo 2 se muestra el pseudocódigo del algoritmo.
+\newpage
 
-\begin{algorithm}
+\begin{algorithm}[H]
+	\floatname{algorithm}{Algoritmo}
 	\caption{Pseudocódigo algoritmo GRASP.}
 	\label{alg:grasp}
 \begin{algorithmic}
@@ -70,13 +77,15 @@ Ahora se mostrará el pseudocódigo del algoritmo, y de cada una de las fases en
 \end{algorithmic}
 \end{algorithm}
 
-\vspace{0.06in}
-Para la parte constructiva del algoritmo, primero crearemos una lista de candidatos (CL), la cual tiene un tamaño igual al de la lista de POIs que queden disponibles. Dicha lista de candidatos contiene la posición dentro de la lista de POIs y la puntuación que tiene dicho punto de interés según las preferencias elegidas por el usuario. La forma de puntuar un punto de interés dependerá también del tiempo necesario para llegar desde el último punto de interés seleccionado y dicho punto de interés. Al igual que para la heurística Greedy, solo se considerarán aquellos POIs que estén disponibles, es decir, que no estén incluidos ya en la solución que se está construyendo y que estén abiertos en el momento que pueden ser seleccionados.\newline
 
-Una vez hemos calculado la lista de candidatos, se crea la lista restringida de candidatos con los POIs mejor valorados, esta es de tamaño \enquote*{tamRCL}. Una vez hemos obtenido la lista de candidatos restringida, elegimos uno de los POIs de forma aleatoria y lo introducimos dentro de la solución. Este proceso se repite hasta que no se puedan introducir más POIs dentro de la solución. El pseudocódigo de este algoritmo es el siguiente.\newline
+Para la parte constructiva del algoritmo  \ref{alg:grasp_contruct}, representado por la función \textit{GRASPFaseConstructiva(tamRCL)}, primero crearemos una lista de candidatos (CL), la cual tiene un tamaño igual al de la lista de POIs que queden disponibles. Dicha lista de candidatos contiene la posición \enquote*{i} dentro de la lista de POIs y la puntuación que tiene dicho punto de interés según las preferencias elegidas por el usuario. La forma de puntuar un punto de interés dependerá también del tiempo necesario para llegar desde el último punto de interés seleccionado y dicho punto de interés. Al igual que para la heurística Greedy, solo se considerarán aquellos POIs que estén disponibles, es decir, que no estén incluidos ya en la solución que se está construyendo y que estén abiertos en el momento que pueden ser seleccionados.\newline
+
+Una vez hemos calculado la lista de candidatos, se crea la lista restringida de candidatos con los POIs mejor valorados, esta es de tamaño \enquote*{tamRCL}. Una vez hemos obtenido la lista de candidatos restringida, elegimos uno de los POIs de forma aleatoria y lo introducimos dentro de la solución. Este proceso se repite hasta que no se puedan introducir más POIs dentro de la solución. El Algoritmo 3 muestra el pseudocódigo de la fase constructiva.\newline
+\newpage
 
 \vspace{0.06in}
-\begin{algorithm}
+\begin{algorithm}[H]
+	\floatname{algorithm}{Algoritmo}
 	\caption{Pseudocódigo algoritmo GRASPFaseConstructiva.}
 	\label{alg:grasp_contruct}
 	\begin{algorithmic}
@@ -95,19 +104,20 @@ Una vez hemos calculado la lista de candidatos, se crea la lista restringida de 
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
-\vspace{0.06in}
 
-En este algoritmo, la función llamada \enquote*{f(poi)} devuelve el valor de dicho POI, dicho valor esta representado por el tiempo necesario para llegar desde el último punto visitado hasta dicho punto \enquote*{poi}. La variable \enquote*{i} representa la posición del POI dentro de \enquote*{lista\_POIs}, utilizada para acceder directamente a la información de dicho POI dentro de \enquote*{lista\_POIs}. La variable \enquote*{seleccionado} representa el elemento seleccionado de la lista \enquote*{RCL} (un par que contiene el valor de dicho POI y la posición dentro de \enquote*{lista\_POIs}) de forma aleatoria.\newline
 
-Para la fase de optimización se utilizará el algoritmo de búsqueda local, dicho algoritmo busca la mejor solución posible entre la solución actual y los vecinos de esta. Una solución vecina es aquella que intercambie dos POIs dentro de la solución, por ejemplo, el segundo por el cuarto. El procedimiento es el siguiente, se generan todos los posibles vecinos de la solución, y por cada uno de ellos se comprueba si la valoración de dicha solución vecina es mejor que la mejor solución actual; finalmente se devuelve la mejor solución encontrada. El pseudocódigo del algoritmo es el siguiente.\newline
+En este algoritmo, la función llamada \enquote*{f(POI)} devuelve el valor de dicho POI, este valor esta representado por el tiempo necesario para llegar desde el último punto visitado hasta dicho punto \enquote*{poi}. La variable \enquote*{i} representa la posición del POI dentro de \enquote*{lista\_POIs}, utilizada para acceder directamente a la información de dicho POI dentro de \enquote*{lista\_POIs}. La variable \enquote*{seleccionado} representa el elemento seleccionado de la lista \enquote*{RCL} (un par que contiene el valor de dicho POI y la posición dentro de \enquote*{lista\_POIs}) de forma aleatoria.\newline
+
+Para la fase de optimización se utilizará el algoritmo de búsqueda local \ref{alg:local_search}, dicho algoritmo busca la mejor solución posible entre la solución actual y los vecinos de esta. Una solución vecina es aquella que intercambie dos POIs dentro de la solución, por ejemplo, el segundo por el cuarto. El procedimiento es el siguiente, se generan todos los posibles vecinos de la solución, y por cada uno de ellos se comprueba si la valoración de dicha solución vecina es mejor que la mejor solución actual; finalmente se devuelve la mejor solución encontrada. El Algoritmo 4 muestra la fase de optimización.\newline
 
 \begin{algorithm}[H]
+	\floatname{algorithm}{Algoritmo}
 	\caption{Pseudocódigo algoritmo BúsquedaLocal.}
 	\label{alg:local_search}
 	\begin{algorithmic}
 		\Function{BúsquedaLocal}{solución}
 		\ForAll{solución\_vecina de solución}
-		\If{solución\_vecina $\geq$ solución}
+		\If{solución\_vecina $>$ solución}
 			\State solución $\gets$ solución\_vecina
 		\EndIf
 		\EndFor
@@ -116,7 +126,7 @@ Para la fase de optimización se utilizará el algoritmo de búsqueda local, dic
 	\end{algorithmic}
 \end{algorithm}
 
-\vspace{0.06in}
+\newpage
 Para generar un nuevo vecino de la solución dada, se intercambiarán la posición de dos POIs dentro de la solución. Además de intercambiar dichos puntos, hay que actualizar los valores de entrada y de salida de dichos puntos y comprobar que la solución sigue siendo válida. Es decir, que sigue respetando el número de POIs que hay en la solución y que la hora en la que se finaliza la ruta sigue siendo la misma.
 
 \input{capitulos/05_Diseno}

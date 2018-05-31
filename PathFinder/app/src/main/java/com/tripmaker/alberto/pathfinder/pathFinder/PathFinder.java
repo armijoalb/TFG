@@ -198,7 +198,7 @@ public class PathFinder {
                 //Log.i(TAG,"checkLunchTime:"+checkLunchTime(aux_time,horarios_abierto.get(pos-1)) +"");
                 // Comprobamos que podamos ir dentro del horario que esté abierto, o por la mañana o por la tarde.
                 if( checkTime( aux_time, horarios_abierto.get(pos-1)) ) {
-                    current_time.add(GregorianCalendar.SECOND,duracion.get(id).get(pos));
+                    current_time.add(GregorianCalendar.SECOND,duracion.get(id).get(pos)+180);
                     aux_greg = (GregorianCalendar) current_time.clone();
 
                     visita = visit_time.get(pos-1);

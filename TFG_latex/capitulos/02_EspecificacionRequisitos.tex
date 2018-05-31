@@ -1,15 +1,15 @@
-\chapter{Planificación y Especificación de Requisitos}
+\chapter{Planificación y Especificación de Requisitos y Casos de Uso.}
 En este capítulo se mostrará la planificación del Trabajo de Fin de Grado. También se describen los requisitos (de la interfaz y de la aplicación ), se presentan los diagramas de caso de uso y se describen	las fuentes de datos a partir de las cuales la aplicación obtiene la información necesaria.
 
 \input{capitulos/03_Planificacion}
 \section{Especificación de  Requisitos}
 \subsection[Requisitos]{Requisitos}
 En este apartado se resumirán los requisitos funcionales y no funcionales del proyecto, dividiéndolos en los requisitos de la interfaz de usuario y los requisitos internos de la aplicación.
-\subsubsection[Requisitos interfaz]{Requisitos de la interfaz del usuario}
+\subsubsection[Requisitos interfaz]{a) Requisitos de la interfaz del usuario}
 \textbf{Requisitos funcionales:}
 \begin{itemize}
-	\item \textbf{Mapa de la ciudad elegida por el usuario:} la aplicación mostrará el mapa de la ciudad seleccionada por el usuario, así como los alojamientos y POIs que haya en la ciudad con marcadores en el mapa.
-	\item\textbf{ Formulario de generación de rutas:} la aplicación dispondrá de una lista de POIs y de alojamientos entre los que el usuario podrá elegir para generar la ruta. 
+	\item \textbf{Mapa de la ciudad elegida por el usuario:} la aplicación debe funcionar con cualquier ciudad, mostrando tanto los alojamientos y POIs que haya en la ciudad con marcadores en el mapa.
+	\item\textbf{Lista de alojamientos y POIs:} la aplicación dispondrá de una lista de POIs y de alojamientos entre los que el usuario podrá elegir para generar la ruta. 
 	\begin{itemize}
 		\item Alojamiento: hostales y hoteles.
 		\item POIs: museos, miradores, lugares históricos o de culto.
@@ -23,7 +23,7 @@ En este apartado se resumirán los requisitos funcionales y no funcionales del p
 	\item \textbf{Plataforma:} la aplicación estará disponible para todos los dispositivos móviles que utilicen el sistema operativo Android a partir de la versión 5.0 (Lollipop).
 \end{itemize}
 
-\subsubsection[Requisitos internos]{Requisitos de la aplicación}
+\subsubsection[Requisitos internos]{b) Requisitos de la aplicación}
 \textbf{Requisitos funcionales}
 \begin{itemize}
 	\item \textbf{Recepción de peticiones del cliente:} la aplicación será capaz de recibir peticiones que el cliente le envía a través de la interfaz gráfica que contienen los POIs seleccionados por el usuario.
@@ -62,22 +62,17 @@ En este apartado se resumirán los requisitos funcionales y no funcionales del p
 \subsection[Fuente de los datos]{Fuente de los datos}
 \subsubsection[OSM]{Open Street Map}
 Ya que el objetivo de la aplicación fue crear rutas a partir de POIs, se requirió obtener una lista con todos los POIs y alojamientos disponibles en una ciudad con la suficiente información para que puedan ser usados para calcular rutas.\newline
-Tras investigar diferentes posibilidades, se decidió utilizar OpenStreetMap, el cual es un proyecto colaborativo que permite crear mapas y editar los ya existentes.\newline
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.05]{imagenes/Openstreetmap_logo}
-	\caption{Logo de OpenStreetMap.}
-	\label{fig:openstreetmap}
-\end{figure}
-OpenStreetMap tiene una web \cite{openstreetmap} en la cual puedes editar cualquiera de los POIs que contiene el mapa o crear nuevos siempre que estés registrado. Además, cuenta con diferentes tipos de estructuras para representar edificios, carreteras, etc... OpenStreetMap utiliza tres tipos diferentes de información:\newline
+Tras investigar diferentes posibilidades, se decidió utilizar \textit{OpenStreetMap}, el cual es un proyecto colaborativo que permite crear mapas y editar los ya existentes.\newline
+
+OpenStreetMap tiene una web \cite{openstreetmap} en la cual puedes editar cualquiera de los POIs que contiene el mapa o crear nuevos siempre que estés registrado. Además, cuenta con diferentes tipos de estructuras para representar edificios, carreteras, etc... \textit{OpenStreetMap} utiliza tres tipos diferentes de información:\newline
 \begin{itemize}
 	\item Líneas: sirven para describir cualquier tipo de vía, como por ejemplo carreteras.
 	\item Nodos: sirven para definir cualquier tipo de edificio, como por ejemplo farmacias o museos.
 	\item Áreas: sirven para definir el espacio ocupado por un nodo, por ejemplo, un parque. Dichas áreas están formadas un conjunto de nodos que delimitan el área.
 \end{itemize}
-Al no estar disponible el acceso a la base de datos que contiene OpenStreetMap de forma directa se tuvo que buscar una API para poder obtener los datos.
+Al no estar disponible el acceso a la base de datos que contiene \textit{OpenStreetMap} de forma directa se tuvo que buscar una API para poder obtener los datos.
 \subsubsection[Overpass]{Overpass API}
-Para obtener la información necesaria de OpenStreetMap, se necesitó buscar una  interfaz de programación de aplicaciones (API,Application Programming Interface) que permitiera obtener dicha información. Overpass es una API que permite hacer consultas sobre POIs y que utiliza la información de OpenStreetMap para devolver la información sobre los POIs. Dichas consultas pueden realizarse mediante urls. Las respuestas obtenidas por Overpass se devuelven en formato JSON, dentro de dicho fichero se encuentra un array llamado \enquote*{elements} que contiene cada uno de los elementos. A continuación, se muestra una parte del fichero que devuelve Overpass para alojamientos y POIs en Granada.\newline
+Para obtener la información necesaria de \textit{OpenStreetMap}, se necesitó buscar una  interfaz de programación de aplicaciones (API,Application Programming Interface) que permitiera obtener dicha información. \textit{Overpass} es una API que permite hacer consultas sobre POIs y que utiliza la información de \textit{OpenStreetMap} para devolver la información sobre los POIs. Dichas consultas pueden realizarse mediante urls. Las respuestas obtenidas por \textit{Overpass} se devuelven en formato JSON, dentro de dicho fichero se encuentra un array llamado \enquote*{elements} que contiene cada uno de los elementos. A continuación, se muestra una parte del fichero que devuelve Overpass para alojamientos y POIs en Granada.\newline
 \begin{lstlisting}[caption=Respuesta Overpass sobre alojamientos y POIs en Granada.]
 {
 "version": 0.6,
@@ -87,40 +82,6 @@ Para obtener la información necesaria de OpenStreetMap, se necesitó buscar una
 "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
 },
 "elements": [
-
-{
-"type": "node",
-"id": 533647928,
-"lat": 37.1734517,
-"lon": -3.5888790,
-"tags": {
-"name": "Museo Manuel de Falla",
-"tourism": "museum"
-}
-},
-{
-"type": "node",
-"id": 940435771,
-"lat": 37.1770011,
-"lon": -3.5900734,
-"tags": {
-"name": "Museo de la Alhambra",
-"tourism": "museum"
-}
-},
-},
-{
-"type": "node",
-"id": 1351215450,
-"lat": 37.1765624,
-"lon": -3.5897641,
-"tags": {
-"designation": "Museo de Bellas Artes",
-"email": "museobellasartesgranada.ccul@juntadeandalucia.es",
-"name": "Museo de Bellas Artes",
-"tourism": "museum"
-}
-},
 {
 "type": "node",
 "id": 1667155336,
@@ -138,24 +99,19 @@ Para obtener la información necesaria de OpenStreetMap, se necesitó buscar una
 "lat": 37.1800207,
 "lon": -3.5957336,
 "tags": {
-"addr:city": "Granada",
-"addr:housenumber": "18",
-"addr:postcode": "18010",
 "name": "Makuto Guesthouse",
-"tourism": "hostel",
-"website": "http://makutohostel.com"
-}
-},
-]
-}
+"tourism": "hostel"
+}},]}
 \end{lstlisting}
 
-Para generar dicho fichero de salida, se deben ajustar ciertos parámetros dentro de la petición que se hace a Overpass. Para probar diferentes parámetros, se puede utilizar la herramienta de Overpass llamada Overpass-turbo.\newline
-Overpass-turbo es una página web que contiene un mapa interactivo y una ventana donde nos permite escribir consultas a Overpass; desde ahí, se puede generar un script que encuentre todos los POIs y alojamientos en una ciudad; después, dicho script puede exportarse como una petición en formato URL para utilizarla sin necesidad de utilizar Overpass-turbo. Dentro de dicho script debe especificarse los tipos de nodos que se quieren obtener. La información sobre los diferentes tipos de nodos se encuentra dentro de la documentación de OpenStreetMap \cite{openstreetmap_doc}. El script para obtener la información mostrada arriba es el siguiente. \newline
+Para generar dicho fichero de salida, se deben ajustar ciertos parámetros dentro de la petición que se hace a \textit{Overpass}. Para probar diferentes parámetros, se puede utilizar la herramienta de \textit{Overpass} llamada \textit{Overpass-turbo}.\newline
+\textit{Overpass-turbo} es una página web que contiene un mapa interactivo y una ventana donde nos permite escribir consultas a \textit{Overpass}; desde ahí, se puede generar un script que encuentre todos los POIs y alojamientos en una ciudad; después, dicho script puede exportarse como una petición en formato URL para utilizarla sin necesidad de utilizar \textit{Overpass-turbo}. Dentro de dicho script debe especificarse los tipos de nodos que se quieren obtener. La información sobre los diferentes tipos de nodos se encuentra dentro de la documentación de \textit{OpenStreetMap} \cite{openstreetmap_doc}. El script para obtener la información mostrada arriba es el siguiente. \newline
+\noindent\rule[-1ex]{\textwidth}{1pt}\\
 \begin{lstlisting}[caption=Script para encontrar todos los POIs y alojamientos de una ciudad.]
 [out:json][timeout:100]; 
 
-(node["place"="city"]["name"="Granada"]["is_in:province"="Granada"]["is_in:country"="Spain"];)->.ciudad; 
+(node["place"="city"]["name"="Granada"]["is_in:province"="Granada"]
+["is_in:country"="Spain"];)->.ciudad; 
 
 node["tourism"="museum"](around.ciudad:7000);
 out;>;out;
@@ -175,11 +131,12 @@ out;
 node["tourism"="hostel"](around.ciudad:7000);
 out;
 \end{lstlisting}
-
+\noindent\rule[-1ex]{\textwidth}{1pt}\\
 \subsubsection[OSRM]{Open Source Routing Machine}
 Como la aplicación necesita obtener la matriz de distancias entre los distintos puntos seleccionados por el usuario, se investigó para encontrar una herramienta que permitiera obtener dicha matriz a través de peticiones mediante URL.\newline
-Tras probar con varias herramientas, se optó por usar Open Source Routing Machine (OSRM) \cite{osmr},la cual es de uso gratuito. OSRM permite hacer peticiones a sus servidores \cite{osmr_doc} o montar uno propio \cite{osmr_backend}.\newline
-OSRM devuelve de sus peticiones un archivo JSON que contiene las distancias entre los puntos especificados en la petición, el tiempo que se tarda en llegar desde un punto a otro está guardado en un array llamado \enquote*{durations}; cada elemento de dicho array contiene otro array con los tiempos desde dicho POI al resto de POIs. Un ejemplo de la salida de OSRM es el siguiente:
+Tras probar con varias herramientas, se optó por usar \textit{Open Source Routing Machine} (OSRM) \cite{osmr},la cual es de uso gratuito. OSRM permite hacer peticiones a sus servidores \cite{osmr_doc} o montar uno propio \cite{osmr_backend}.\newline
+OSRM devuelve de sus peticiones un archivo JSON que contiene las distancias entre los puntos especificados en la petición, el tiempo que se tarda en llegar desde un punto a otro está guardado en un array llamado \enquote*{durations}; cada elemento de dicho array contiene otro array con los tiempos desde dicho POI al resto de POIs. Un ejemplo de la salida de OSRM es el siguiente:\newline
+\noindent\rule[-1ex]{\textwidth}{1pt}\\
 \begin{lstlisting}[caption=Salida de OSRM.]
 {"durations":
 	[[0,245,165.9,165.9,165.9,44.9,162.3,130.6,130.6,44.9,56.2],
@@ -196,10 +153,11 @@ OSRM devuelve de sus peticiones un archivo JSON que contiene las distancias entr
 	...
 }
 \end{lstlisting}
-
+\noindent\rule[-1ex]{\textwidth}{1pt}\\
 \subsubsection[Google Routes API]{Google Maps Directions API}
-Dado que la aplicación debe mostrar el camino óptimo entre dos puntos seleccionados en la solución, se buscó una herramienta que lo calculara. Tras investigar y probar diferentes herramientas, se optó por utilizar Google Maps Directions API \cite{directions_api}.\newline
+Dado que la aplicación debe mostrar el camino óptimo entre dos puntos seleccionados en la solución, se buscó una herramienta que lo calculara. Tras investigar y probar diferentes herramientas, como por ejemplo la que ofrece OSRM, se optó por utilizar \textit{Google Maps Directions API} ya que obtiene resultados más exactos \cite{directions_api}.\newline
 Esta herramienta permite hacer peticiones a un servidor y devuelve un archivo JSON que contiene la ruta que se debe seguir. Este archivo se debe procesar para obtener las polilíneas que represetan el camino entre dos puntos. Un ejemplo de este archivo es el siguiente.\newline
+\noindent\rule[-1ex]{\textwidth}{1pt}\\
 \begin{lstlisting}[caption=Salida de Google Maps Directions API.]
 {"routes" : [
 ...
@@ -270,3 +228,4 @@ Esta herramienta permite hacer peticiones a un servidor y devuelve un archivo JS
 },
 }
 \end{lstlisting}
+\noindent\rule[-1ex]{\textwidth}{1pt}\\

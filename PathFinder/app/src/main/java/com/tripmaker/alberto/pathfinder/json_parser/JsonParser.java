@@ -133,7 +133,7 @@ public class JsonParser {
             for(int j=0; j < aux_t.length(); j++){
                 int dist_time = aux_t.getInt(j);
                 if(dist_time == 0 && i!=j)
-                    dist_time = ThreadLocalRandom.current().nextInt(60,300);
+                    dist_time = ThreadLocalRandom.current().nextInt(180,2000);
 
                 tim.add(dist_time);
             }
