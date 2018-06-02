@@ -1,11 +1,11 @@
 \chapter{Implementación y Pruebas}
-En este capítulo se mostrarán los aspectos más importantes del código de la aplicación, tanto en el lado de la interfaz como los procesos internos. Los métodos se organizarán en realización a los requisitos especificados en el análisis. También se mostrarán diferentes ejemplos de caso de uso de la aplicación, junto con las soluciones que se obtienen.
+En este capítulo se muestran los aspectos más importantes del código de la aplicación, tanto en el lado de la interfaz como los procesos internos. Los métodos se organizan en realización a los requisitos especificados en el análisis. También se muestran diferentes ejemplos de caso de uso de la aplicación, junto con las soluciones que se obtienen.
 \section{Implementación}
-El código de la aplicación ha sido desarrollado en Java para implementar la funcionalidad; para la interfaz de usuario se ha utilizado XML. Como herramienta de desarrollo se ha utilizado Android Studio, la herramienta que ofrece Google para el desarrollo de aplicaciones en Android.
+El código de la aplicación ha sido desarrollado en Java para implementar la funcionalidad; para la interfaz de usuario se ha utilizado XML. Como herramienta de desarrollo se ha utilizado Android Studio, la herramienta que ofrece Google para el desarrollo de aplicaciones en Android. La aplicación se ha compilado para la última versión de Android (SKD 27) \cite{sdk-27}, aunque es compatible con todos los dispositivos con una versión igual o mayor a la SDK 21 (Android Lollipop, 5.0).
 
 \subsection[Interfaz de usuario]{Interfaz de usuario}
 \subsubsection{Mostrar mapa}
-Para mostrar el mapa se ha utilizado la vista que tiene integrada Android, para ello se debe crear una clave que  permita a la aplicación acceder a los servicios de Google Maps. Para ello, hay que crear al menos un plan estándar desde la página de Google Maps API. Una vez se tenga la clave, hay que crear una vista del mapa dentro de la actividad donde se quiera mostrar dicho mapa y implementar la interfaz \textit{OnMapReadyCallback}, para la cual hay que implementar el método \textit{onMapReady(GoogleMap googleMap)}, el cuál se llama cuando se inicializa un objeto de la clase GoogleMaps y está preparado para usarse dentro de Android. El código necesario para mostrar el mapa es el siguiente.
+Con el objetivo de mostrar el mapa se ha utilizado la vista de Google Maps que tiene integrada Android, antes de poder utilizarla se debe crear una clave que  permita a la aplicación acceder a los servicios de Google Maps. Para ello, hay que crear al menos un plan estándar desde la página de Google Maps API. Una vez se tenga la clave, hay que crear una vista del mapa dentro de la actividad donde se quiera mostrar dicho mapa y implementar la interfaz \textit{OnMapReadyCallback}, para la cual hay que implementar el método \textit{onMapReady(GoogleMap googleMap)}, el cuál se llama cuando se inicializa un objeto de la clase GoogleMaps y está preparado para usarse dentro de Android. El código necesario para mostrar el mapa es el siguiente.
 \newpage
 \noindent\rule[-1ex]{\textwidth}{1pt}\\
 \begin{lstlisting}[caption=código necesario para mostrar el mapa en la aplicación.]
@@ -20,7 +20,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 		* Inicializar otras vistas de la actividad
 		*/
 		
-		// Obtain the SupportMapFragment and get notified when the map is ready to be used.
+		// Obtebemos mapa y esperamos a que esté preparado.
 		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
 		.findFragmentById(R.id.map);
 		mapFragment.getMapAsync(this);
@@ -35,10 +35,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 	
 	@Override
 	public void onMapReady(GoogleMap googleMap) {
-	mMap = googleMap;
+		mMap = googleMap;
+		// Cambiamos estilo del mapa.
 		try {
-		// Customise the styling of the base map using a JSON object defined
-		// in a raw resource file.
 		boolean success = googleMap.setMapStyle(
 			MapStyleOptions.loadRawResourceStyle(
 			this, R.raw.style_json));
@@ -50,9 +49,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 			Log.e("map_style", "Can't find style. Error: ", e);
 		}
 		
-		
-		
-		// Add a marker in Sydney and move the camera
+		// Cambiamos posición del mapa para mostrar la ciudad de Granada.
 		LatLng granada = new LatLng(lat_granada, lon_granada );
 		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(granada,13));
 	}
@@ -102,8 +99,12 @@ El archivo de la vista de la actividad sería el siguiente.\newline
 \end{lstlisting}
 \noindent\rule[-1ex]{\textwidth}{1pt}\\
 \subsubsection{Lista de POIs/alojamiento y lista solución}
-Para crear una lista en Android existen diferentes estructuras, la más reciente y más versátil es crear un \textit{RecyclerView}. Para utilizar un \textit{RecyclerView} en Android, se debe utilizar un objeto de la clase \textit{RecyclerView} en la actividad o Fragment en el que se vaya a mostrar la lista. Además, hay que crear una clase que herede de la clase \textit{RecyclerView.Adapter} para indicar el comportamiento de la lista, dentro de esta clase se debe sobreescribir al menos los métodos \textit{onCreateViewHolder()}, que es llamado cuando se crea un nuevo objeto en la lista; \textit{onBindViewHolder()}, que es llamado cuando se va a mostrar un objeto en pantalla de la lista y se le asocia una posición dentro de la lista; y la función \textit{getItemCount()}, que devuelve el número de elementos de la lista.\newline
-Una vez se haya creado este objeto se debe de indicar al \textit{RecyclerView} cual es el \textit{Adapter} que se va a utilizar, esto se hace con el método \textit{RecyclerView.SetAdapter(Clase\_Adapter)}. También es necesario especificar el layout que tendrá el \textit{RecyclerView}, para ello hay que utilizar el método \textit{RecyclerView.setLayoutManager(tipo\_layout\_manager)}; existen diferentes tipos de layout posibles para el \textit{RecyclerView}, pero si se quiere mostrar una lista se debe utilizar como \enquote*{tipo\_layout\_manager} un objeto de la clase \textit{LinearLayoutManager}; para este objeto hay que especificar el contexto al crear el objeto, para ello se debe utilizar la función \textit{getActivity()}, si se va a utilizar dentro de un Fragment, o \enquote*{this} si se va a utilizar en una Activity.El código necesario para esto sería el siguiente.\newline
+Para crear una lista en Android existen diferentes estructuras, la más reciente y más versátil es crear un \textit{RecyclerView}, esta clase está disponible en la librería \textit{Android Support Library}.\newline
+
+Para utilizar un \textit{RecyclerView} en Android, se debe utilizar un objeto de la clase \textit{RecyclerView} en la actividad o Fragment en el que se vaya a mostrar la lista. Además, hay que crear una clase que herede de la clase \textit{RecyclerView.Adapter} para indicar el comportamiento de la lista, dentro de esta clase se debe sobreescribir al menos los métodos \textit{onCreateViewHolder()}, que es llamado cuando se crea un nuevo objeto en la lista; \textit{onBindViewHolder()}, que es llamado cuando se va a mostrar un objeto en pantalla de la lista y se le asocia una posición dentro de la lista; y la función \textit{getItemCount()}, que devuelve el número de elementos de la lista.\newline
+
+Una vez se haya creado este objeto se debe de indicar al \textit{RecyclerView} cual es el \textit{Adapter} que se va a utilizar, esto se hace con el método \textit{RecyclerView.SetAdapter(Clase\_Adapter)}. También es necesario especificar el layout que tendrá el \textit{RecyclerView}, para ello hay que utilizar el método \textit{RecyclerView.setLayoutManager(tipo\_layout\_manager)}; existen diferentes tipos de layout posibles para el \textit{RecyclerView}, pero si se quiere mostrar una lista se debe utilizar como \enquote*{tipo\_layout\_manager} un objeto de la clase \textit{LinearLayoutManager}; para este objeto hay que especificar el contexto al crear el objeto, para ello se debe utilizar la función \textit{getActivity()}, si se va a utilizar dentro de un Fragment, o \enquote*{this} si se va a utilizar en una Activity. El código necesario para esto sería el siguiente.\newline
+\newpage
 \noindent\rule[-1ex]{\textwidth}{1pt}\\
 \begin{lstlisting}[caption=Código de una clase que contiene un RecyclerView.]
 public class TypesFragment extends Fragment {
@@ -114,7 +115,6 @@ public class TypesFragment extends Fragment {
 	private ArrayList<?extends ModelNode> mList = new ArrayList<>();
 	
 	public TypesFragment() {
-	// Required empty public constructor
 	}
 	
 	@Override
@@ -126,14 +126,19 @@ public class TypesFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	Bundle savedInstanceState) {
 	
-	// Init recyclerView
+	// Obtenemos la vista del layout.
 	View recyclerViewLayout = inflater.inflate(R.layout.fragment_types, container, false);
+	
+	// Obtenemos el botón y el RecyclerView.
 	searchButton = (Button) recyclerViewLayout.findViewById(R.id.busqueda);
 	mRecycler = (RecyclerView) recyclerViewLayout.findViewById(R.id.recycler);
+	
+	// Configuramos el RecyclerView.
 	mAdapter = new TypesRecyclerAdapter(mList);
 	mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
 	mRecycler.setAdapter(mAdapter);
 	
+	// Añadir funcionalidad al botón.
 	searchButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -155,6 +160,7 @@ private ArrayList<?extends ModelNode> tipos = new ArrayList<>();
 private HashMap<String, Vector<String>> selected = new HashMap<>();
 private ArrayList<String> type_selected = new ArrayList<>();
 
+// Constructor.
 public TypesRecyclerAdapter(ArrayList< ?extends ModelNode> all) {
 	this.tipos = all;
 }
@@ -163,6 +169,7 @@ public void setTipos(ArrayList<?extends ModelNode> tipos){
 	this.tipos = tipos;
 }
 
+// Función para distinguir entre diferentes tipos de clases dentro de un RecyclerView.
 @Override
 public int getItemViewType(int position) {
 	int pos=0;
@@ -172,15 +179,18 @@ public int getItemViewType(int position) {
 	return pos;
 }
 
+// Función llamada cuando se crea un nuevo elemento dentro del RecyclerView.
 @Override
 public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 	View view;
 	switch (viewType){
+		// Caso tipo de nodo.
 		case 0:
 			view = LayoutInflater.from(parent.getContext()).inflate(R.layout.types_viewholder,
 			parent, false);
 			return new TypeViewHolder(view);
 		
+		// Caso nodo concreto.
 		case 2:
 			view = LayoutInflater.from(parent.getContext()).inflate(R.layout.nodes_viewholder,
 			parent,false);
@@ -189,9 +199,12 @@ public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType
 	return null;
 }
 
+// Función llamada cuando se va a dibujar un elemento en el RecyclerView.
 @Override
 public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+	// Seleccionamos tipo de vista y establecemos información que se quiere mostrar
 	switch (holder.getItemViewType()){
+	// Caso tipo de nodo.
 	case 0:
 		final TypeViewHolder typeViewHolder = (TypeViewHolder) holder;
 		final TypeOfNode typeNode = (TypeOfNode) tipos.get(position);
@@ -205,6 +218,8 @@ public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int pos
 			}
 			});
 		break;
+	
+	// Caso nodo concreto.
 	case 2:
 		final CityNode cityNode = (CityNode) tipos.get(position);
 		final CityNodesViewHolder node = (CityNodesViewHolder) holder;
@@ -226,7 +241,7 @@ public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int pos
 
 ...
 
-
+// Función que devuelve número de elementos en el RecyclerView.
 @Override
 public int getItemCount() {
 	return tipos.size();
@@ -305,6 +320,8 @@ public class CityNodesViewHolder extends RecyclerView.ViewHolder {
 	
 	public CityNodesViewHolder(View itemView){
 		super(itemView);
+		
+		// Obtenemos vistas.
 		nodeName = (TextView) itemView.findViewById(R.id.nodeName);
 		mAddButton = (CheckBox) itemView.findViewById(R.id.addButton);
 		nodeType = (TextView) itemView.findViewById(R.id.type_name);
@@ -362,7 +379,7 @@ public class CityNodesViewHolder extends RecyclerView.ViewHolder {
 \end{lstlisting}
 \noindent\rule[-1ex]{\textwidth}{1pt}\\
 \subsubsection{Mostrar diferentes soluciones}
-Para mostrar diferentes soluciones se optó por mostrar cada una de las diferentes soluciones en un mapa distinto, para ello, se debe crear una vista del mapa y una lista para mostrar la solución por cada solución; este proceso está explicado en los apartados anteriores, por lo que no se va a entrar en más detalle en este. Para poder navegar por las diferentes vistas de las soluciones, hay que crear una vista que permita seleccionar la vista de la solución que se quiera en cada momento, para esto se puede utilizar la clase \textit{TabLayout}; dicha clase debe ir acompañada de un objeto de la clase \textit{ViewPager}.\newline
+Para mostrar diferentes soluciones se optó por mostrar cada una de las diferentes soluciones en un mapa distinto, para ello, se debe crear una vista del mapa y una lista para mostrar la solución por cada solución; este proceso está explicado en los apartados anteriores, por lo que no se va a entrar en más detalle en este. Para poder navegar por las diferentes vistas de las soluciones, hay que crear una vista que permita seleccionar la vista de la solución que se quiera en cada momento, para esto se puede utilizar la clase \textit{TabLayout}; dicha clase debe ir acompañada de un objeto de la clase \textit{ViewPager}. Ambas clases están contenidas en la biblioteca por defecto de Android.\newline
 
 La clase \textit{TabLayout} solo se utiliza para definir tabs  que se muestran en pantalla, y cada uno de ellos hace referencia a una vista diferente. Para añadir comportamiento a cada uno de los tabs, se debe preparar al \textit{TabLayout} para ser usado por la clase \textit{ViewPager}, esto se hace utilizando el método \textit{TabLayout.setupWithViewPager(viewpager\_obj)}.\newline
 
@@ -403,7 +420,7 @@ public class ResultActivity extends FragmentActivity  {
 			mContext = context;
 		}
 		
-		// This determines the fragment for each tab
+		// Esta función determina el Fragment de cada uno de los tabs.
 		@Override
 		public Fragment getItem(int position) {
 			Log.i(TAG,"position "+ position);
@@ -418,16 +435,16 @@ public class ResultActivity extends FragmentActivity  {
 			}
 		}
 		
-		// This determines the number of tabs
+		// Esta función determina el número de tabs.
 		@Override
 		public int getCount() {
 			return 3;
 		}
 		
-		// This determines the title for each tab
+		// Esta función determina el título de cada uno de los tabs.
 		@Override
 		public CharSequence getPageTitle(int position) {
-			// Generate title based on item position
+			// Generar título dependiendo de la posición.
 			switch (position) {
 			case 0:
 				return "Sol 1";
@@ -472,7 +489,7 @@ public class ResultActivity extends FragmentActivity  {
 \noindent\rule[-1ex]{\textwidth}{1pt}\\
 
 \subsection[Procesos internos]{Procesos internos}
-En este apartado se describirán las funciones de envío de peticiones a servidores, procesado de las respuestas de los servidores y el cálculo de la ruta óptima.
+En este apartado se describen las funciones de envío de peticiones a servidores, procesado de las respuestas de los servidores y el cálculo de la ruta óptima.
 \subsubsection{Peticiones a servidores}
 La aplicación cuenta con procesos que se encargan de mandar peticiones a servidores para obtener información sobre POIs, distancias entre puntos, o camino óptimo entre dos puntos. Para enviar dichas peticiones, se debe especificar una URL para la cual el servidor pueda devolver una respuesta, una vez se ha obtenido la respuesta se guarda en un archivo o en un String para procesarlo. La función que descarga las respuestas de servidores se puede encontrar en la función \textit{doInBackground()} de la clase \textit{DownloadFileFromURL.}\newline
 \newpage
@@ -481,7 +498,6 @@ La aplicación cuenta con procesos que se encargan de mandar peticiones a servid
 @Override
 protected String doInBackground(String... f_url) {
 	int count;
-	// Output stream
 	String baseFolder = mContext.getFilesDir().getAbsolutePath();
 	File file = new File(baseFolder + File.separator + f_url[1]);
 	Log.i(TAG,"starting download");
@@ -491,7 +507,7 @@ protected String doInBackground(String... f_url) {
 		URL url = new URL(f_url[0]);
 		HttpURLConnection conection = (HttpURLConnection) url.openConnection();
 		
-		// download the file
+		// Descargar el archivo
 		InputStream input = new BufferedInputStream(url.openStream(),
 		8192);
 		
@@ -506,19 +522,17 @@ protected String doInBackground(String... f_url) {
 		long total = 0;
 		
 		while ((count = input.read(data)) != -1) {
-		total += count;
-		
-		// writing data to file
-		output.write(data, 0, count);
+			total += count;
+			// Escribimos los datos en el archivo.
+			output.write(data, 0, count);
 		}
 		
-		// flushing output
+		// Limpiamos salida.
 		output.flush();
 		
-		// closing streams
+		// Cerramos los flujos y la conexión a internet.
 		output.close();
 		input.close();
-		
 		conection.disconnect();
 		
 		Log.i(TAG,"file_out:"+ "Finished writting output");
@@ -527,11 +541,12 @@ protected String doInBackground(String... f_url) {
 		Log.e(TAG, e.getMessage());
 	}
 	
+	// Devolvemos PATH del archivo.
 	return baseFolder + File.separator + f_url[1];
 }
 \end{lstlisting}
 \noindent\rule[-1ex]{\textwidth}{1pt}\\
-
+\newpage
 Cuando la función termina, devuelve el \enquote*{PATH} donde está guardado el archivo que contiene la respuesta del servidor. El parámetro que se le pasa a la función \textit{doInBackground(String... f\_url)} se trata de un vector que contiene como primer elemento la URL que la función debe abrir y guardar el contenido; el segundo elemento contiene el nombre del archivo que contendrá la respuesta del servidor.
 \subsubsection{Procesado de respuestas de servidor}
 Para el procesado de la información que devuelven los servidores, se ha creado la clase \textit{JsonParser}. Esta clase procesa los archivos y guarda la información en estructuras para poder utilizarlas después. Para procesar los datos, se debe pasar el \enquote*{PATH} del archivo, para abrirlo y meterlo en un String que después se utilizará para inicializar un objeto del tipo \textit{JSONObject}; o se puede pasar el String que contiene el fichero directamente.\newline
@@ -571,13 +586,14 @@ public void processJSON() throws JSONException{
 		aux_hashMap.put("name", name);
 		
 		if(!city_nodes.containsKey(tipo)){
-			// Metemos un nuevo nodo.
+			// Metemos un nuevo tipo.
 			System.out.println("nuevo tipo: " + tipo);
 			Vector<HashMap<String,String>> v_aux = new Vector<>();
 			v_aux.add(aux_hashMap);
 			city_nodes.put(tipo, v_aux);
 		
 		}else{
+			// Añadimos a un tipo existente.
 			System.out.println("adding new map to "+ tipo);
 			city_nodes.get(tipo).add(aux_hashMap);
 		}
@@ -592,7 +608,7 @@ public void processJSON() throws JSONException{
 
 \vspace{0.06in}
 \textbf{Procesado de la matriz de tiempos:}\\
-Para el procesado de la matriz se creó el método \textit{processOSRMJSON()}, dicho método necesita que antes se inicialice el objeto de la clase \textit{JsonParser} para que funcione correctamente.
+Para el procesado de la matriz se ha implementado el método \textit{processOSRMJSON()}, dicho método necesita que antes se inicialice el objeto de la clase \textit{JsonParser} para que funcione correctamente.
 Este método procesa el array llamado \enquote*{durations} donde va guardando en una matriz el tiempo necesario para llegar desde un punto a otro en segundos. El código de dicho método es el siguiente.
 \newpage
 \noindent\rule[-1ex]{\textwidth}{1pt}\\
@@ -601,9 +617,11 @@ public void processOSMRJSON() throws JSONException{
 
 	JSONArray times = file_info.getJSONArray("durations");
 	ArrayList<Integer> tim = new ArrayList<>();
+	// Recorremos la matriz.
 	for(int i=0; i < times.length(); i++){
 		JSONArray aux_t = times.getJSONArray(i);
 		for(int j=0; j < aux_t.length(); j++){
+			// Obtenemos distancia.
 			int dist_time = aux_t.getInt(j);
 			Log.i(TAG,dist_time+"");
 			tim.add(dist_time);
@@ -639,17 +657,18 @@ public List<List<HashMap<String,String>>> parseRoutes(String geo_coord) throws J
 	
 		jRoutes = object.getJSONArray("routes");
 		
-		
+		// Recorremos rutas.
 		for(int i=0;i<jRoutes.length();i++){
 			jLegs = ( (JSONObject)jRoutes.get(i)).getJSONArray("legs");
 			List path = new ArrayList<>();
-			
+			// Recorremos Legs.
 			for(int j=0;j<jLegs.length();j++){
 				jSteps = ( (JSONObject)jLegs.get(j)).getJSONArray("steps");
-				
+				// Recorremos cada uno de los pasos.
 				for(int k=0;k<jSteps.length();k++){
 					String polyline = "";
-					polyline = (String)((JSONObject)((JSONObject)jSteps.get(k)).get("polyline")).get("points");
+					polyline = (String)((JSONObject)((JSONObject)
+					jSteps.get(k)).get("polyline")).get("points");
 					List<LatLng> list = decodePoly(polyline);
 				
 					for(int l=0;l<list.size();l++){
@@ -673,7 +692,7 @@ public List<List<HashMap<String,String>>> parseRoutes(String geo_coord) throws J
 }
 \end{lstlisting}
 \noindent\rule[-1ex]{\textwidth}{1pt}\\
-\newpage
+\newline
 \noindent\rule[-1ex]{\textwidth}{1pt}\\
 \begin{lstlisting}[caption=Función para decodificar polilíneas.]
 private ArrayList<LatLng> decodePoly(String encoded) {
@@ -714,7 +733,7 @@ private ArrayList<LatLng> decodePoly(String encoded) {
 \subsubsection{Cálculo de ruta}
 Para el cálculo de la ruta óptima se ha creado el método \textit{obtainGreedySolution(starting\_time)}; esta función implementa un algoritmo Greedy para calcular la ruta. Para ejecutar el algoritmo se debe de inicializar un objeto de la clase \textit{PathFinder} pasándole como argumentos la lista de identificadores de los puntos seleccionados, la matriz de tiempos entre puntos y los horarios en los que cada POI está abierto.\newline
 
-Una vez comienza el algoritmo, el primer nodo, que corresponde con el alojamiento que el usuario a seleccionado, se introduce dentro de la solución y se inicializa una variable que contiene el tiempo actual en el algoritmo, esta variable se inicializa con el valor del parámetro \enquote*{starting\_time}. Después, se selecciona el punto más cercano a este que se pueda visitar y se introduce en la solución; también se añade al tiempo actual el tiempo que se tarda en realizar la visita y el tiempo necesario para llegar hasta dicho punto. Finalmente se actualiza el punto actual, que pasa a ser el punto seleccionado. Esta operación se repite hasta que no quedan más puntos por seleccionar o hasta que se llega a la hora límite, esta hora por defecto es las 20:00.\newline
+Una vez comienza el algoritmo, el primer nodo, que corresponde con el alojamiento que el usuario ha seleccionado, se introduce dentro de la solución y se inicializa una variable que contiene el tiempo actual en el algoritmo. Esta variable se inicializa con el valor del parámetro \enquote*{starting\_time}. Después, se selecciona el punto más cercano a este que se pueda visitar y se introduce en la solución; también se añade al tiempo actual el tiempo que se tarda en realizar la visita y el tiempo necesario para llegar hasta dicho punto. Finalmente se actualiza el punto actual, que pasa a ser el punto seleccionado. Esta operación se repite hasta que no quedan más puntos por seleccionar o hasta que se llega a la hora límite, esta hora por defecto es las 20:00.\newline
 
 Una vez se termina el algoritmo, se devuelve la solución, un objeto de la clase \textit{Solution}; que contiene un subconjunto de los puntos que se habían sido seleccionados por el usuario. La implementación del algoritmo se muestra en la siguiente figura.\newline
 \noindent\rule[-1ex]{\textwidth}{1pt}\\
@@ -749,19 +768,22 @@ public Solution obtainGreedySolution(GregorianCalendar starting_time){
 	m_solution.add(identificadores.get(0),new SimpleEntry<String, String>(GregorianCalendarToString(starting_time),
 	GregorianCalendarToString(starting_time)));
 	
-	
+	// Continuamos hasta que no queden sitios por visitar o no quede más tiempo.
 	while( current_time.before(finish_time) && !non_added.isEmpty()){
 		added = false;
 		valid = non_added;
-	
+		
+		// Repetimos hasta que consigamos añadir un nuevo elemento.
 		while(!added && !valid.isEmpty()){
 			// Calculamos el museo al cual tardamos menos en llegar desde donde estamos.
 			Integer pos = findNearest(id,valid);
 			aux_time = (GregorianCalendar)current_time.clone();
 			aux_time.add(GregorianCalendar.SECOND,duracion.get(id).get(pos));
 			
+			// Comprobamos si está abierto.
 			if( checkTime( aux_time, horarios_abierto.get(pos-1)) ) {
-				current_time.add(GregorianCalendar.SECOND,duracion.get(id).get(pos));
+				current_time.add(
+				GregorianCalendar.SECOND,duracion.get(id).get(pos));
 				aux_greg = (GregorianCalendar) current_time.clone();
 				
 				visita = ThreadLocalRandom.current().nextInt(60,180+1);
@@ -780,6 +802,7 @@ public Solution obtainGreedySolution(GregorianCalendar starting_time){
 				,GregorianCalendarToString(current_time)));
 						
 			} 
+			// Comprobamos si está cerrado por horario de comida.
 			else if(checkLunchTime(aux_time, horarios_abierto.get(pos-1))){
 				if(horarios_abierto.get(pos-1).size() > 1) {
 					current_time = horarios_abierto.get(pos - 1).get(1).getKey();
@@ -804,6 +827,8 @@ public Solution obtainGreedySolution(GregorianCalendar starting_time){
 				GregorianCalendarToString(current_time)) );
 			
 			}
+			
+			// Lo borramos ya que no es válido en este momento.
 			else{
 				valid.remove(pos);
 			}
@@ -816,7 +841,7 @@ public Solution obtainGreedySolution(GregorianCalendar starting_time){
 	
 	}
 	
-	
+	// Devolvemos la solución.
 	return m_solution;
 }
 \end{lstlisting}

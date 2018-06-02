@@ -26,6 +26,11 @@ Github.
 \newblock {Página oficial de GitHub}.
 \newblock \url{https://github.com/}.
 
+\bibitem{sdk-27}
+Google.
+\newblock {Android Oreo}.
+\newblock \url{https://developer.android.com/about/versions/oreo/android-8.0}.
+
 \bibitem{directions_api}
 Google.
 \newblock {Google Maps Directions API}.

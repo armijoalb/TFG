@@ -4,9 +4,10 @@ Para los ejemplos que se muestran en este apartado se ha utilizado la ciudad de 
 \subsection[Caso 1]{Ruta sobre museos en Granada}
 En el caso de que un usuario quiera visitar museos, lo primero que debe hacer es abrir la aplicación y seleccionar un alojamiento; para ello debe levantar o pulsar sobre la pestaña llamada \enquote*{Sitios interesantes}. Una vez se ha seleccionado el alojamiento; el usuario deberá buscar en la lista el tipo llamado \enquote*{Museos}, al lado de esta hay una casilla en la que deberá pulsar para que se seleccionen todos los museos. El resultado se puede ver en la figura \ref{fig:selec_museos}.\newline
 
-Una vez ha seleccionado los museos deberá pulsar en el botón \enquote*{Comenzar búsqueda}. Cuando se haya terminado la búsqueda de la ruta, se cargará otro mapa en el que se mostrará los museos seleccionados en la ruta; si el usuario pulsa en alguno de los marcadores se mostrará el nombre y el horario de entrada y salida del museo aproximada. Si quiere ver la ruta entera en detalle, puede pulsar o deslizar hacia arriba la pestaña \enquote*{Descripción ruta final}.\newline
+Una vez ha seleccionado los museos deberá pulsar en el botón \enquote*{Comenzar búsqueda}. Cuando se haya terminado la búsqueda de la ruta, se cargará otro mapa en el que se mostrarán los museos seleccionados en la ruta; si el usuario pulsa en alguno de los marcadores se mostrará el nombre y el horario de entrada y salida del museo aproximada. Si quiere ver la ruta entera en detalle, puede pulsar o deslizar hacia arriba la pestaña \enquote*{Descripción ruta final}.\newline
 
 Si nos fijamos en la ruta seleccionada que se muestra en las figuras \ref{fig:salida}; se puede ver que el algoritmo selecciona el primer museo que se encuentra más cerca del alojamiento seleccionado, después va seleccionando el museo más cercano al que se ha visitado; cumpliendo con la heurística que se ha implementado.
+\newpage
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=50mm]{imagenes/seleccion_museos}
@@ -24,7 +25,7 @@ Si nos fijamos en la ruta seleccionada que se muestra en las figuras \ref{fig:sa
 \subsection[Caso 2]{Ruta sobre un conjunto específico de POIs}
 Si se da el caso de que el usuario quiera visitar unos POIs también puede hacerlo; para este ejemplo se van a seleccionar el mirador de San Nicolás, la Hermita de San Miguel Alto, la Catedral de Granada y el Parque de las Ciencias. Para seleccionar dichos puntos, el usuario debe buscarlos dentro de la lista; al igual que se muestran en las figuras \ref{fig:seleccion_multiple}.\newline
 
-Tras esto, el usuario deberá iniciar la búsqueda para pulsar el botón \enquote*{Comenzar búsqueda}. Tras esto, se mostrará el resultado, dicho resultado es el que se puede ver en las figuras \ref{fig:salida_2}.Al ser pocos POIs, la solución selecciona todos los POIs.\newline
+Después, el usuario deberá iniciar la búsqueda para pulsar el botón \enquote*{Comenzar búsqueda}. Tras esto, se mostrará el resultado, dicho resultado es el que se puede ver en las figuras \ref{fig:salida_2}. Al ser pocos POIs, la solución selecciona todos los POIs.\newline
 
 \begin{figure}[H]
 	\centering
@@ -34,10 +35,11 @@ Tras esto, el usuario deberá iniciar la búsqueda para pulsar el botón \enquot
 	\caption{Selección de un subconjunto específico de POIs.}
 	\label{fig:seleccion_multiple}
 \end{figure}
+\newpage
 \begin{figure}[H]
 	\centering
-	\subfigure{\includegraphics[width=40mm]{imagenes/salida_2}}
-	\subfigure{\includegraphics[width=40mm]{imagenes/descripcion_2}}
+	\subfigure{\includegraphics[width=50mm]{imagenes/salida_2}}
+	\subfigure{\includegraphics[width=50mm]{imagenes/descripcion_2}}
 	\caption{Ruta calculada para el conjunto de POIs.}
 	\label{fig:salida_2}
 \end{figure}

@@ -35,17 +35,16 @@
 \contentsline {subsection}{\numberline {4.1.1}Interfaz de usuario}{47}{subsection.4.1.1}
 \contentsline {subsubsection}{Mostrar mapa}{47}{section*.30}
 \contentsline {subsubsection}{Lista de POIs/alojamiento y lista soluci\IeC {\'o}n}{49}{section*.31}
-\contentsline {subsubsection}{Mostrar diferentes soluciones}{55}{section*.32}
-\contentsline {subsection}{\numberline {4.1.2}Procesos internos}{58}{subsection.4.1.2}
-\contentsline {subsubsection}{Peticiones a servidores}{58}{section*.33}
-\contentsline {subsubsection}{Procesado de respuestas de servidor}{60}{section*.34}
-\contentsline {subsubsection}{C\IeC {\'a}lculo de ruta}{64}{section*.35}
-\contentsline {subsection}{\numberline {4.1.3}Glosario de t\IeC {\'e}rminos de Android}{67}{subsection.4.1.3}
-\contentsline {section}{\numberline {4.2}Pruebas}{67}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Caso 1}{68}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}Caso 2}{69}{subsection.4.2.2}
-\contentsline {chapter}{\numberline {5}Conclusiones}{71}{chapter.5}
-\contentsline {section}{\numberline {5.1}Conclusiones}{71}{section.5.1}
-\contentsline {section}{\numberline {5.2}Trabajos futuros}{72}{section.5.2}
-\contentsline {chapter}{\numberline {6}Anexo}{73}{chapter.6}
-\contentsline {chapter}{Bibliograf\IeC {\'\i }a}{78}{chapter*.40}
+\contentsline {subsubsection}{Mostrar diferentes soluciones}{56}{section*.32}
+\contentsline {subsection}{\numberline {4.1.2}Procesos internos}{59}{subsection.4.1.2}
+\contentsline {subsubsection}{Peticiones a servidores}{59}{section*.33}
+\contentsline {subsubsection}{Procesado de respuestas de servidor}{61}{section*.34}
+\contentsline {subsubsection}{C\IeC {\'a}lculo de ruta}{65}{section*.35}
+\contentsline {subsection}{\numberline {4.1.3}Glosario de t\IeC {\'e}rminos de Android}{68}{subsection.4.1.3}
+\contentsline {section}{\numberline {4.2}Pruebas}{69}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Caso 1}{69}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Caso 2}{71}{subsection.4.2.2}
+\contentsline {chapter}{\numberline {5}Conclusiones}{73}{chapter.5}
+\contentsline {section}{\numberline {5.1}Conclusiones}{73}{section.5.1}
+\contentsline {section}{\numberline {5.2}Trabajos futuros}{74}{section.5.2}
+\contentsline {chapter}{Bibliograf\IeC {\'\i }a}{80}{chapter*.41}
