@@ -2,7 +2,7 @@
 \subsection[Diagrama de clases]{Diagrama de clases}
 En este apartado se mostrarán los diagramas de clases de los elementos más importantes de la aplicación.\newline
 
-En la figura \ref{fig:fragment_diagram} se muestra el diagrama de clases del Fragment (ver explicación en el glosario de la \autoref{sec:glosario}) \enquote*{TypesFragment} . Dicho diagrama de clases muestra las siguientes clases:
+En la figura \ref{fig:fragment_diagram} se muestra el diagrama de clases del Fragment (ver explicación en el glosario de la \autoref{sec:glosario}) \enquote*{TypesFragment}. Dicho diagrama de clases muestra las siguientes clases:
 \begin{itemize}
 	\item La clase \textbf{TypesFragment}: esta clase es la encargada de comunicar los elementos gráficos que se encuentra dentro de la lista de alojamientos y POIs, también del botón que inicia el algoritmo de búsqueda de la ruta óptima.
 	\item La clase \textbf{TypesRecyclerFragment}: es la encargada de manejar la lista de alojamientos y POIs, además devuelve los elementos seleccionados en la lista al iniciar la búsqueda de la ruta. También se encarga de gestionar la interfaz gráfica de la lista.
@@ -20,7 +20,7 @@ En la figura  \ref{fig:main_activity_diagram}, se muestra el diagrama de clases 
 	\item La clase \textbf{JsonParser} se encarga de procesar archivos JSON y devuelve la información contenida en los archivos en estructuras que la aplicación puede manipular.
 	\item La clase \textbf{SendNodes} se encarga de obtener la matrix de distancias entre los POIs selecionados. Para ello utiliza las clases \textbf{DownloadFileFromURL} y\textbf{ jsonProcessor}, también se ejecuta en segundo plano debido a que hereda de la clase AsyncTask.
 	\item La clase\textbf{ FindSolution} se encarga de ejecutar en segundo plano el algoritmo de búsqueda de rutas y de mandar la solución a la siguiente actividad. Para ello hace uso de la clase \textbf{PathFinder} y la clase \textbf{Solution}.
-	\item La clase \textbf{PathFinder} es la clase que contiene el algoritmo de búsqueda de rutas. Dicha clase obtiene la solución al problema mediante el algoritmo Greedy detallado en Alg.\ref{alg:greedy_alg} y devuelve un objeto de la clase \textbf{Solution}.
+	\item La clase \textbf{PathFinder} es la clase que contiene el algoritmo de búsqueda de rutas. Dicha clase obtiene la solución al problema mediante el algoritmo Greedy detallado en Alg. \ref{alg:greedy_alg} y devuelve un objeto de la clase \textbf{Solution}.
 	\item La clase \textbf{Solution} es la que clase que contiene una solución al problema. Esta clase cuenta con un vector que almacena los identificadores de los puntos de la solución, así como dos vectores que almacenan las horas de entrada y de salida de cada uno de los puntos de la solución.
 \end{itemize}
 \vspace{0.06in}

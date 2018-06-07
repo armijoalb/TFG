@@ -1,4 +1,4 @@
-\chapter{Planificación y Especificación de Requisitos y Casos de Uso.}
+\chapter{Planificación y Especificación de Requisitos y Casos de Uso}
 En este capítulo se mostrará la planificación del Trabajo de Fin de Grado. También se describen los requisitos (de la interfaz y de la aplicación ), se presentan los diagramas de caso de uso y se describen	las fuentes de datos a partir de las cuales la aplicación obtiene la información necesaria.
 
 \input{capitulos/03_Planificacion}
@@ -61,8 +61,8 @@ En este apartado se resumirán los requisitos funcionales y no funcionales del p
 
 \subsection[Fuente de los datos]{Fuente de los datos}
 \subsubsection[OSM]{Open Street Map}
-Ya que el objetivo de la aplicación fue crear rutas a partir de POIs, se requirió obtener una lista con todos los POIs y alojamientos disponibles en una ciudad con la suficiente información para que puedan ser usados para calcular rutas.\newline
-Tras investigar diferentes posibilidades, se decidió utilizar \textit{OpenStreetMap}, el cual es un proyecto colaborativo que permite crear mapas y editar los ya existentes.\newline
+Ya que el objetivo de la aplicación fue crear rutas a partir de POIs, se requirió obtener una lista con todos los POIs y alojamientos disponibles en una ciudad con la suficiente información para que puedan ser usados para calcular rutas.
+Tras investigar diferentes posibilidades, se decidió utilizar \textit{OpenStreetMap}, un proyecto colaborativo que permite crear mapas y editar los ya existentes.\newline
 
 OpenStreetMap tiene una web \cite{openstreetmap} en la cual puedes editar cualquiera de los POIs que contiene el mapa o crear nuevos siempre que estés registrado. Además, cuenta con diferentes tipos de estructuras para representar edificios, carreteras, etc... \textit{OpenStreetMap} utiliza tres tipos diferentes de información:\newline
 \begin{itemize}
@@ -133,8 +133,8 @@ out;
 \end{lstlisting}
 \noindent\rule[-1ex]{\textwidth}{1pt}\\
 \subsubsection[OSRM]{Open Source Routing Machine}
-Como la aplicación necesita obtener la matriz de distancias entre los distintos puntos seleccionados por el usuario, se investigó para encontrar una herramienta que permitiera obtener dicha matriz a través de peticiones mediante URL.\newline
-Tras probar con varias herramientas, se optó por usar \textit{Open Source Routing Machine} (OSRM) \cite{osmr},la cual es de uso gratuito. OSRM permite hacer peticiones a sus servidores \cite{osmr_doc} o montar uno propio \cite{osmr_backend}.\newline
+Como la aplicación necesita obtener la matriz de distancias entre los distintos puntos seleccionados por el usuario, se investigó para encontrar una herramienta que permitiera obtener dicha matriz a través de peticiones mediante URL.Tras probar con varias herramientas, se optó por usar \textit{Open Source Routing Machine} (OSRM) \cite{osmr},la cual es de uso gratuito. OSRM permite hacer peticiones a sus servidores o montar uno propio \cite{osmr_backend}.\newline
+
 OSRM devuelve de sus peticiones un archivo JSON que contiene las distancias entre los puntos especificados en la petición, el tiempo que se tarda en llegar desde un punto a otro está guardado en un array llamado \enquote*{durations}; cada elemento de dicho array contiene otro array con los tiempos desde dicho POI al resto de POIs. Un ejemplo de la salida de OSRM es el siguiente:\newline
 \noindent\rule[-1ex]{\textwidth}{1pt}\\
 \begin{lstlisting}[caption=Salida de OSRM.]
@@ -156,6 +156,7 @@ OSRM devuelve de sus peticiones un archivo JSON que contiene las distancias entr
 \noindent\rule[-1ex]{\textwidth}{1pt}\\
 \subsubsection[Google Routes API]{Google Maps Directions API}
 Dado que la aplicación debe mostrar el camino óptimo entre dos puntos seleccionados en la solución, se buscó una herramienta que lo calculara. Tras investigar y probar diferentes herramientas, como por ejemplo la que ofrece OSRM, se optó por utilizar \textit{Google Maps Directions API} ya que obtiene resultados más exactos \cite{directions_api}.\newline
+
 Esta herramienta permite hacer peticiones a un servidor y devuelve un archivo JSON que contiene la ruta que se debe seguir. Este archivo se debe procesar para obtener las polilíneas que represetan el camino entre dos puntos. Un ejemplo de este archivo es el siguiente.\newline
 \noindent\rule[-1ex]{\textwidth}{1pt}\\
 \begin{lstlisting}[caption=Salida de Google Maps Directions API.]
