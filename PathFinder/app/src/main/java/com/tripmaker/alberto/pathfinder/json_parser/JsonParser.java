@@ -132,6 +132,7 @@ public class JsonParser {
             JSONArray aux_t = times.getJSONArray(i);
             for(int j=0; j < aux_t.length(); j++){
                 int dist_time = aux_t.getInt(j);
+                Log.i(TAG,"dist_time "+i+" "+j+" :" + dist_time);
                 if(dist_time == 0 && i!=j)
                     dist_time = ThreadLocalRandom.current().nextInt(180,2000);
 

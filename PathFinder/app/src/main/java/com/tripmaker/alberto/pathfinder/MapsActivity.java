@@ -171,7 +171,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onSearchButtonClick(ArrayList<String> names) {
         if(names.size() > 0)
-            Toast.makeText(this,"number_of_nodes:"+names.size(),Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"number_of_nodes:"+names.size(),Toast.LENGTH_LONG);
         else
             Toast.makeText(this,"selecione solamente un hotel o hostal", Toast.LENGTH_LONG).show();
 

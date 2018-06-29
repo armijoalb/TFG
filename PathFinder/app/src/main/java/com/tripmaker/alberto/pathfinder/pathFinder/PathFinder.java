@@ -151,6 +151,9 @@ public class PathFinder {
 
     // Algoritmo Greedy básico que calcula una solución seleccionando el museo más cercano a la posición actual.
     public Solution obtainGreedySolution(GregorianCalendar starting_time){
+
+        Log.i(TAG,"durations obtained: " + duracion.toString());
+
         Solution m_solution = new Solution();
         GregorianCalendar finish_time = parseFromString("20:00");
         GregorianCalendar current_time = new GregorianCalendar();
@@ -193,9 +196,10 @@ public class PathFinder {
                 aux_time = (GregorianCalendar)current_time.clone();
                 //Log.i(TAG,"duration: "+duracion.get(id).get(pos));
                 aux_time.add(GregorianCalendar.SECOND,duracion.get(id).get(pos));
-                //Log.i(TAG,"checking out "+ identificadores.get(pos));
-                //Log.i(TAG,"checkTime:"+checkTime(aux_time,horarios_abierto.get(pos-1)) +"");
-                //Log.i(TAG,"checkLunchTime:"+checkLunchTime(aux_time,horarios_abierto.get(pos-1)) +"");
+                Log.i(TAG,"checking out "+ identificadores.get(pos));
+                Log.i(TAG,"time: "+duracion.get(id).get(pos));
+                Log.i(TAG,"checkTime:"+checkTime(aux_time,horarios_abierto.get(pos-1)) +"");
+                Log.i(TAG,"checkLunchTime:"+checkLunchTime(aux_time,horarios_abierto.get(pos-1)) +"");
                 // Comprobamos que podamos ir dentro del horario que esté abierto, o por la mañana o por la tarde.
                 if( checkTime( aux_time, horarios_abierto.get(pos-1)) ) {
                     current_time.add(GregorianCalendar.SECOND,duracion.get(id).get(pos)+180);
